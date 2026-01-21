@@ -3,64 +3,59 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1262927411271648"
-     crossorigin="anonymous"></script>
     <title>محلل ملف Robots.txt | TajNova Tool</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        :root { --color-primary: #8b5cf6; /* Violet */ }
+        :root { --color-primary: #8b5cf6; }
         .loading-animation {
-            border: 4px solid rgba(255, 255, 255, 0.3);
-            border-top-color: var(--color-primary);
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-top-color: #fff;
             border-radius: 50%;
-            width: 1.25rem;
-            height: 1.25rem;
-            animation: spinner 1s linear infinite;
+            width: 1.2rem;
+            height: 1.2rem;
+            animation: spinner 0.8s linear infinite;
         }
         @keyframes spinner { to { transform: rotate(360deg); } }
-        /* لتنسيق منطقة عرض كود robots.txt */
         #content-display {
-            font-family: monospace;
+            font-family: 'Courier New', Courier, monospace;
             white-space: pre-wrap;
             word-wrap: break-word;
-            font-size: 14px;
-            line-height: 1.4;
         }
     </style>
 </head>
-<body class="bg-gray-100 text-slate-800">
+<body class="bg-gray-50 text-slate-800">
 
-    <header class="bg-white shadow-lg">
-        <div class="max-w-4xl mx-auto p-6 flex justify-between items-center">
-            <h1 class="text-3xl font-extrabold text-primary flex items-center">
+    <header class="bg-white shadow-sm border-b">
+        <div class="max-w-4xl mx-auto p-5 flex justify-between items-center">
+            <h1 class="text-2xl font-bold text-violet-600 flex items-center">
                 <i class="fas fa-robot ml-2"></i> TajNova
             </h1>
-            <a href="tools.html" class="text-blue-600 hover:text-blue-800 font-medium transition duration-150">
-                <i class="fas fa-arrow-right-to-bracket ml-2"></i> قائمة الأدوات
+            <a href="tools.html" class="text-gray-600 hover:text-violet-600 transition">
+                <i class="fas fa-arrow-right ml-1"></i> العودة للأدوات
             </a>
         </div>
     </header>
 
-    <main class="max-w-4xl mx-auto py-10 px-4 sm:px-6 lg:px-8">
-        
-        <div class="bg-white p-6 rounded-xl shadow-2xl mb-8 border-t-4 border-primary">
-            <h2 class="text-2xl font-bold mb-4 text-slate-700">تحليل ملف Robots.txt</h2>
+    <main class="max-w-4xl mx-auto py-12 px-4">
+        <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 mb-8">
+            <h2 class="text-2xl font-bold mb-6 text-gray-800">تحليل ملف Robots.txt</h2>
             
-            <form id="robots-form" class="flex flex-col md:flex-row gap-3">
+            <form id="robots-form" class="flex flex-col md:flex-row gap-4">
                 <input 
-                    type="url" 
+                    type="text" 
                     id="base-url" 
-                    placeholder="أدخل رابط الموقع الأساسي (مثل: https://www.google.com)" 
+                    placeholder="أدخل رابط الموقع (مثال: google.com)" 
                     required 
-                    class="flex-grow p-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-primary transition duration-200 text-right"
+                    class="flex-grow p-4 border border-gray-200 rounded-xl focus:ring-2 focus:ring-violet-500 focus:border-transparent outline-none transition text-right"
                 >
                 <button 
                     type="submit" 
                     id="analyze-button"
-                    class="bg-primary text-white py-3 px-6 rounded-lg font-semibold hover:bg-violet-700 transition duration-300 flex items-center justify-center"
+                    class="bg-violet-600 text-white py-4 px-8 rounded-xl font-bold hover:bg-violet-700 active:scale-95 transition-all duration-200 flex items-center justify-center min-w-[180px]"
                 >
-                    <i class="fas fa-search ml-2"></i> جلب وتحليل الملف
+                    <i class="fas fa-search ml-2" id="search-icon"></i> 
+                    <span>جلب وتحليل الملف</span>
                 </button>
             </form>
             
@@ -68,16 +63,15 @@
         </div>
 
         <div id="results-container" class="space-y-6 hidden">
-            <div class="bg-white p-6 rounded-xl shadow-lg">
-                <h3 class="text-xl font-bold mb-3 text-slate-700 border-b pb-2">محتوى ملف Robots.txt</h3>
-                <p class="text-sm text-gray-500 mb-4" id="target-url"></p>
-                <div class="bg-gray-800 text-white p-4 rounded-lg overflow-auto">
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+                <h3 class="text-lg font-bold mb-4 text-gray-700 border-b pb-3">محتوى ملف Robots.txt</h3>
+                <p class="text-xs text-gray-400 mb-3" id="target-url"></p>
+                <div class="bg-gray-900 text-green-400 p-5 rounded-xl overflow-auto max-h-[500px]">
                     <pre id="content-display"></pre>
                 </div>
-                <div id="status-badge" class="mt-4 text-center p-3 rounded-lg font-bold"></div>
+                <div id="status-badge" class="mt-6 text-center p-4 rounded-xl font-bold"></div>
             </div>
         </div>
-        
     </main>
 
     <script>
@@ -90,52 +84,32 @@
         const statusBadge = document.getElementById('status-badge');
         const targetUrlEl = document.getElementById('target-url');
 
-        // نقطة نهاية الخادم الخلفي الجديدة (تأكد من صحة هذا الرابط)
-        const BACKEND_ENDPOINT = 'http://localhost:3000/api/fetch-robots'; 
+        const BACKEND_ENDPOINT = '/api/fetch-robots'; 
 
         function displayMessage(message, type = 'error') {
             messageArea.textContent = message;
-            messageArea.classList.remove('hidden', 'bg-red-100', 'text-red-700', 'bg-green-100', 'text-green-700');
-            if (type === 'error') {
-                messageArea.classList.add('bg-red-100', 'text-red-700');
-            } else {
-                messageArea.classList.add('bg-green-100', 'text-green-700');
-            }
+            messageArea.className = `mt-4 text-center p-3 rounded-lg ${type === 'error' ? 'bg-red-50 text-red-600' : 'bg-green-50 text-green-600'}`;
             messageArea.classList.remove('hidden');
-        }
-
-        function renderResults(data) {
-            resultsContainer.classList.remove('hidden');
-            contentDisplay.textContent = data.content;
-            targetUrlEl.textContent = `الملف المُستهدف: ${data.url}`;
-
-            statusBadge.classList.remove('bg-red-100', 'text-red-700', 'bg-green-100', 'text-green-700', 'bg-yellow-100', 'text-yellow-700');
-
-            if (data.status === 'success') {
-                statusBadge.textContent = '✅ تم العثور على ملف Robots.txt وعرض محتواه.';
-                statusBadge.classList.add('bg-green-100', 'text-green-700');
-            } else if (data.status === 'not_found') {
-                statusBadge.textContent = '⚠️ لم يتم العثور على ملف Robots.txt (خطأ 404).';
-                statusBadge.classList.add('bg-yellow-100', 'text-yellow-700');
-            } else {
-                 statusBadge.textContent = '❌ فشل غير متوقع في التحليل.';
-                 statusBadge.classList.add('bg-red-100', 'text-red-700');
-            }
         }
 
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
+            let inputUrl = baseUrlInput.value.trim();
             
-            const url = baseUrlInput.value.trim();
-
-            if (!url) {
-                displayMessage('الرجاء إدخال رابط موقع صحيح.');
+            // تصحيح الرابط
+            if (!inputUrl.startsWith('http')) inputUrl = 'https://' + inputUrl;
+            let finalUrl;
+            try {
+                const urlObj = new URL(inputUrl);
+                finalUrl = `${urlObj.origin}/robots.txt`;
+            } catch {
+                displayMessage('الرابط غير صالح');
                 return;
             }
 
-            // حالة التحميل
+            // تحميل
             analyzeButton.disabled = true;
-            analyzeButton.innerHTML = `<div class="loading-animation ml-2"></div> جارٍ جلب الملف...`;
+            analyzeButton.innerHTML = `<div class="loading-animation ml-2"></div> جاري الجلب...`;
             resultsContainer.classList.add('hidden');
             messageArea.classList.add('hidden');
 
@@ -143,28 +117,33 @@
                 const response = await fetch(BACKEND_ENDPOINT, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ url: url }),
+                    body: JSON.stringify({ url: finalUrl }),
                 });
 
                 const data = await response.json();
+                if (!response.ok) throw new Error(data.details || 'فشل الاتصال');
 
-                if (!response.ok || data.error) {
-                    throw new Error(data.details || data.error || 'فشل الجلب بسبب خطأ في الخادم.');
+                resultsContainer.classList.remove('hidden');
+                contentDisplay.textContent = data.content;
+                targetUrlEl.textContent = `الرابط المستعلم عنه: ${data.url}`;
+                
+                statusBadge.className = 'mt-4 text-center p-4 rounded-xl font-bold';
+                if (data.status === 'success') {
+                    statusBadge.textContent = '✅ تم جلب الملف بنجاح';
+                    statusBadge.classList.add('bg-green-50', 'text-green-700');
+                } else {
+                    statusBadge.textContent = '⚠️ لم يتم العثور على ملف (404)';
+                    statusBadge.classList.add('bg-yellow-50', 'text-yellow-700');
                 }
-
-                // عرض النتائج (سواء نجاح أو 404)
-                renderResults(data);
-                displayMessage('تمت عملية الجلب بنجاح!', 'success');
+                displayMessage('اكتملت العملية', 'success');
 
             } catch (error) {
-                console.error('Fetch Error:', error);
-                displayMessage('فشل الجلب: ' + error.message);
+                displayMessage(error.message);
             } finally {
                 analyzeButton.disabled = false;
-                analyzeButton.innerHTML = '<i class="fas fa-search ml-2"></i> جلب وتحليل الملف';
+                analyzeButton.innerHTML = `<i class="fas fa-search ml-2"></i> جلب وتحليل الملف`;
             }
         });
-
     </script>
 </body>
 </html>
