@@ -10,38 +10,28 @@
     
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;700;900&display=swap');
-        
         body { font-family: 'Cairo', sans-serif; scroll-behavior: smooth; }
-        
         .glass-header {
             background: rgba(11, 14, 20, 0.85);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
-
-        .course-card {
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-        
+        .course-card { transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
         .course-card:hover {
             transform: translateY(-12px);
             border-color: #8b5cf6;
             box-shadow: 0 25px 50px -12px rgba(139, 92, 246, 0.4);
         }
-
         .premium-badge {
             background: linear-gradient(45deg, #8b5cf6, #ec4899);
             animation: pulse 2s infinite;
         }
-
         @keyframes pulse {
             0% { box-shadow: 0 0 0 0 rgba(139, 92, 246, 0.7); }
             70% { box-shadow: 0 0 0 10px rgba(139, 92, 246, 0); }
             100% { box-shadow: 0 0 0 0 rgba(139, 92, 246, 0); }
         }
-
-        /* تخصيص السكرول بار */
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #0b0e14; }
         ::-webkit-scrollbar-thumb { background: #4b5563; border-radius: 10px; }
@@ -59,11 +49,11 @@
                 </h1>
             </div>
 
-            <div class="flex items-center gap-3 md:gap-6">
+            <div class="flex items-center gap-3 md:gap-6" id="auth-zone">
                 <a href="../index.html" class="hidden md:block text-gray-400 hover:text-white transition font-medium">الرئيسية</a>
-                <button id="loginBtn" class="bg-white text-black hover:bg-purple-500 hover:text-white px-5 md:px-8 py-2 rounded-full font-bold transition-all duration-300 transform active:scale-95 shadow-lg">
+                <a href="auth.html" class="bg-white text-black hover:bg-purple-500 hover:text-white px-5 md:px-8 py-2 rounded-full font-bold transition-all duration-300 transform active:scale-95 shadow-lg">
                     دخول
-                </button>
+                </a>
             </div>
         </div>
     </nav>
@@ -84,86 +74,71 @@
 
     <main class="container mx-auto px-4 py-12">
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            
             <div class="course-card bg-[#161b22] rounded-3xl overflow-hidden border border-gray-800 animate__animated animate__fadeInUp">
                 <div class="relative group">
                     <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=600&h=400&fit=crop" class="w-full h-56 object-cover transition-transform duration-500 group-hover:scale-110" alt="FullStack">
-                    <div class="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-all"></div>
                     <span class="premium-badge absolute top-4 left-4 text-[10px] font-black px-3 py-1 rounded-full tracking-widest uppercase">Premium</span>
                 </div>
                 <div class="p-6">
-                    <div class="flex items-center gap-1 text-yellow-500 mb-3 text-sm">
-                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-                        <span class="text-gray-500 mr-2">(4.9)</span>
-                    </div>
                     <h3 class="text-xl font-black mb-2 hover:text-purple-400 transition cursor-pointer">دبلومة الـ Full-Stack الاحترافية</h3>
                     <p class="text-gray-500 text-sm mb-5">بواسطة: <span class="text-gray-300 font-bold">م. سيف محمد</span></p>
                     <div class="flex items-center justify-between border-t border-gray-800 pt-5">
-                        <div class="text-2xl font-black text-white">$99<span class="text-sm font-normal text-gray-400">.00</span></div>
-                        <button class="bg-gray-800 hover:bg-purple-600 p-3 rounded-xl transition-all duration-300">
-                            <i class="fas fa-cart-plus"></i>
-                        </button>
+                        <div class="text-2xl font-black text-white">$99</div>
+                        <button class="bg-gray-800 hover:bg-purple-600 p-3 rounded-xl transition-all"><i class="fas fa-cart-plus"></i></button>
                     </div>
                 </div>
             </div>
-
             <div class="course-card bg-[#161b22] rounded-3xl overflow-hidden border border-gray-800 animate__animated animate__fadeInUp" style="animation-delay: 0.1s;">
                 <div class="relative group">
                     <img src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=600&h=400&fit=crop" class="w-full h-56 object-cover transition-transform duration-500 group-hover:scale-110" alt="Basics">
                     <span class="absolute top-4 left-4 bg-green-600 text-[10px] font-black px-3 py-1 rounded-full tracking-widest uppercase">Free</span>
                 </div>
                 <div class="p-6">
-                    <div class="flex items-center gap-1 text-yellow-500 mb-3 text-sm">
-                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star text-gray-600"></i><i class="fas fa-star text-gray-600"></i>
-                        <span class="text-gray-500 mr-2">(3.8)</span>
-                    </div>
                     <h3 class="text-xl font-black mb-2 hover:text-purple-400 transition cursor-pointer">أساسيات الويب للمبتدئين</h3>
-                    <p class="text-gray-500 text-sm mb-5">بواسطة: <span class="text-gray-300 font-bold">TajNova Team</span></p>
                     <div class="flex items-center justify-between border-t border-gray-800 pt-5">
                         <div class="text-2xl font-black text-green-500">مجاناً</div>
-                        <button class="text-purple-500 font-bold flex items-center gap-2 hover:gap-4 transition-all">ابدأ الآن <i class="fas fa-arrow-left"></i></button>
+                        <button class="text-purple-500 font-bold flex items-center gap-2 transition-all">ابدأ الآن <i class="fas fa-arrow-left"></i></button>
                     </div>
                 </div>
             </div>
-
         </div>
     </main>
 
     <footer class="text-center py-10 border-t border-gray-900 text-gray-600 text-sm">
         <p>&copy; 2026 TajNova Academy. جميع الحقوق محفوظة</p>
     </footer>
+
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
-<script>
-    const SUPABASE_URL = 'https://gfqwpxxnqeaemfnlnpjs.supabase.co';
-    const SUPABASE_KEY = 'sb_publishable_DKj_3ziMpBx6GzAjHFkjKw_GJBXNlck';
-    const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    <script>
+        const SUPABASE_URL = 'https://gfqwpxxnqeaemfnlnpjs.supabase.co';
+        const SUPABASE_KEY = 'sb_publishable_DKj_3ziMpBx6GzAjHFkjKw_GJBXNlck';
+        const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-    async function checkUserStatus() {
-        const { data: { user } } = await supabase.auth.getUser();
-        const authZone = document.getElementById('auth-zone');
+        async function checkUserStatus() {
+            const { data: { user } } = await supabase.auth.getUser();
+            const authZone = document.getElementById('auth-zone');
 
-        if (user) {
-            // عرض الإيميل وزر الخروج لو مسجل دخول
-            authZone.innerHTML = `
-                <div class="flex items-center gap-4 animate__animated animate__fadeIn">
-                    <span class="text-yellow-500 font-bold hidden md:block border-l border-gray-700 pl-4 italic">
-                        ${user.email.split('@')[0]}
-                    </span>
-                    <button onclick="signOut()" class="bg-red-500/10 text-red-500 border border-red-500/20 px-4 py-1 rounded-full text-xs hover:bg-red-500 hover:text-white transition">
-                        خروج
+            if (user) {
+                // تبديل زر الدخول ببيانات المستخدم المسجل
+                authZone.innerHTML = `
+                    <div class="flex items-center gap-4 animate__animated animate__fadeIn">
+                        <span class="text-yellow-500 font-bold hidden md:block border-l border-gray-700 pl-4 italic">
+                            ${user.email.split('@')[0]}
+                        </span>
+                        <button onclick="signOut()" class="bg-red-500/10 text-red-500 border border-red-500/20 px-4 py-1 rounded-full text-xs hover:bg-red-500 hover:text-white transition">
+                            خروج
+                        </button>
                     </div>
-                </div>
-            `;
+                `;
+            }
         }
-    }
 
-    async function signOut() {
-        await supabase.auth.signOut();
-        location.reload();
-    }
+        async function signOut() {
+            const { error } = await supabase.signOut();
+            location.reload();
+        }
 
-    checkUserStatus();
-</script>
-
+        checkUserStatus();
+    </script>
 </body>
 </html>
