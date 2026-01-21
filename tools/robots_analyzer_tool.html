@@ -1,50 +1,166 @@
-const axios = require('axios');
-
-module.exports = async (req, res) => {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-
-    if (req.method === 'OPTIONS') return res.status(200).end();
-
-    const { url } = req.body;
-    if (!url) return res.status(400).json({ error: 'الرابط مطلوب' });
-
-    try {
-        const response = await axios.get(url, {
-            headers: {
-                // تحديث الـ User-Agent ليبدو كمتصفح كروم حقيقي تماماً
-                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-                'Accept': 'text/plain,text/html,application/xhtml+xml',
-                'Accept-Language': 'en-US,en;q=0.9',
-                'Cache-Control': 'no-cache',
-                'Pragma': 'no-cache'
-            },
-            timeout: 10000,
-            // السماح بتتبع التحويلات (Redirects)
-            maxRedirects: 5 
-        });
-
-        return res.status(200).json({
-            status: 'success',
-            url: url,
-            content: response.data
-        });
-
-    } catch (error) {
-        // إذا استمر الخطأ 401، سنعطي المستخدم رسالة مفهومة
-        if (error.response && error.response.status === 401) {
-            return res.status(200).json({
-                status: 'protected',
-                url: url,
-                content: '⚠️ عذراً، هذا الموقع محمي بكلمة مرور أو نظام حماية يمنع الوصول الآلي لملف الروبوتات.'
-            });
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>محلل ملف Robots.txt | TajNova Tool</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root { --color-primary: #8b5cf6; }
+        .loading-animation {
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-top-color: #fff;
+            border-radius: 50%;
+            width: 1.2rem;
+            height: 1.2rem;
+            animation: spinner 0.8s linear infinite;
         }
-        
-        const status = error.response?.status || 500;
-        return res.status(status).json({ 
-            error: 'فشل الجلب', 
-            details: `الموقع رفض الطلب بالكود: ${status}` 
+        @keyframes spinner { to { transform: rotate(360deg); } }
+        #content-display {
+            font-family: 'Courier New', Courier, monospace;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-slate-800">
+
+    <header class="bg-white shadow-sm border-b">
+        <div class="max-w-4xl mx-auto p-5 flex justify-between items-center">
+            <h1 class="text-2xl font-bold text-violet-600 flex items-center">
+                <i class="fas fa-robot ml-2"></i> TajNova
+            </h1>
+            <a href="../tools.html" class="text-gray-600 hover:text-violet-600 transition font-medium">
+                <i class="fas fa-arrow-right ml-1"></i> العودة للأدوات
+            </a>
+        </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto py-12 px-4">
+        <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 mb-8 text-center md:text-right">
+            <h2 class="text-2xl font-bold mb-2 text-gray-800">محلل ملفات Robots.txt</h2>
+            <p class="text-gray-500 mb-6">أدخل رابط موقعك لجلب وتحليل قواعد الزحف الخاصة بمحركات البحث.</p>
+            
+            <form id="robots-form" class="flex flex-col md:flex-row gap-4">
+                <input 
+                    type="text" 
+                    id="base-url" 
+                    placeholder="مثال: google.com" 
+                    required 
+                    class="flex-grow p-4 border border-gray-200 rounded-xl focus:ring-2 focus:ring-violet-500 focus:border-transparent outline-none transition text-right text-lg"
+                >
+                <button 
+                    type="submit" 
+                    id="analyze-button"
+                    class="bg-violet-600 text-white py-4 px-8 rounded-xl font-bold hover:bg-violet-700 active:scale-95 transition-all duration-200 flex items-center justify-center min-w-[200px]"
+                >
+                    <i class="fas fa-search ml-2 text-white"></i> 
+                    <span id="button-text" class="text-white">جلب وتحليل الملف</span>
+                </button>
+            </form>
+            
+            <div id="message-area" class="mt-4 text-center hidden p-3 rounded-lg font-medium"></div>
+        </div>
+
+        <div id="results-container" class="space-y-6 hidden">
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+                <div class="flex justify-between items-center border-b pb-3 mb-4">
+                    <h3 class="text-lg font-bold text-gray-700">محتوى الملف</h3>
+                    <span id="status-label" class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-600">جاري العرض</span>
+                </div>
+                
+                <p class="text-xs text-gray-400 mb-3" id="target-url-display"></p>
+                
+                <div class="bg-gray-900 text-green-400 p-5 rounded-xl overflow-auto max-h-[500px] shadow-inner">
+                    <pre id="content-display"></pre>
+                </div>
+                
+                <div id="status-badge" class="mt-6 text-center p-4 rounded-xl font-bold"></div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const form = document.getElementById('robots-form');
+        const baseUrlInput = document.getElementById('base-url');
+        const analyzeButton = document.getElementById('analyze-button');
+        const buttonText = document.getElementById('button-text');
+        const messageArea = document.getElementById('message-area');
+        const resultsContainer = document.getElementById('results-container');
+        const contentDisplay = document.getElementById('content-display');
+        const statusBadge = document.getElementById('status-badge');
+        const targetUrlEl = document.getElementById('target-url-display');
+
+        // رابط الباك إند النسبي ليعمل على Vercel
+        const BACKEND_ENDPOINT = '/api/fetch-robots'; 
+
+        function displayMessage(message, type = 'error') {
+            messageArea.textContent = message;
+            messageArea.className = `mt-4 text-center p-3 rounded-lg ${type === 'error' ? 'bg-red-50 text-red-600' : 'bg-green-50 text-green-600'}`;
+            messageArea.classList.remove('hidden');
+        }
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            let inputUrl = baseUrlInput.value.trim();
+            
+            // تصحيح الرابط تلقائياً
+            if (!inputUrl.startsWith('http')) inputUrl = 'https://' + inputUrl;
+            let finalUrl;
+            try {
+                const urlObj = new URL(inputUrl);
+                finalUrl = `${urlObj.origin}/robots.txt`;
+            } catch {
+                displayMessage('الرابط المدخل غير صالح. يرجى التأكد من كتابته بشكل صحيح.');
+                return;
+            }
+
+            // تفعيل حالة التحميل
+            analyzeButton.disabled = true;
+            analyzeButton.innerHTML = `<div class="loading-animation ml-2"></div> <span class="text-white">جاري الجلب...</span>`;
+            resultsContainer.classList.add('hidden');
+            messageArea.classList.add('hidden');
+
+            try {
+                const response = await fetch(BACKEND_ENDPOINT, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ url: finalUrl }),
+                });
+
+                const data = await response.json();
+                
+                if (!response.ok && data.status !== 'protected') {
+                    throw new Error(data.details || 'فشل الاتصال بخدمة التحليل.');
+                }
+
+                // عرض النتائج
+                resultsContainer.classList.remove('hidden');
+                contentDisplay.textContent = data.content;
+                targetUrlEl.textContent = `المسار الذي تم فحصه: ${data.url}`;
+                
+                statusBadge.className = 'mt-4 text-center p-4 rounded-xl font-bold text-sm md:text-base';
+                
+                if (data.status === 'success') {
+                    statusBadge.textContent = '✅ تم العثور على ملف Robots.txt بنجاح.';
+                    statusBadge.classList.add('bg-green-50', 'text-green-700');
+                } else if (data.status === 'protected') {
+                    statusBadge.textContent = data.content; // الرسالة التحذيرية من الباك إند
+                    statusBadge.classList.add('bg-yellow-50', 'text-yellow-700');
+                } else {
+                    statusBadge.textContent = '⚠️ لم يتم العثور على الملف (خطأ 404).';
+                    statusBadge.classList.add('bg-orange-50', 'text-orange-700');
+                }
+
+            } catch (error) {
+                displayMessage('حدث خطأ: ' + error.message);
+            } finally {
+                analyzeButton.disabled = false;
+                analyzeButton.innerHTML = `<i class="fas fa-search ml-2 text-white"></i> <span class="text-white">جلب وتحليل الملف</span>`;
+            }
         });
-    }
-};
+    </script>
+</body>
+</html>
