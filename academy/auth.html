@@ -75,6 +75,45 @@
             </div>
         </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+<script>
+    // ربط قاعدة بيانات تاج نوفا الحقيقية
+    const SUPABASE_URL = 'https://gfqwpxxnqeaemfnlnpjs.supabase.co';
+    const SUPABASE_KEY = 'sb_publishable_DKj_3ziMpBx6GzAjHFkjKw_GJBXNlck'; 
+    const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    const authForm = document.getElementById('authForm');
+    
+    authForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const email = e.target.querySelector('input[type="email"]').value;
+        const password = e.target.querySelector('input[type="password"]').value;
+
+        // محاولة الدخول أولاً
+        const { data, error } = await supabase.auth.signInWithPassword({
+            email: email,
+            password: password,
+        });
+
+        if (error) {
+            // لو الإيميل مش موجود، هنعمل حساب جديد تلقائياً (Register)
+            const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
+                email: email,
+                password: password,
+            });
+
+            if (signUpError) {
+                alert("عذراً، حدث خطأ: " + signUpError.message);
+            } else {
+                alert("تم إنشاء حسابك بنجاح! يمكنك الآن الدخول.");
+            }
+        } else {
+            // لو البيانات صح، هيدخله على الأكاديمية
+            alert("أهلاً بك في أكاديمية تاج نوفا");
+            window.location.href = "index.html"; 
+        }
+    });
+</script>
 
 </body>
 </html>
