@@ -1,6 +1,7 @@
 const axios = require('axios');
 
 module.exports = async (req, res) => {
+    // إعدادات CORS
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
@@ -13,21 +14,33 @@ module.exports = async (req, res) => {
     try {
         const response = await axios.get(url, {
             headers: { 
+                // محاكاة متصفح Chrome حقيقي بدقة عالية
                 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-                'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8'
+                'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
+                'Accept-Language': 'en-US,en;q=0.9,ar;q=0.8',
+                'Cache-Control': 'no-cache',
+                'Pragma': 'no-cache',
+                'Sec-Ch-Ua': '"Not_A Brand";v="8", "Chromium";v="120", "Google Chrome";v="120"',
+                'Sec-Ch-Ua-Mobile': '?0',
+                'Sec-Ch-Ua-Platform': '"Windows"',
+                'Sec-Fetch-Dest': 'document',
+                'Sec-Fetch-Mode': 'navigate',
+                'Sec-Fetch-Site': 'none',
+                'Sec-Fetch-User': '?1',
+                'Upgrade-Insecure-Requests': '1'
             },
-            timeout: 8000,
-            validateStatus: () => true // لا تجعل الطلب يفشل حتى لو كانت الحالة 403 أو 404
+            timeout: 10000,
+            validateStatus: () => true // استخراج الرؤوس حتى لو كانت الحالة 403 أو 404
         });
 
         const respHeaders = response.headers;
         const securityChecks = [
-            { name: 'Strict-Transport-Security', rec: 'تشفير HSTS.' },
-            { name: 'Content-Security-Policy', rec: 'حماية CSP.' },
-            { name: 'X-Frame-Options', rec: 'منع الـ iFrame.' },
-            { name: 'X-Content-Type-Options', rec: 'منع الـ Sniffing.' },
-            { name: 'Referrer-Policy', rec: 'سياسة الإحالة.' },
-            { name: 'Permissions-Policy', rec: 'صلاحيات المتصفح.' }
+            { name: 'Strict-Transport-Security', rec: 'تفعيل HSTS لحماية التشفير.' },
+            { name: 'Content-Security-Policy', rec: 'تفعيل CSP لمنع هجمات XSS.' },
+            { name: 'X-Frame-Options', rec: 'منع وضع الموقع في iFrame.' },
+            { name: 'X-Content-Type-Options', rec: 'منع تخمين أنواع الملفات.' },
+            { name: 'Referrer-Policy', rec: 'حماية بيانات الإحالة.' },
+            { name: 'Permissions-Policy', rec: 'التحكم في ميزات المتصفح.' }
         ];
 
         let secureCount = 0;
@@ -54,7 +67,7 @@ module.exports = async (req, res) => {
         return res.status(200).json({ 
             status: 'error', 
             error: 'تعذر الاتصال', 
-            details: 'الموقع المستهدف يرفض الاتصال الآلي حالياً.' 
+            details: 'الموقع المستهدف يمنع أدوات الفحص التلقائية تماماً.' 
         });
     }
 };
