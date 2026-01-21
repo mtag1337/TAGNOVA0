@@ -60,31 +60,49 @@
 </head>
 <body class="text-slate-700">
 
-    <header class="bg-white shadow-md sticky top-0 z-50">
-        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
-            <a href="#" class="flex items-center">
-                <img src="assets/images/logotagnova.png" alt="TajNova Logo" class="h-12 md:h-16 mr-3"> 
-                <span class="text-3xl font-extrabold text-primary hidden sm:block">TajNova</span>
+<header class="bg-white/80 dark:bg-slate-900/80 backdrop-blur-md shadow-sm sticky top-0 z-50 transition-colors duration-300 border-b border-slate-200 dark:border-slate-800">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            
+            <a href="#" class="flex items-center group">
+                <div class="relative">
+                    <img src="assets/images/logotagnova.png" alt="TajNova Logo" class="h-10 md:h-14 mr-3 transition-transform duration-300 group-hover:scale-110">
+                </div>
+                <span class="text-2xl md:text-3xl font-black bg-gradient-to-r from-violet-600 to-indigo-600 bg-clip-text text-transparent hidden sm:block">
+                    TajNova
+                </span>
             </a>
-            <nav class="hidden md:flex space-x-8 text-lg font-medium">
-                <a href="#course" class="hover:text-primary transition duration-300">Academy</a>
-                <a href="#blog" class="hover:text-primary transition duration-300">Blog</a>
-                <a href="#tools" class="hover:text-primary transition duration-300">Free Tools</a>
-                <a href="#" id="about-link" class="hover:text-primary transition duration-300">About Us</a>
+
+            <nav class="hidden md:flex items-center space-x-1">
+                <a href="#course" class="px-4 py-2 rounded-full text-slate-600 dark:text-slate-300 font-bold hover:text-primary dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition duration-300">Academy</a>
+                <a href="#blog" class="px-4 py-2 rounded-full text-slate-600 dark:text-slate-300 font-bold hover:text-primary dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition duration-300">Blog</a>
+                <a href="#tools" class="px-4 py-2 rounded-full text-slate-600 dark:text-slate-300 font-bold hover:text-primary dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition duration-300">Free Tools</a>
+                <a href="#" id="about-link" class="px-4 py-2 rounded-full text-slate-600 dark:text-slate-300 font-bold hover:text-primary dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition duration-300">About Us</a>
             </nav>
-            <a href="#course" class="bg-secondary text-white px-6 py-2 rounded-lg hover:bg-indigo-700 transition duration-300 shadow-lg hidden md:block transform hover:scale-105">
-                Start Your Journey
-            </a>
-            <button id="mobile-menu-button" class="md:hidden text-3xl text-gray-700 hover:text-primary transition duration-300">☰</button>
+
+            <div class="flex items-center space-x-4">
+                <button id="theme-toggle" class="p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-yellow-400 hover:ring-2 ring-primary/50 transition-all duration-300">
+                    <svg id="theme-toggle-light-icon" class="hidden w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"></path></svg>
+                    <svg id="theme-toggle-dark-icon" class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+                </button>
+
+                <a href="#course" class="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2.5 rounded-xl font-bold transition-all duration-300 shadow-md hover:shadow-indigo-500/25 hidden md:block transform hover:-translate-y-0.5">
+                    Start Your Journey
+                </a>
+
+                <button id="mobile-menu-button" class="md:hidden p-2 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800">
+                    <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                </button>
+            </div>
         </div>
-        <nav id="mobile-menu" class="hidden md:hidden bg-gray-50 border-t border-gray-200 py-2">
-            <a href="#course" class="block px-4 py-3 text-lg hover:bg-gray-100 transition duration-200">Academy</a>
-            <a href="#blog" class="block px-4 py-3 text-lg hover:bg-gray-100 transition duration-200">Blog</a>
-            <a href="#tools" class="block px-4 py-3 text-lg hover:bg-gray-100 transition duration-200">Free Tools</a>
-            <a href="#" id="about-link-mobile" class="block px-4 py-3 text-lg hover:bg-gray-100 transition duration-200">About Us</a>
-            <a href="#course" class="block text-center mt-3 mx-4 bg-secondary text-white px-6 py-2 rounded-lg hover:bg-indigo-700 transition duration-300 shadow-lg transform hover:scale-105">
-                Start Your Journey
-            </a>
+
+        <nav id="mobile-menu" class="hidden md:hidden bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 animate-slideDown">
+            <div class="flex flex-col p-4 space-y-2">
+                <a href="#course" class="px-4 py-3 rounded-xl font-bold text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition">Academy</a>
+                <a href="#blog" class="px-4 py-3 rounded-xl font-bold text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition">Blog</a>
+                <a href="#tools" class="px-4 py-3 rounded-xl font-bold text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition">Free Tools</a>
+                <a href="#" id="about-link-mobile" class="px-4 py-3 rounded-xl font-bold text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition">About Us</a>
+                <a href="#course" class="block text-center bg-indigo-600 text-white py-4 rounded-xl font-bold shadow-lg">Start Your Journey</a>
+            </div>
         </nav>
     </header>
 
@@ -450,7 +468,46 @@
                 observer.observe(el);
             });
         });
+
+
+
+
+
+
+
+
+
+        const themeToggle = document.getElementById('theme-toggle');
+const darkIcon = document.getElementById('theme-toggle-dark-icon');
+const lightIcon = document.getElementById('theme-toggle-light-icon');
+
+// تأكد من حالة الثيم المخزنة
+if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+    document.documentElement.classList.add('dark');
+    lightIcon.classList.remove('hidden');
+    darkIcon.classList.add('hidden');
+}
+
+themeToggle.addEventListener('click', () => {
+    document.documentElement.classList.toggle('dark');
+    const isDark = document.documentElement.classList.contains('dark');
+    
+    // تبديل الأيقونات
+    lightIcon.classList.toggle('hidden');
+    darkIcon.classList.toggle('hidden');
+    
+    // حفظ الإعداد
+    localStorage.theme = isDark ? 'dark' : 'light';
+});
+
+// Mobile Menu Toggle
+document.getElementById('mobile-menu-button').addEventListener('click', () => {
+    document.getElementById('mobile-menu').classList.toggle('hidden');
+});
+
+        
     </script>
 </body>
 </html>
+
 
