@@ -1,154 +1,0 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1262927411271648"
-     crossorigin="anonymous"></script>
-    <title>قائمة أدوات TajNova | التحليل والأداء</title>
-    <script src="https://cdn.tailwindcss.com"></script> 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <style>
-        /* تعريف الألوان لكل أداة */
-        .color-primary-blue { --color: #3b82f6; } /* PageSpeed */
-        .color-primary-green { --color: #10b981; } /* Checklist */
-        .color-primary-red { --color: #ef4444; } /* YouTube */
-        .color-primary-yellow { --color: #f59e0b; } /* Word Density */
-        .color-primary-violet { --color: #8b5cf6; } /* Robots.txt */
-        .color-primary-teal { --color: #14b8a6; } /* Contrast Checker */
-        .color-primary-slate { --color: #374151; } /* Schema Generator */
-        .color-primary-orange { --color: #f97316; } /* HTTP Headers */
-        .color-primary-pink { --color: #db2777; } /* Broken Link Checker */
-        .color-primary-sky { --color: #06b6d4; } /* Image Optimizer */ /* الجديد */
-
-        .card-link { border-right: 8px solid var(--color); }
-        .card-link:hover { transform: translateY(-3px); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.05); }
-
-        /* تعديل الشبكة: 3 أعمدة كحد أقصى */
-        .tools-grid {
-            display: grid;
-            grid-template-columns: repeat(1, minmax(0, 1fr)); /* عمود واحد على الجوال */
-            gap: 2rem;
-        }
-        @media (min-width: 768px) { /* عند شاشات متوسطة فما فوق */
-            .tools-grid {
-                grid-template-columns: repeat(3, minmax(0, 1fr)); /* 3 أعمدة */
-            }
-        }
-    </style>
-</head>
-<body class="bg-gray-50 font-sans text-slate-800">
-    
-    <header class="bg-white shadow-md p-4 mb-10">
-        <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <h1 class="text-3xl font-bold text-blue-600">TajNova Tools</h1>
-            <a href="index.html" class="text-blue-600 hover:text-blue-800 font-medium transition duration-150">الرئيسية</a>
-        </div>
-    </header>
-
-    <main class="max-w-7xl mx-auto py-10 px-4 sm:px-6 lg:px-8">
-        <h2 class="text-4xl font-extrabold text-center mb-12 text-slate-700">🛠️ قائمة جميع الأدوات المجانية (11 أدوات)</h2>
-        
-        <div class="tools-grid">
-            
-            <a href="url_analyzer_tool_frontend.html" class="block transition duration-300 hover:translate-y-0 color-primary-blue card-link">
-                <div class="bg-white p-6 rounded-xl shadow-xl h-full">
-                    <i class="fas fa-chart-line text-4xl text-blue-500 mb-3" style="color: #3b82f6;"></i>
-                    <h3 class="text-xl font-bold mb-2">محلل أداء الروابط</h3>
-                    <p class="text-gray-600 text-sm">تحليل سرعة الموقع ومعايير Core Web Vitals (Google PageSpeed).</p>
-                </div>
-            </a>
-            
-            <a href="performance_checklist_tool.html" class="block transition duration-300 hover:translate-y-0 color-primary-green card-link">
-                <div class="bg-white p-6 rounded-xl shadow-xl h-full">
-                    <i class="fas fa-list-check text-4xl text-green-500 mb-3" style="color: #10b981;"></i>
-                    <h3 class="text-xl font-bold mb-2">قائمة تحقق الأداء</h3>
-                    <p class="text-gray-600 text-sm">أداة تفاعلية لتتبع التقدم في تطبيق أفضل ممارسات تحسين الأداء.</p>
-                </div>
-            </a>
-
-         <a href="/tools/youtube_analyzer_tool.html" class="block transition duration-300 hover:translate-y-0 color-primary-red card-link">
-    <div class="bg-white p-6 rounded-xl shadow-xl h-full">
-        <i class="fab fa-youtube text-4xl text-red-500 mb-3" style="color: #ef4444;"></i>
-        <h3 class="text-xl font-bold mb-2">محلل فيديوهات يوتيوب</h3>
-        <p class="text-gray-600 text-sm">استخراج البيانات، الإحصائيات، والصور المصغرة للتحليل التسويقي.</p>
-    </div>
-</a>
-
-            <a href="word_density_tool.html" class="block transition duration-300 hover:translate-y-0 color-primary-yellow card-link">
-                <div class="bg-white p-6 rounded-xl shadow-xl h-full">
-                    <i class="fas fa-keyboard text-4xl text-yellow-500 mb-3" style="color: #f59e0b;"></i>
-                    <h3 class="text-xl font-bold mb-2">محلل الكلمات والكثافة</h3>
-                    <p class="text-gray-600 text-sm">عد الكلمات والأحرف وحساب كثافة الكلمات المفتاحية لـ SEO.</p>
-                </div>
-            </a>
-
-            <a href="robots_analyzer_tool.html" class="block transition duration-300 hover:translate-y-0 color-primary-violet card-link">
-                <div class="bg-white p-6 rounded-xl shadow-xl h-full">
-                    <i class="fas fa-robot text-4xl text-violet-600 mb-3" style="color: #8b5cf6;"></i>
-                    <h3 class="text-xl font-bold mb-2">محلل ملف Robots.txt</h3>
-                    <p class="text-gray-600 text-sm">جلب وعرض محتوى ملف robots.txt للموقع للتأكد من السماح بالزحف.</p>
-                </div>
-            </a>
-            
-            <a href="color_contrast_tool.html" class="block transition duration-300 hover:translate-y-0 color-primary-teal card-link">
-                <div class="bg-white p-6 rounded-xl shadow-xl h-full">
-                    <i class="fas fa-palette text-4xl text-teal-500 mb-3" style="color: #14b8a6;"></i>
-                    <h3 class="text-xl font-bold mb-2">مدقق الألوان والتباين</h3>
-                    <p class="text-gray-600 text-sm">حساب نسبة تباين الألوان والتحقق من معايير الوصول (WCAG).</p>
-                </div>
-            </a>
-
-            <a href="json_ld_schema_tool.html" class="block transition duration-300 hover:translate-y-0 color-primary-slate card-link">
-                <div class="bg-white p-6 rounded-xl shadow-xl h-full">
-                    <i class="fas fa-code text-4xl text-gray-700 mb-3" style="color: #374151;"></i>
-                    <h3 class="text-xl font-bold mb-2">مولد مخطط (Schema)</h3>
-                    <p class="text-gray-600 text-sm">إنشاء كود JSON-LD Article Schema للحصول على نتائج جوجل الغنية (Rich Results).</p>
-                </div>
-            </a>
-
-            <a href="http_headers_analyzer_tool.html" class="block transition duration-300 hover:translate-y-0 color-primary-orange card-link">
-                <div class="bg-white p-6 rounded-xl shadow-xl h-full">
-                    <i class="fas fa-network-wired text-4xl text-orange-500 mb-3" style="color: #f97316;"></i>
-                    <h3 class="text-xl font-bold mb-2">محلل رؤوس HTTP</h3>
-                    <p class="text-gray-600 text-sm">فحص رؤوس HTTP، كود الحالة (Status Code)، ورؤوس الأمان والتخزين المؤقت.</p>
-                </div>
-            </a>
-            
-            <a href="broken_link_checker_tool.html" class="block transition duration-300 hover:translate-y-0 color-primary-pink card-link">
-                <div class="bg-white p-6 rounded-xl shadow-xl h-full">
-                    <i class="fas fa-unlink text-4xl text-pink-600 mb-3" style="color: #db2777;"></i>
-                    <h3 class="text-xl font-bold mb-2">مدقق الروابط المعطلة</h3>
-                    <p class="text-gray-600 text-sm">فحص الروابط داخل أي صفحة لتحديد وإصلاح الأخطاء (404/500) التي تضر بالـ SEO.</p>
-                </div>
-            </a>
-            
-            <a href="image_optimizer_tool.html" class="block transition duration-300 hover:translate-y-0 color-primary-sky card-link">
-                <div class="bg-white p-6 rounded-xl shadow-xl h-full">
-                    <i class="fas fa-image text-4xl text-sky-500 mb-3" style="color: #06b6d4;"></i>
-                    <h3 class="text-xl font-bold mb-2">مُحسن الصور (Image Optimizer)</h3>
-                    <p class="text-gray-600 text-sm">ضغط وتحويل الصور إلى WebP لتقليل الحجم وتحسين سرعة تحميل الموقع.</p>
-                </div>
-            </a>
-
-
-
-
-            <a href="security_headers_tool.html" class="block transition duration-300 hover:translate-y-0" style="--color: #a855f7; border-right: 8px solid var(--color);">
-    <div class="bg-white p-6 rounded-xl shadow-xl h-full">
-        <i class="fas fa-shield-alt text-4xl text-purple-600 mb-3" style="color: #a855f7;"></i>
-        <h3 class="text-xl font-bold mb-2">مدقق رؤوس الأمان</h3>
-        <p class="text-gray-600 text-sm">فحص رؤوس HTTP الخاصة بالأمان (مثل HSTS و CSP) لحماية الموقع من الثغرات.</p>
-                </div>
-            </a>
-
-            
-        </div>
-    </main>
-    
-    <footer class="mt-20 p-6 text-center text-slate-500 border-t">
-        <p>مُقدمة بواسطة تاج نوفا - مجموعة أدوات قوية.</p>
-    </footer>
-
-</body>
-</html>

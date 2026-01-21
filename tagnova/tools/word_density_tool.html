@@ -1,172 +1,0 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1262927411271648"
-     crossorigin="anonymous"></script>
-    <title>عداد الكلمات ومحلل الكثافة | TajNova Tool</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <style>
-        :root { --color-primary: #10b981; /* Emerald Green */ }
-        th, td { padding: 0.75rem; text-align: right; }
-    </style>
-</head>
-<body class="bg-gray-100 text-slate-800">
-
-    <header class="bg-white shadow-lg">
-        <div class="max-w-6xl mx-auto p-6 flex justify-between items-center">
-            <h1 class="text-3xl font-extrabold text-primary flex items-center">
-                <i class="fas fa-calculator ml-2"></i> TajNova
-            </h1>
-            <a href="tools.html" class="text-blue-600 hover:text-blue-800 font-medium transition duration-150">
-                <i class="fas fa-arrow-right-to-bracket ml-2"></i> قائمة الأدوات
-            </a>
-        </div>
-    </header>
-
-    <main class="max-w-6xl mx-auto py-10 px-4 sm:px-6 lg:px-8">
-        
-        <div class="bg-white p-8 rounded-xl shadow-2xl border-t-4 border-primary">
-            <h2 class="text-3xl font-bold mb-6 text-slate-700">📝 عداد الكلمات ومحلل كثافة الكلمات</h2>
-            
-            <textarea 
-                id="text-input" 
-                rows="10" 
-                placeholder="الصق النص هنا لتحليل الكلمات وكثافة الكلمات المفتاحية..." 
-                class="w-full p-4 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-primary transition duration-200 text-right text-lg"
-            ></textarea>
-            
-            <div id="results-summary" class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
-                <div class="bg-green-50 p-4 rounded-lg text-center">
-                    <p class="text-xl font-bold text-gray-700">إجمالي الكلمات</p>
-                    <p id="word-count" class="text-3xl font-extrabold text-primary mt-1">0</p>
-                </div>
-                <div class="bg-green-50 p-4 rounded-lg text-center">
-                    <p class="text-xl font-bold text-gray-700">إجمالي الأحرف</p>
-                    <p id="char-count" class="text-3xl font-extrabold text-primary mt-1">0</p>
-                </div>
-                <div class="bg-green-50 p-4 rounded-lg text-center">
-                    <p class="text-xl font-bold text-gray-700">كلمات فريدة</p>
-                    <p id="unique-count" class="text-3xl font-extrabold text-primary mt-1">0</p>
-                </div>
-                <div class="bg-green-50 p-4 rounded-lg text-center">
-                    <p class="text-xl font-bold text-gray-700">متوسط طول الكلمة</p>
-                    <p id="avg-length" class="text-3xl font-extrabold text-primary mt-1">0</p>
-                </div>
-            </div>
-            
-            <div id="density-container" class="mt-10 hidden">
-                <h3 class="text-2xl font-bold mb-4 border-b pb-2 text-slate-700">📈 تحليل كثافة الكلمات المفتاحية</h3>
-                <div class="bg-gray-50 p-4 rounded-lg shadow-inner overflow-x-auto">
-                    <table class="min-w-full divide-y divide-gray-200">
-                        <thead class="bg-gray-200">
-                            <tr>
-                                <th class="text-sm font-semibold uppercase tracking-wider">الكلمة</th>
-                                <th class="text-sm font-semibold uppercase tracking-wider">التكرار</th>
-                                <th class="text-sm font-semibold uppercase tracking-wider">النسبة (كثافة)</th>
-                            </tr>
-                        </thead>
-                        <tbody id="density-table-body" class="bg-white divide-y divide-gray-200">
-                            </tbody>
-                    </table>
-                    <p class="text-sm text-gray-500 mt-4">ملحوظة: هذا التحليل يستبعد الكلمات التوقف الشائعة (مثل "من"، "إلى"، "في") والرموز.</p>
-                </div>
-            </div>
-
-        </div>
-    </main>
-
-    <script>
-        const textInput = document.getElementById('text-input');
-        const wordCountEl = document.getElementById('word-count');
-        const charCountEl = document.getElementById('char-count');
-        const uniqueCountEl = document.getElementById('unique-count');
-        const avgLengthEl = document.getElementById('avg-length');
-        const densityContainer = document.getElementById('density-container');
-        const densityTableBody = document.getElementById('density-table-body');
-        
-        // قائمة بكلمات التوقف العربية الشائعة لاستبعادها من تحليل الكثافة
-        const STOP_WORDS = new Set([
-            "و", "من", "في", "إلى", "على", "عن", "أن", "لا", "ما", "هذا", "هذه", "ذلك", "تلك", "كان", 
-            "يكون", "أو", "هو", "هي", "هم", "التي", "الذي", "الذين", "لأن", "بين", "مع", "قد", 
-            "لكن", "ثم", "قد", "أو", "اذا", "إذا", "غير", "عند", "يا", "بما", "ل", "ك", "ف"
-        ]);
-
-        function analyzeText(text) {
-            // 1. حساب الأحرف (بما في ذلك المسافات والرموز)
-            const charCount = text.length;
-
-            // 2. معالجة النص للعد
-            // - إزالة الرموز والأرقام باستثناء المسافات
-            const cleanText = text.replace(/[^\p{L}\s]/gu, '').toLowerCase(); 
-            // - تقسيم النص إلى كلمات
-            const words = cleanText.split(/\s+/).filter(word => word.length > 0);
-            const totalWordCount = words.length;
-            
-            // 3. تحليل الكلمات وكثافتها
-            const wordMap = new Map();
-            let totalLength = 0;
-            
-            words.forEach(word => {
-                if (!STOP_WORDS.has(word) && word.length > 1) { // استثناء كلمات التوقف والكلمات بحرف واحد
-                    totalLength += word.length;
-                    wordMap.set(word, (wordMap.get(word) || 0) + 1);
-                }
-            });
-
-            const uniqueWordsCount = wordMap.size;
-            const avgLength = totalWordCount > 0 ? (totalLength / totalWordCount).toFixed(1) : 0;
-            
-            // 4. تحديث ملخص النتائج
-            wordCountEl.textContent = totalWordCount;
-            charCountEl.textContent = charCount;
-            uniqueCountEl.textContent = uniqueWordsCount;
-            avgLengthEl.textContent = avgLength;
-
-            // 5. إنشاء جدول الكثافة
-            renderDensityTable(wordMap, totalWordCount);
-        }
-
-        function renderDensityTable(wordMap, totalWords) {
-            densityTableBody.innerHTML = '';
-            
-            if (totalWords === 0) {
-                densityContainer.classList.add('hidden');
-                return;
-            }
-
-            // تحويل الـ Map إلى مصفوفة للفرز (ترتيب تنازلي حسب التكرار)
-            const sortedWords = Array.from(wordMap.entries())
-                .sort((a, b) => b[1] - a[1])
-                .slice(0, 50); // عرض أول 50 كلمة فقط
-
-            sortedWords.forEach(([word, count]) => {
-                const percentage = ((count / totalWords) * 100).toFixed(2);
-                
-                const row = document.createElement('tr');
-                row.className = 'hover:bg-green-50 transition duration-150';
-                
-                row.innerHTML = `
-                    <td class="whitespace-nowrap font-medium">${word}</td>
-                    <td class="whitespace-nowrap">${count}</td>
-                    <td class="whitespace-nowrap font-bold">${percentage}%</td>
-                `;
-                densityTableBody.appendChild(row);
-            });
-
-            densityContainer.classList.remove('hidden');
-        }
-
-        // ربط دالة التحليل بحدث الإدخال
-        textInput.addEventListener('input', (e) => {
-            const text = e.target.value;
-            analyzeText(text);
-        });
-
-        // تشغيل التحليل عند البداية إذا كان هناك نص محفوظ
-        analyzeText(textInput.value); 
-    </script>
-</body>
-</html>
