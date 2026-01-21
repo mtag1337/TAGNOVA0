@@ -95,128 +95,129 @@
     </main>
 
     <script>
-        const form = document.getElementById('link-checker-form');
-        const targetUrlInput = document.getElementById('target-url');
-        const checkButton = document.getElementById('check-button');
-        const messageArea = document.getElementById('message-area');
-        const resultsContainer = document.getElementById('results-container');
-        const linksTableBody = document.getElementById('links-table-body');
+        // 1. تعريف العناصر الأساسية
+const form = document.getElementById('link-checker-form');
+const targetUrlInput = document.getElementById('target-url');
+const checkButton = document.getElementById('check-button');
+const messageArea = document.getElementById('message-area');
+const resultsContainer = document.getElementById('results-container');
+const linksTableBody = document.getElementById('links-table-body');
 
-        // نقطة نهاية الخادم الخلفي الجديدة
-        const BACKEND_ENDPOINT = 'http://localhost:3000/api/check-links'; 
+// 2. رابط النهاية لـ Vercel (بدون localhost)
+const BACKEND_ENDPOINT = '/api/check-links'; 
 
-        function displayMessage(message, type = 'error') {
-            messageArea.textContent = message;
-            messageArea.classList.remove('hidden', 'bg-red-100', 'text-red-700', 'bg-green-100', 'text-green-700', 'bg-yellow-100', 'text-yellow-700');
-            
-            if (type === 'error') {
-                messageArea.classList.add('bg-red-100', 'text-red-700');
-            } else if (type === 'success') {
-                messageArea.classList.add('bg-green-100', 'text-green-700');
-            } else { // info / loading
-                 messageArea.classList.add('bg-yellow-100', 'text-yellow-700');
-            }
-            messageArea.classList.remove('hidden');
-        }
+// 3. دالة إظهار الرسائل والتنبيهات
+function displayMessage(message, type = 'error') {
+    messageArea.textContent = message;
+    messageArea.classList.remove('hidden', 'bg-red-100', 'text-red-700', 'bg-green-100', 'text-green-700', 'bg-yellow-100', 'text-yellow-700');
+    
+    if (type === 'error') {
+        messageArea.classList.add('bg-red-100', 'text-red-700');
+    } else if (type === 'success') {
+        messageArea.classList.add('bg-green-100', 'text-green-700');
+    } else {
+        messageArea.classList.add('bg-yellow-100', 'text-yellow-700');
+    }
+    messageArea.classList.remove('hidden');
+}
+
+// 4. دالة تحديد لون الحالة (للتصميم)
+function getStatusColor(type) {
+    if (type.includes('Broken')) return 'bg-red-500 text-white';
+    if (type.includes('Success')) return 'bg-green-500 text-white';
+    if (type.includes('Redirect')) return 'bg-yellow-500 text-gray-800';
+    return 'bg-gray-400 text-white';
+}
+
+// 5. دالة معالجة وعرض النتائج في الجدول
+function renderResults(data) {
+    resultsContainer.classList.remove('hidden');
+    linksTableBody.innerHTML = ''; // تفريغ الجدول القديم
+    
+    let brokenCount = 0;
+    let successCount = 0;
+    
+    data.results.forEach(link => {
+        const row = linksTableBody.insertRow();
+        row.className = 'hover:bg-gray-50 border-b transition duration-150';
         
-        function getStatusColor(type) {
-            if (type.includes('Broken')) return 'bg-red-500 text-white';
-            if (type.includes('Success')) return 'bg-green-500 text-white';
-            if (type.includes('Redirect')) return 'bg-yellow-500 text-gray-800';
-            return 'bg-gray-400 text-white';
-        }
+        // الخلية 1: نوع الحالة (Success/Broken)
+        const typeCell = row.insertCell();
+        typeCell.className = 'px-4 py-3 text-center';
+        const typeBadge = document.createElement('span');
+        typeBadge.className = `px-2 py-1 rounded-md text-[10px] font-bold uppercase ${getStatusColor(link.type)}`;
+        typeBadge.textContent = link.type.split(' ')[0];
+        typeCell.appendChild(typeBadge);
+
+        // الخلية 2: كود الحالة (مثلاً 200 - OK)
+        const statusCell = row.insertCell();
+        statusCell.className = 'px-4 py-3 text-sm font-semibold text-gray-700 text-center';
+        statusCell.textContent = `${link.status} - ${link.statusText || 'N/A'}`;
+
+        // الخلية 3: الرابط المكتشف
+        const urlCell = row.insertCell();
+        urlCell.className = 'px-4 py-3 text-sm text-blue-600 break-all text-left dir-ltr font-mono';
+        urlCell.innerHTML = `<a href="${link.url}" target="_blank" class="hover:underline">${link.url}</a>`;
         
-        function getStatusClass(type) {
-             if (type.includes('Broken')) return 'status-broken';
-             if (type.includes('Success')) return 'status-success';
-             if (type.includes('Redirect')) return 'status-redirect';
-             return '';
+        // حساب الإحصائيات بناءً على النتيجة
+        if (link.type.includes('Broken') || !link.ok) {
+            brokenCount++;
+        } else if (link.type.includes('Success')) {
+            successCount++;
         }
+    });
+    
+    // تحديث عدادات الإحصائيات في الواجهة
+    document.getElementById('total-links').textContent = data.totalLinks || data.results.length;
+    document.getElementById('broken-count').textContent = brokenCount;
+    document.getElementById('success-count').textContent = successCount;
+    
+    if (brokenCount > 0) {
+        displayMessage(`تم فحص الصفحة: وجدنا ${brokenCount} رابط مكسور.`, 'error');
+    } else {
+        displayMessage(`ممتاز! جميع الروابط في الصفحة تعمل بشكل سليم.`, 'success');
+    }
+}
 
-        function renderResults(data) {
-            resultsContainer.classList.remove('hidden');
-            linksTableBody.innerHTML = ''; // تفريغ الجدول
-            
-            let brokenCount = 0;
-            let successCount = 0;
-            
-            data.results.forEach(link => {
-                const row = linksTableBody.insertRow();
-                row.className = `hover:bg-gray-50 ${getStatusClass(link.type)}`;
-                
-                // الخلية 1: حالة الرابط
-                const typeCell = row.insertCell();
-                typeCell.className = `px-6 py-4 whitespace-nowrap font-medium text-xs rounded-lg text-center ${getStatusColor(link.type)}`;
-                typeCell.textContent = link.type.split(' ')[0]; // لعرض الكلمة الرئيسية فقط (Success/Broken/Redirect)
+// 6. مراقب إرسال النموذج (المنطق الأساسي)
+form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    const url = targetUrlInput.value.trim();
+    if (!url) return;
 
-                // الخلية 2: كود/نوع الحالة
-                const statusCell = row.insertCell();
-                statusCell.className = 'px-6 py-4 whitespace-nowrap font-semibold text-gray-800';
-                statusCell.textContent = `${link.status} - ${link.statusText}`;
+    // تجهيز الواجهة لحالة الانتظار
+    checkButton.disabled = true;
+    checkButton.innerHTML = `<div class="loading-animation ml-2"></div> جارٍ الفحص...`;
+    resultsContainer.classList.add('hidden');
+    displayMessage('جاري تحليل الروابط في الصفحة، قد يستغرق ذلك ثواني...', 'info');
 
-                // الخلية 3: الرابط نفسه
-                const urlCell = row.insertCell();
-                urlCell.className = 'px-6 py-4 text-gray-600 break-all text-left font-mono text-sm';
-                urlCell.innerHTML = `<a href="${link.url}" target="_blank" class="hover:underline text-blue-600">${link.url}</a>`;
-                
-                // حساب الإحصائيات
-                if (link.type.includes('Broken') || link.status === 'N/A') {
-                    brokenCount++;
-                } else if (link.type.includes('Success')) {
-                    successCount++;
-                }
-            });
-            
-            // تحديث الملخص
-            document.getElementById('total-links').textContent = data.totalLinks;
-            document.getElementById('broken-count').textContent = brokenCount;
-            document.getElementById('success-count').textContent = successCount;
-            
-            // رسالة نهائية بناءً على النتائج
-            if (brokenCount > 0) {
-                 displayMessage(`تم العثور على ${brokenCount} رابط معطل (4xx/5xx). يرجى المراجعة فورًا!`, 'error');
-            } else {
-                 displayMessage(`تهانينا! لم يتم العثور على أي روابط معطلة في الصفحة.`, 'success');
-            }
-        }
-
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            const url = targetUrlInput.value.trim();
-
-            // حالة التحميل
-            checkButton.disabled = true;
-            checkButton.innerHTML = `<div class="loading-animation ml-2"></div> جارٍ فحص ${url.length > 30 ? 'الروابط...' : 'الروابط'}...`;
-            resultsContainer.classList.add('hidden');
-            displayMessage('جاري استخلاص وفحص الروابط، قد تستغرق العملية بعض الوقت...', 'info');
-
-            try {
-                const response = await fetch(BACKEND_ENDPOINT, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ url: url }),
-                });
-
-                const data = await response.json();
-
-                if (!response.ok || data.error) {
-                    throw new Error(data.details || data.error || 'فشل الجلب بسبب خطأ في الخادم.');
-                }
-
-                // عرض النتائج 
-                renderResults(data);
-
-            } catch (error) {
-                console.error('Fetch Error:', error);
-                displayMessage('فشل التحليل: ' + error.message, 'error');
-            } finally {
-                checkButton.disabled = false;
-                checkButton.innerHTML = '<i class="fas fa-search-dollar ml-2"></i> بدء الفحص';
-            }
+    try {
+        const response = await fetch(BACKEND_ENDPOINT, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ url: url }),
         });
 
+        const data = await response.json();
+
+        if (!response.ok || data.error) {
+            throw new Error(data.details || data.error || 'خطأ في السيرفر');
+        }
+
+        // عرض النتائج في الجدول
+        renderResults(data);
+
+    } catch (error) {
+        console.error('Checker Error:', error);
+        displayMessage('حدث خطأ: ' + error.message, 'error');
+    } finally {
+        checkButton.disabled = false;
+        checkButton.innerHTML = '<i class="fas fa-search-dollar ml-2"></i> بدء الفحص';
+    }
+});
     </script>
 </body>
 
 </html>
+
