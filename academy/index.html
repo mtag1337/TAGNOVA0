@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TajNova Academy | مستقبل المطورين</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;700;900&display=swap');
+        
+        body { font-family: 'Cairo', sans-serif; scroll-behavior: smooth; }
+        
+        .glass-header {
+            background: rgba(11, 14, 20, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .course-card {
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        
+        .course-card:hover {
+            transform: translateY(-12px);
+            border-color: #8b5cf6;
+            box-shadow: 0 25px 50px -12px rgba(139, 92, 246, 0.4);
+        }
+
+        .premium-badge {
+            background: linear-gradient(45deg, #8b5cf6, #ec4899);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(139, 92, 246, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(139, 92, 246, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(139, 92, 246, 0); }
+        }
+
+        /* تخصيص السكرول بار */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0b0e14; }
+        ::-webkit-scrollbar-thumb { background: #4b5563; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #8b5cf6; }
+    </style>
+</head>
+<body class="bg-[#0b0e14] text-white overflow-x-hidden">
+
+    <nav class="glass-header sticky top-0 z-50 px-4 py-3 md:py-4">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="flex items-center gap-2">
+                <div class="w-10 h-10 bg-purple-600 rounded-lg flex items-center justify-center font-black text-xl italic shadow-lg shadow-purple-500/20">T</div>
+                <h1 class="text-xl md:text-2xl font-black bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent">
+                    TAJNOVA <span class="text-purple-500 font-light">ACADEMY</span>
+                </h1>
+            </div>
+
+            <div class="flex items-center gap-3 md:gap-6">
+                <a href="../index.html" class="hidden md:block text-gray-400 hover:text-white transition font-medium">الرئيسية</a>
+                <button id="loginBtn" class="bg-white text-black hover:bg-purple-500 hover:text-white px-5 md:px-8 py-2 rounded-full font-bold transition-all duration-300 transform active:scale-95 shadow-lg">
+                    دخول
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <section class="relative pt-16 pb-12 px-4 text-center">
+        <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10 pointer-events-none"></div>
+        <div class="container mx-auto relative z-10 animate__animated animate__fadeInDown">
+            <h2 class="text-4xl md:text-6xl font-black mb-6 leading-tight">احترف <span class="text-purple-500">البرمجة</span> من الصفر <br> حتى العالمية</h2>
+            <p class="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto mb-10">منصة TajNova تجمع لك أفضل المتخصصين لنقل خبرتهم العملية إليك مباشرة.</p>
+            
+            <div class="flex flex-wrap justify-center gap-3">
+                <button class="bg-purple-600 px-6 py-2 rounded-xl font-bold shadow-lg shadow-purple-500/20">كل الكورسات</button>
+                <button class="bg-[#161b22] border border-gray-700 px-6 py-2 rounded-xl font-medium hover:border-purple-500 transition">المجانية</button>
+                <button class="bg-[#161b22] border border-gray-700 px-6 py-2 rounded-xl font-medium hover:border-purple-500 transition">المدفوعة</button>
+            </div>
+        </div>
+    </section>
+
+    <main class="container mx-auto px-4 py-12">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            
+            <div class="course-card bg-[#161b22] rounded-3xl overflow-hidden border border-gray-800 animate__animated animate__fadeInUp">
+                <div class="relative group">
+                    <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=600&h=400&fit=crop" class="w-full h-56 object-cover transition-transform duration-500 group-hover:scale-110" alt="FullStack">
+                    <div class="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-all"></div>
+                    <span class="premium-badge absolute top-4 left-4 text-[10px] font-black px-3 py-1 rounded-full tracking-widest uppercase">Premium</span>
+                </div>
+                <div class="p-6">
+                    <div class="flex items-center gap-1 text-yellow-500 mb-3 text-sm">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                        <span class="text-gray-500 mr-2">(4.9)</span>
+                    </div>
+                    <h3 class="text-xl font-black mb-2 hover:text-purple-400 transition cursor-pointer">دبلومة الـ Full-Stack الاحترافية</h3>
+                    <p class="text-gray-500 text-sm mb-5">بواسطة: <span class="text-gray-300 font-bold">م. سيف محمد</span></p>
+                    <div class="flex items-center justify-between border-t border-gray-800 pt-5">
+                        <div class="text-2xl font-black text-white">$99<span class="text-sm font-normal text-gray-400">.00</span></div>
+                        <button class="bg-gray-800 hover:bg-purple-600 p-3 rounded-xl transition-all duration-300">
+                            <i class="fas fa-cart-plus"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="course-card bg-[#161b22] rounded-3xl overflow-hidden border border-gray-800 animate__animated animate__fadeInUp" style="animation-delay: 0.1s;">
+                <div class="relative group">
+                    <img src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=600&h=400&fit=crop" class="w-full h-56 object-cover transition-transform duration-500 group-hover:scale-110" alt="Basics">
+                    <span class="absolute top-4 left-4 bg-green-600 text-[10px] font-black px-3 py-1 rounded-full tracking-widest uppercase">Free</span>
+                </div>
+                <div class="p-6">
+                    <div class="flex items-center gap-1 text-yellow-500 mb-3 text-sm">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star text-gray-600"></i><i class="fas fa-star text-gray-600"></i>
+                        <span class="text-gray-500 mr-2">(3.8)</span>
+                    </div>
+                    <h3 class="text-xl font-black mb-2 hover:text-purple-400 transition cursor-pointer">أساسيات الويب للمبتدئين</h3>
+                    <p class="text-gray-500 text-sm mb-5">بواسطة: <span class="text-gray-300 font-bold">TajNova Team</span></p>
+                    <div class="flex items-center justify-between border-t border-gray-800 pt-5">
+                        <div class="text-2xl font-black text-green-500">مجاناً</div>
+                        <button class="text-purple-500 font-bold flex items-center gap-2 hover:gap-4 transition-all">ابدأ الآن <i class="fas fa-arrow-left"></i></button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <footer class="text-center py-10 border-t border-gray-900 text-gray-600 text-sm">
+        <p>&copy; 2026 TajNova Academy. جميع الحقوق محفوظة</p>
+    </footer>
+
+</body>
+</html>
