@@ -1,209 +1,184 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr" class="scroll-smooth">
+<html lang="en" dir="ltr" class="scroll-smooth transition-colors duration-500">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1262927411271648" crossorigin="anonymous"></script>
-    <title>TajNova Elite | Advanced Full-Stack Ecosystem</title>
+    <title>TajNova Academy | Elite Engineering Hub</title>
     <script src="https://cdn.tailwindcss.com"></script>
     
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#8b5cf6',
+                        secondary: '#4f46e5',
+                        accent: '#22d3ee',
+                        darkBg: '#0f172a',
+                        darkCard: '#1e293b'
+                    }
+                }
+            }
+        }
+    </script>
+
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Lexend+Deca:wght@300;400;500;600;700;800;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Lexend+Deca:wght@400;700;900&display=swap');
 
         :root {
-            --color-primary: #8b5cf6;
-            --color-secondary: #4f46e5;
-            --color-accent: #22d3ee;
-            --color-dark: #0f172a;
+            --p: #8b5cf6; --s: #4f46e5; --a: #22d3ee;
         }
 
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f8fafc;
-            color: #334155;
-            overflow-x: hidden;
-        }
+        body { font-family: 'Inter', sans-serif; transition: background-color 0.5s ease; }
+        h1, h2, h3, h4, .font-heading { font-family: 'Lexend Deca', sans-serif; }
 
-        h1, h2, h3, h4, .font-heading {
-            font-family: 'Lexend Deca', sans-serif;
+        /* Animation Keyframes */
+        @keyframes blob {
+            0% { transform: translate(0px, 0px) scale(1); }
+            33% { transform: translate(30px, -50px) scale(1.1); }
+            66% { transform: translate(-20px, 20px) scale(0.9); }
+            100% { transform: translate(0px, 0px) scale(1); }
         }
+        .animate-blob { animation: blob 7s infinite; }
+        .animation-delay-2000 { animation-delay: 2s; }
+        .animation-delay-4000 { animation-delay: 4s; }
 
-        /* Complex Background Animations */
-        .hero-mesh {
-            position: absolute;
-            inset: 0;
-            background-image: 
-                radial-gradient(at 0% 0%, rgba(139, 92, 246, 0.15) 0px, transparent 50%),
-                radial-gradient(at 100% 100%, rgba(34, 211, 238, 0.15) 0px, transparent 50%);
-            z-index: 0;
-        }
+        .reveal { opacity: 0; transform: translateY(30px); transition: 1s all ease-out; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
 
-        /* Glassmorphism Classes */
-        .glass-effect {
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-        }
-
-        /* Scrollbar Styling */
-        ::-webkit-scrollbar { width: 10px; }
-        ::-webkit-scrollbar-track { background: #f1f5f9; }
-        ::-webkit-scrollbar-thumb { 
-            background: linear-gradient(var(--color-primary), var(--color-secondary)); 
-            border-radius: 10px;
-        }
-
-        /* Extended Animations for Scroll Reveal */
-        .reveal {
-            opacity: 0;
-            transform: translateY(40px);
-            transition: all 1.2s cubic-bezier(0.22, 1, 0.36, 1);
-        }
-
-        .reveal.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .floating {
-            animation: floating 3s ease-in-out infinite;
-        }
-
-        @keyframes floating {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-15px); }
-        }
-
+        /* Custom Dark Mode Transitions */
+        .dark body { background-color: #0f172a; color: #f1f5f9; }
+        .dark .glass-nav { background: rgba(15, 23, 42, 0.8); border-bottom: 1px solid rgba(255,255,255,0.1); }
+        
         /* Grid Pattern */
-        .bg-grid {
-            background-size: 40px 40px;
-            background-image: linear-gradient(to right, rgba(0,0,0,0.05) 1px, transparent 1px),
-                              linear-gradient(to bottom, rgba(0,0,0,0.05) 1px, transparent 1px);
-        }
+        .bg-grid-slate { background-image: radial-gradient(#e2e8f0 1px, transparent 1px); background-size: 30px 30px; }
+        .dark .bg-grid-slate { background-image: radial-gradient(#1e293b 1px, transparent 1px); }
+
+        /* Glowing text for dark mode */
+        .dark .text-glow { text-shadow: 0 0 15px rgba(139, 92, 246, 0.4); }
     </style>
 </head>
-<body class="antialiased">
+<body class="bg-slate-50 text-slate-900">
 
-    <header class="fixed top-0 w-full z-[100] transition-all duration-500" id="main-header">
-        <div class="bg-primary py-2 text-center text-white text-xs font-bold tracking-widest uppercase">
-            Limited Time Offer: Master Serverless Auth for only $8.00!
-        </div>
-        <div class="container mx-auto px-6 py-4 glass-effect mt-2 rounded-2xl shadow-xl flex justify-between items-center max-w-[95%]">
-            <a href="#" class="flex items-center space-x-3 group">
-                <div class="relative">
-                    <div class="absolute -inset-1 bg-gradient-to-r from-primary to-accent rounded-full blur opacity-25 group-hover:opacity-75 transition duration-1000"></div>
-                    <img src="assets/images/logotagnova.png" alt="TajNova" class="h-12 w-12 relative">
+    <header class="fixed top-0 w-full z-[1000] glass-nav bg-white/80 backdrop-blur-xl border-b border-slate-200 transition-all duration-300">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" class="flex items-center group">
+                <div class="relative overflow-hidden rounded-xl mr-3">
+                    <img src="assets/images/logotagnova.png" alt="Logo" class="h-12 md:h-14 transform group-hover:scale-110 transition-transform">
                 </div>
-                <span class="text-3xl font-black text-slate-900 tracking-tighter">TAJ<span class="text-primary italic">NOVA</span></span>
+                <div class="flex flex-col">
+                    <span class="text-2xl font-black tracking-tighter text-slate-900 dark:text-white leading-none">TAJNOVA</span>
+                    <span class="text-[9px] font-bold tracking-[0.2em] text-primary uppercase">Elite Dev Academy</span>
+                </div>
             </a>
 
-            <nav class="hidden lg:flex items-center space-x-10 text-sm font-bold uppercase tracking-wider text-slate-600">
-                <a href="#course" class="hover:text-primary transition">Academy</a>
-                <a href="#blog" class="hover:text-primary transition">Journals</a>
-                <a href="#tools" class="hover:text-primary transition">Dev Tools</a>
-                <a href="#" id="about-trigger" class="hover:text-primary transition">Our Vision</a>
+            <nav class="hidden lg:flex items-center space-x-10 font-bold text-sm uppercase tracking-widest text-slate-600 dark:text-slate-300">
+                <a href="#academy" class="hover:text-primary transition-colors">Academy</a>
+                <a href="#blog" class="hover:text-primary transition-colors">Articles</a>
+                <a href="#tools" class="hover:text-primary transition-colors">Dev Tools</a>
+                <a href="#" onclick="openModal('about')" class="hover:text-primary transition-colors">About</a>
             </nav>
 
-            <div class="flex items-center space-x-6">
-                <button class="hidden sm:block font-bold text-slate-500 hover:text-primary transition">Login</button>
-                <a href="#course" class="bg-gradient-to-r from-primary to-secondary text-white px-8 py-3 rounded-xl font-bold shadow-lg hover:shadow-primary/40 transform hover:-translate-y-1 transition-all">
-                    Get Started
-                </a>
-                <button id="mobile-menu-btn" class="lg:hidden text-2xl">☰</button>
+            <div class="flex items-center space-x-4">
+                <button id="theme-toggle" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-yellow-400 hover:ring-2 ring-primary transition-all">
+                    <span id="theme-toggle-icon-dark" class="hidden text-xl">🌙</span>
+                    <span id="theme-toggle-icon-light" class="text-xl">☀️</span>
+                </button>
+
+                <div class="hidden sm:flex space-x-3">
+                    <button onclick="openModal('login')" class="px-6 py-2.5 font-bold text-slate-600 dark:text-slate-300 hover:text-primary transition">Login</button>
+                    <a href="#academy" class="bg-primary hover:bg-secondary text-white px-8 py-2.5 rounded-xl font-black shadow-lg shadow-primary/20 transform hover:-translate-y-1 transition-all">
+                        Join Now
+                    </a>
+                </div>
+
+                <button id="mobile-menu-trigger" class="lg:hidden text-2xl p-2 dark:text-white">☰</button>
             </div>
         </div>
     </header>
 
-    <main>
-        <section id="hero" class="relative min-h-screen flex items-center justify-center pt-32 pb-20 overflow-hidden bg-slate-50">
-            <div class="hero-mesh"></div>
-            <div class="bg-grid absolute inset-0 opacity-40"></div>
-            
+    <div id="mobile-drawer" class="fixed inset-0 z-[2000] bg-slate-900/60 backdrop-blur-sm hidden">
+        <div class="absolute right-0 top-0 h-full w-72 bg-white dark:bg-darkBg p-8 shadow-2xl">
+            <button id="close-drawer" class="text-3xl mb-8 dark:text-white">×</button>
+            <nav class="flex flex-col space-y-6 font-black text-xl text-slate-800 dark:text-white uppercase">
+                <a href="#academy">Academy</a>
+                <a href="#blog">Articles</a>
+                <a href="#tools">Tools</a>
+                <button onclick="openModal('login')" class="text-left text-primary">Login</button>
+            </nav>
+        </div>
+    </div>
+
+    <main class="pt-20">
+        <section id="hero" class="relative py-24 md:py-48 overflow-hidden bg-grid-slate">
+            <div class="absolute top-0 -left-4 w-72 h-72 bg-primary rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob"></div>
+            <div class="absolute top-0 -right-4 w-72 h-72 bg-accent rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
+            <div class="absolute -bottom-8 left-20 w-72 h-72 bg-secondary rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-4000"></div>
+
             <div class="container mx-auto px-6 relative z-10 text-center">
                 <div class="reveal">
-                    <span class="inline-block py-2 px-6 rounded-full bg-primary/10 text-primary font-black text-xs uppercase tracking-[.3em] mb-8 border border-primary/20">
-                        Engineering Excellence Since 2024
-                    </span>
-                    <h1 class="text-6xl md:text-8xl font-black text-slate-900 leading-[0.9] mb-8 tracking-tighter">
-                        CODE THE <br> <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary via-secondary to-accent italic">UNIMAGINABLE.</span>
+                    <div class="inline-flex items-center space-x-2 bg-white dark:bg-slate-800 px-4 py-2 rounded-full border border-slate-200 dark:border-slate-700 mb-8 shadow-sm">
+                        <span class="flex h-2 w-2 rounded-full bg-green-500"></span>
+                        <span class="text-xs font-black uppercase tracking-tighter text-slate-500 dark:text-slate-300">Admission Open for 2026</span>
+                    </div>
+                    <h1 class="text-6xl md:text-[100px] font-black text-slate-900 dark:text-white leading-[0.9] mb-8 tracking-tighter text-glow">
+                        YOUR FUTURE <br> IN <span class="text-primary italic">DEV</span> STARTS HERE.
                     </h1>
-                    <p class="text-xl md:text-2xl text-slate-500 max-w-3xl mx-auto mb-12 font-medium leading-relaxed">
-                        Join TajNova Academy. We don't just teach code; we forge software architects capable of building enterprise-scale systems.
+                    <p class="text-xl md:text-2xl text-slate-500 dark:text-slate-400 max-w-3xl mx-auto mb-16 leading-relaxed">
+                        Cutting-edge software solutions and intensive practical training for <span class="text-slate-900 dark:text-white font-bold underline decoration-accent">Full-Stack architects</span>.
                     </p>
-                    <div class="flex flex-col sm:flex-row justify-center gap-6">
-                        <a href="#course" class="bg-slate-900 text-white px-12 py-5 rounded-2xl text-xl font-black hover:bg-primary transition-all shadow-2xl">
-                            Join Academy
+                    <div class="flex flex-col sm:flex-row justify-center items-center gap-6">
+                        <a href="#academy" class="w-full sm:w-auto bg-slate-900 dark:bg-white text-white dark:text-slate-900 px-12 py-5 rounded-[20px] text-xl font-black hover:scale-105 transition-transform shadow-2xl">
+                            Explore Academy
                         </a>
-                        <a href="#blog" class="bg-white text-slate-900 border border-slate-200 px-12 py-5 rounded-2xl text-xl font-black hover:bg-slate-50 transition-all shadow-sm">
-                            Read Articles
+                        <a href="#tools" class="w-full sm:w-auto bg-white dark:bg-slate-800 text-slate-900 dark:text-white border-2 border-slate-200 dark:border-slate-700 px-12 py-5 rounded-[20px] text-xl font-black hover:bg-slate-50 dark:hover:bg-slate-700 transition">
+                            Free Tools
                         </a>
                     </div>
                 </div>
             </div>
         </section>
-
-        <section class="py-20 bg-white border-y border-slate-100">
-            <div class="container mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-12">
-                <div class="text-center reveal">
-                    <div class="text-5xl font-black text-primary mb-2">15k+</div>
-                    <div class="text-slate-400 font-bold uppercase text-xs tracking-widest">Active Students</div>
-                </div>
-                <div class="text-center reveal" style="transition-delay: 200ms;">
-                    <div class="text-5xl font-black text-secondary mb-2">15+</div>
-                    <div class="text-slate-400 font-bold uppercase text-xs tracking-widest">Expert Courses</div>
-                </div>
-                <div class="text-center reveal" style="transition-delay: 400ms;">
-                    <div class="text-5xl font-black text-accent mb-2">24/7</div>
-                    <div class="text-slate-400 font-bold uppercase text-xs tracking-widest">Code Support</div>
-                </div>
-                <div class="text-center reveal" style="transition-delay: 600ms;">
-                    <div class="text-5xl font-black text-green-500 mb-2">100%</div>
-                    <div class="text-slate-400 font-bold uppercase text-xs tracking-widest">Job Ready</div>
-                </div>
-            </div>
-        </section>
-
-        <section id="course" class="py-32 bg-slate-900 relative overflow-hidden">
-            <div class="absolute top-0 right-0 w-1/2 h-full bg-primary/10 blur-[120px] rounded-full"></div>
-            <div class="container mx-auto px-6 relative z-10">
-                <div class="flex flex-col lg:flex-row items-center gap-20">
-                    <div class="lg:w-1/2 reveal">
-                        <h2 class="text-5xl md:text-7xl font-black text-white mb-8 leading-tight">
-                            The Flagship <br> <span class="text-accent">Auth Mastery</span>
-                        </h2>
-                        <p class="text-xl text-slate-400 mb-10 leading-relaxed">
-                            Master Next.js 14, Auth.js, and Edge Functions. This isn't just a course; it's a deep dive into the security infrastructure of modern web apps.
-                        </p>
-                        <ul class="space-y-6 mb-12">
-                            <li class="flex items-center text-white font-bold text-lg">
-                                <span class="bg-green-500/20 text-green-500 p-2 rounded-lg mr-4">✓</span>
-                                Zero-Trust Architecture
-                            </li>
-                            <li class="flex items-center text-white font-bold text-lg">
-                                <span class="bg-green-500/20 text-green-500 p-2 rounded-lg mr-4">✓</span>
-                                Multi-Factor Authentication (MFA)
-                            </li>
-                            <li class="flex items-center text-white font-bold text-lg">
-                                <span class="bg-green-500/20 text-green-500 p-2 rounded-lg mr-4">✓</span>
-                                Edge Runtime Optimization
-                            </li>
-                        </ul>
-                        <div class="p-8 bg-white/5 border border-white/10 rounded-[32px] inline-block">
-                            <span class="text-slate-400 line-through text-2xl mr-4">$49.99</span>
-                            <span class="text-green-400 text-5xl font-black">$8.00!</span>
-                            <a href="enroll.html" class="block mt-6 bg-primary text-white text-center py-4 rounded-xl font-black text-xl hover:scale-105 transition">Enroll Securely</a>
+        <section id="academy" class="py-32 relative overflow-hidden">
+            <div class="container mx-auto px-6">
+                <div class="bg-primary/10 dark:bg-primary/5 border border-primary/20 dark:border-primary/10 rounded-[60px] p-8 md:p-20 relative overflow-hidden reveal">
+                    <div class="absolute -right-20 -top-20 w-80 h-80 bg-primary/20 rounded-full blur-3xl"></div>
+                    
+                    <div class="grid lg:grid-cols-2 gap-16 items-center relative z-10">
+                        <div>
+                            <span class="bg-primary text-white px-6 py-2 rounded-full text-xs font-black uppercase tracking-[0.2em] mb-8 inline-block">New Enrollment 2026</span>
+                            <h2 class="text-5xl md:text-7xl font-black text-slate-900 dark:text-white mb-8 leading-tight tracking-tighter">
+                                JOIN THE <span class="text-primary italic text-glow">ELITE</span> ENGINEERING PROGRAM.
+                            </h2>
+                            <p class="text-xl text-slate-600 dark:text-slate-400 mb-10 leading-relaxed">
+                                نعلن عن فتح باب الانضمام لأكاديمية تاج نوفا للهندسة البرمجية. برنامج مكثف ينقلك من الأساسيات إلى مستوى الـ Senior Architect من خلال مشاريع حقيقية وبيئة عمل احترافية.
+                            </p>
+                            <ul class="space-y-4 mb-12">
+                                <li class="flex items-center text-slate-700 dark:text-slate-300 font-bold">
+                                    <span class="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center text-white mr-3 text-xs">✓</span>
+                                    Mentor-led sessions and code reviews.
+                                </li>
+                                <li class="flex items-center text-slate-700 dark:text-slate-300 font-bold">
+                                    <span class="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center text-white mr-3 text-xs">✓</span>
+                                    Access to TajNova Private Dev Ecosystem.
+                                </li>
+                                <li class="flex items-center text-slate-700 dark:text-slate-300 font-bold">
+                                    <span class="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center text-white mr-3 text-xs">✓</span>
+                                    Guaranteed Internship on completion.
+                                </li>
+                            </ul>
+                            <button class="bg-slate-900 dark:bg-white text-white dark:text-slate-900 px-10 py-5 rounded-2xl font-black text-xl hover:shadow-2xl transition-all">
+                                Apply to Academy 🚀
+                            </button>
                         </div>
-                    </div>
-                    <div class="lg:w-1/2 reveal">
-                        <div class="relative group">
-                            <div class="absolute -inset-4 bg-gradient-to-r from-primary to-accent rounded-[40px] blur opacity-20 group-hover:opacity-40 transition"></div>
-                            <div class="relative bg-slate-800 border border-slate-700 p-4 rounded-[40px] floating">
-                                <img src="assets/images/course-preview.png" alt="Course" class="rounded-[30px] w-full">
-                                <div class="absolute bottom-10 left-10 right-10 p-6 glass-effect rounded-2xl">
-                                    <div class="flex justify-between items-center italic font-black text-slate-900">
-                                        <span>Course Syllabus v2.1</span>
-                                        <span>Ready for Next.js 15</span>
-                                    </div>
+                        <div class="relative">
+                            <div class="aspect-square bg-slate-200 dark:bg-slate-800 rounded-[40px] overflow-hidden border-8 border-white dark:border-slate-700 shadow-2xl group">
+                                <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=1000" alt="Academy" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                                <div class="absolute inset-0 bg-gradient-to-t from-primary/60 to-transparent"></div>
+                                <div class="absolute bottom-10 left-10 text-white">
+                                    <div class="text-4xl font-black">100+</div>
+                                    <div class="font-bold opacity-80 uppercase text-xs tracking-widest">Active Students</div>
                                 </div>
                             </div>
                         </div>
@@ -212,206 +187,151 @@
             </div>
         </section>
 
-        <section id="blog" class="py-40 bg-white">
+        <section id="blog" class="py-32 bg-white dark:bg-darkBg transition-colors">
             <div class="container mx-auto px-6">
-                <div class="text-center mb-32 reveal">
-                    <h2 class="text-6xl font-black text-slate-900 mb-6">Technical Journals</h2>
-                    <p class="text-2xl text-slate-500">In-depth solutions for the modern engineering landscape.</p>
+                <div class="flex flex-col md:flex-row justify-between items-end mb-24 reveal">
+                    <div class="max-w-2xl">
+                        <h2 class="text-5xl md:text-7xl font-black text-slate-900 dark:text-white mb-6 tracking-tighter italic">LATEST <span class="text-primary">INSIGHTS.</span></h2>
+                        <p class="text-xl text-slate-500 dark:text-slate-400">Deep dives into architecture, security, and the future of development.</p>
+                    </div>
+                    <div class="mt-8 md:mt-0">
+                        <span class="text-sm font-black text-slate-400 uppercase tracking-widest">Showing 15/15 Articles</span>
+                    </div>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-16">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     
                     <div class="reveal group">
-                        <div class="h-full bg-slate-50 border border-slate-100 p-10 rounded-[48px] transition hover:shadow-2xl hover:bg-white">
-                            <div class="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center text-primary text-3xl mb-8 group-hover:scale-110 transition">📡</div>
-                            <h3 class="text-3xl font-black text-slate-900 mb-6 italic leading-tight">5 Common API Mistakes and How to Avoid Them</h3>
-                            <p class="text-slate-500 text-lg mb-8 leading-relaxed">
-                                APIs are the nerves of the internet. We explore why most developers fail at RESTful standards and how to build scalable endpoints that last for years.
-                            </p>
-                            <a href="_common_api_mistakes.html" class="inline-flex items-center font-black text-primary hover:gap-4 transition-all uppercase tracking-widest text-sm">
-                                Read Solution <span>→</span>
-                            </a>
+                        <div class="h-full bg-slate-50 dark:bg-darkCard border border-slate-100 dark:border-slate-800 p-10 rounded-[40px] transition hover:shadow-2xl hover:bg-white dark:hover:bg-slate-800">
+                            <div class="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center text-primary text-2xl mb-8 group-hover:rotate-12 transition">📝</div>
+                            <h3 class="text-2xl font-black text-slate-900 dark:text-white mb-6 leading-tight">Mastering Clean Code: The 2026 Standard</h3>
+                            <p class="text-slate-500 dark:text-slate-400 mb-8 leading-relaxed">How to write code that your future self won't hate. Deep dive into naming conventions and DRY principles.</p>
+                            <a href="#" class="text-primary font-black uppercase tracking-widest text-xs flex items-center">Read More <span class="ml-2 group-hover:ml-4 transition-all">→</span></a>
                         </div>
                     </div>
 
                     <div class="reveal group" style="transition-delay: 100ms;">
-                        <div class="h-full bg-slate-50 border border-slate-100 p-10 rounded-[48px] transition hover:shadow-2xl hover:bg-white">
-                            <div class="w-16 h-16 bg-secondary/10 rounded-2xl flex items-center justify-center text-secondary text-3xl mb-8 group-hover:scale-110 transition">⚡</div>
-                            <h3 class="text-3xl font-black text-slate-900 mb-6 italic leading-tight">Supercharge Your Website: Ultimate Speed Guide</h3>
-                            <p class="text-slate-500 text-lg mb-8 leading-relaxed">
-                                Speed is a feature, not an afterthought. Learn how to optimize Core Web Vitals, implement predictive pre-fetching, and master image compression at scale.
-                            </p>
-                            <a href="web_performance_part1.html" class="inline-flex items-center font-black text-secondary hover:gap-4 transition-all uppercase tracking-widest text-sm">
-                                View Guide <span>→</span>
-                            </a>
+                        <div class="h-full bg-slate-50 dark:bg-darkCard border border-slate-100 dark:border-slate-800 p-10 rounded-[40px] transition hover:shadow-2xl hover:bg-white dark:hover:bg-slate-800">
+                            <div class="w-14 h-14 bg-accent/10 rounded-2xl flex items-center justify-center text-accent text-2xl mb-8 group-hover:rotate-12 transition">⚡</div>
+                            <h3 class="text-2xl font-black text-slate-900 dark:text-white mb-6 leading-tight">Next.js 16: Zero-Bundle Size Components</h3>
+                            <p class="text-slate-500 dark:text-slate-400 mb-8 leading-relaxed">Exploring the new paradigm of server-only components and how they revolutionize SEO and performance.</p>
+                            <a href="#" class="text-accent font-black uppercase tracking-widest text-xs flex items-center">Read More <span class="ml-2 group-hover:ml-4 transition-all">→</span></a>
                         </div>
                     </div>
+
                     <div class="reveal group" style="transition-delay: 200ms;">
-                        <div class="h-full bg-slate-50 border border-slate-100 p-10 rounded-[48px] transition hover:shadow-2xl hover:bg-white">
-                            <div class="w-16 h-16 bg-blue-500/10 rounded-2xl flex items-center justify-center text-blue-500 text-3xl mb-8 group-hover:scale-110 transition">🔷</div>
-                            <h3 class="text-3xl font-black text-slate-900 mb-6 italic leading-tight">Why You Need TypeScript Now: A Deep Dive</h3>
-                            <p class="text-slate-500 text-lg mb-8 leading-relaxed">
-                                Moving beyond 'any'. Discover how advanced generics and utility types can eliminate 90% of your runtime errors before they even happen.
-                            </p>
-                            <a href="typescript_deepdive_full_en.html" class="inline-flex items-center font-black text-blue-500 hover:gap-4 transition-all uppercase tracking-widest text-sm">
-                                Full Article <span>→</span>
-                            </a>
+                        <div class="h-full bg-slate-50 dark:bg-darkCard border border-slate-100 dark:border-slate-800 p-10 rounded-[40px] transition hover:shadow-2xl hover:bg-white dark:hover:bg-slate-800">
+                            <div class="w-14 h-14 bg-secondary/10 rounded-2xl flex items-center justify-center text-secondary text-2xl mb-8 group-hover:rotate-12 transition">🤖</div>
+                            <h3 class="text-2xl font-black text-slate-900 dark:text-white mb-6 leading-tight">The AI-Powered Developer Workflow</h3>
+                            <p class="text-slate-500 dark:text-slate-400 mb-8 leading-relaxed">Leveraging LLMs for testing, documentation, and boilerplate. Don't be replaced, be enhanced.</p>
+                            <a href="#" class="text-secondary font-black uppercase tracking-widest text-xs flex items-center">Read More <span class="ml-2 group-hover:ml-4 transition-all">→</span></a>
                         </div>
                     </div>
 
                     <div class="reveal group">
-                        <div class="h-full bg-slate-50 border border-slate-100 p-10 rounded-[48px] transition hover:shadow-2xl hover:bg-white">
-                            <div class="w-16 h-16 bg-accent/10 rounded-2xl flex items-center justify-center text-accent text-3xl mb-8 group-hover:scale-110 transition">📡</div>
-                            <h3 class="text-3xl font-black text-slate-900 mb-6 italic leading-tight">The Digital Waiter: Understanding APIs</h3>
-                            <p class="text-slate-500 text-lg mb-8 leading-relaxed">
-                                A comprehensive guide for beginners and pros. Learn how APIs facilitate global data exchange and why they are the foundation of modern SaaS.
-                            </p>
-                            <a href="what-is-api.html" class="inline-flex items-center font-black text-accent hover:gap-4 transition-all uppercase tracking-widest text-sm">
-                                Explore <span>→</span>
-                            </a>
+                        <div class="h-full bg-slate-50 dark:bg-darkCard border border-slate-100 dark:border-slate-800 p-10 rounded-[40px] transition hover:shadow-2xl hover:bg-white dark:hover:bg-slate-800">
+                            <div class="w-14 h-14 bg-red-500/10 rounded-2xl flex items-center justify-center text-red-500 text-2xl mb-8 group-hover:rotate-12 transition">🛡️</div>
+                            <h3 class="text-2xl font-black text-slate-900 dark:text-white mb-6 leading-tight">Defending Against Zero-Day Attacks</h3>
+                            <p class="text-slate-500 dark:text-slate-400 mb-8 leading-relaxed">A guide to modern application security, CSP headers, and protecting user session data.</p>
+                            <a href="#" class="text-red-500 font-black uppercase tracking-widest text-xs flex items-center">Read More <span class="ml-2 group-hover:ml-4 transition-all">→</span></a>
+                        </div>
+                    </div>
+
+                    <div class="reveal group" style="transition-delay: 100ms;">
+                        <div class="h-full bg-slate-50 dark:bg-darkCard border border-slate-100 dark:border-slate-800 p-10 rounded-[40px] transition hover:shadow-2xl hover:bg-white dark:hover:bg-slate-800">
+                            <div class="w-14 h-14 bg-yellow-500/10 rounded-2xl flex items-center justify-center text-yellow-500 text-2xl mb-8 group-hover:rotate-12 transition">⛓️</div>
+                            <h3 class="text-2xl font-black text-slate-900 dark:text-white mb-6 leading-tight">Beyond the Hype: Web3 Use Cases</h3>
+                            <p class="text-slate-500 dark:text-slate-400 mb-8 leading-relaxed">Understanding decentralized storage and identity protocols in modern web architecture.</p>
+                            <a href="#" class="text-yellow-600 font-black uppercase tracking-widest text-xs flex items-center">Read More <span class="ml-2 group-hover:ml-4 transition-all">→</span></a>
+                        </div>
+                    </div>
+
+                    <div class="reveal group" style="transition-delay: 200ms;">
+                        <div class="h-full bg-slate-50 dark:bg-darkCard border border-slate-100 dark:border-slate-800 p-10 rounded-[40px] transition hover:shadow-2xl hover:bg-white dark:hover:bg-slate-800">
+                            <div class="w-14 h-14 bg-blue-500/10 rounded-2xl flex items-center justify-center text-blue-500 text-2xl mb-8 group-hover:rotate-12 transition">☁️</div>
+                            <h3 class="text-2xl font-black text-slate-900 dark:text-white mb-6 leading-tight">Scaling to Millions: Cloud Patterns</h3>
+                            <p class="text-slate-500 dark:text-slate-400 mb-8 leading-relaxed">Distributed systems, load balancing, and microservices orchestration with Kubernetes.</p>
+                            <a href="#" class="text-blue-500 font-black uppercase tracking-widest text-xs flex items-center">Read More <span class="ml-2 group-hover:ml-4 transition-all">→</span></a>
+                        </div>
+                    </div>
+                    <div class="reveal group">
+                        <div class="h-full bg-slate-50 dark:bg-darkCard border border-slate-100 dark:border-slate-800 p-10 rounded-[40px] transition hover:shadow-2xl hover:bg-white dark:hover:bg-slate-800">
+                            <div class="w-14 h-14 bg-orange-500/10 rounded-2xl flex items-center justify-center text-orange-500 text-2xl mb-8 group-hover:rotate-12 transition">📡</div>
+                            <h3 class="text-2xl font-black text-slate-900 dark:text-white mb-6 leading-tight">REST vs GraphQL vs gRPC</h3>
+                            <p class="text-slate-500 dark:text-slate-400 mb-8 leading-relaxed">Choosing the right communication protocol for your microservices architecture in 2026.</p>
+                            <a href="#" class="text-orange-500 font-black uppercase tracking-widest text-xs flex items-center">Read More <span class="ml-2 group-hover:ml-4 transition-all">→</span></a>
                         </div>
                     </div>
 
                     <div class="reveal group">
-                        <div class="h-full bg-slate-50 border border-slate-100 p-10 rounded-[48px] transition hover:shadow-2xl hover:bg-white">
-                            <div class="w-16 h-16 bg-green-500/10 rounded-2xl flex items-center justify-center text-green-500 text-3xl mb-8 group-hover:scale-110 transition">⏱️</div>
-                            <h3 class="text-3xl font-black text-slate-900 mb-6 italic leading-tight">5 Steps to Reduce Page Load Time</h3>
-                            <p class="text-slate-500 text-lg mb-8 leading-relaxed">
-                                Every millisecond costs money. Master image optimization, CDN edge caching, and critical CSS in-lining for instant loading.
-                            </p>
-                            <a href="reduce-page-load-time.html" class="inline-flex items-center font-black text-green-500 hover:gap-4 transition-all uppercase tracking-widest text-sm">
-                                Read Guide <span>→</span>
-                            </a>
+                        <div class="h-full bg-slate-50 dark:bg-darkCard border border-slate-100 dark:border-slate-800 p-10 rounded-[40px] transition hover:shadow-2xl hover:bg-white dark:hover:bg-slate-800">
+                            <div class="w-14 h-14 bg-indigo-500/10 rounded-2xl flex items-center justify-center text-indigo-500 text-2xl mb-8 group-hover:rotate-12 transition">📊</div>
+                            <h3 class="text-2xl font-black text-slate-900 dark:text-white mb-6 leading-tight">Advanced SQL Indexing Strategies</h3>
+                            <p class="text-slate-500 dark:text-slate-400 mb-8 leading-relaxed">Don't let your queries crawl. Learn how to optimize large scale PostgreSQL and MySQL databases.</p>
+                            <a href="#" class="text-indigo-500 font-black uppercase tracking-widest text-xs flex items-center">Read More <span class="ml-2 group-hover:ml-4 transition-all">→</span></a>
                         </div>
                     </div>
 
                     <div class="reveal group">
-                        <div class="h-full bg-slate-50 border border-slate-100 p-10 rounded-[48px] transition hover:shadow-2xl hover:bg-white">
-                            <div class="w-16 h-16 bg-red-500/10 rounded-2xl flex items-center justify-center text-red-500 text-3xl mb-8 group-hover:scale-110 transition">🛡️</div>
-                            <h3 class="text-3xl font-black text-slate-900 mb-6 italic leading-tight">Fortify Your Defenses: XSS & SQLi</h3>
-                            <p class="text-slate-500 text-lg mb-8 leading-relaxed">
-                                Cybersecurity is a priority. We break down the most common injection attacks and show you how to sanitize your inputs like a pro.
-                            </p>
-                            <a href="protect-website-security.html" class="inline-flex items-center font-black text-red-500 hover:gap-4 transition-all uppercase tracking-widest text-sm">
-                                Secure Now <span>→</span>
-                            </a>
+                        <div class="h-full bg-slate-50 dark:bg-darkCard border border-slate-100 dark:border-slate-800 p-10 rounded-[40px] transition hover:shadow-2xl hover:bg-white dark:hover:bg-slate-800">
+                            <div class="w-14 h-14 bg-cyan-500/10 rounded-2xl flex items-center justify-center text-cyan-500 text-2xl mb-8 group-hover:rotate-12 transition">🌍</div>
+                            <h3 class="text-2xl font-black text-slate-900 dark:text-white mb-6 leading-tight">The Power of Edge Functions</h3>
+                            <p class="text-slate-500 dark:text-slate-400 mb-8 leading-relaxed">Running logic at the edge of the network to provide sub-millisecond latency to users worldwide.</p>
+                            <a href="#" class="text-cyan-500 font-black uppercase tracking-widest text-xs flex items-center">Read More <span class="ml-2 group-hover:ml-4 transition-all">→</span></a>
                         </div>
                     </div>
 
                     <div class="reveal group">
-                        <div class="h-full bg-slate-50 border border-slate-100 p-10 rounded-[48px] transition hover:shadow-2xl hover:bg-white">
-                            <div class="w-16 h-16 bg-yellow-500/10 rounded-2xl flex items-center justify-center text-yellow-500 text-3xl mb-8 group-hover:scale-110 transition">🔍</div>
-                            <h3 class="text-3xl font-black text-slate-900 mb-6 italic leading-tight">Mastering Long-Tail Keywords</h3>
-                            <p class="text-slate-500 text-lg mb-8 leading-relaxed">
-                                SEO for developers. Stop fighting for "Head" terms and start ranking for intent-based searches that actually convert visitors into customers.
-                            </p>
-                            <a href="long-tail-keywords.html" class="inline-flex items-center font-black text-yellow-600 hover:gap-4 transition-all uppercase tracking-widest text-sm">
-                                SEO Secrets <span>→</span>
-                            </a>
+                        <div class="h-full bg-slate-50 dark:bg-darkCard border border-slate-100 dark:border-slate-800 p-10 rounded-[40px] transition hover:shadow-2xl hover:bg-white dark:hover:bg-slate-800">
+                            <div class="w-14 h-14 bg-blue-600/10 rounded-2xl flex items-center justify-center text-blue-600 text-2xl mb-8 group-hover:rotate-12 transition">🐳</div>
+                            <h3 class="text-2xl font-black text-slate-900 dark:text-white mb-6 leading-tight">Containerization Mastery with Docker</h3>
+                            <p class="text-slate-500 dark:text-slate-400 mb-8 leading-relaxed">Moving from "works on my machine" to "works everywhere" using efficient container patterns.</p>
+                            <a href="#" class="text-blue-600 font-black uppercase tracking-widest text-xs flex items-center">Read More <span class="ml-2 group-hover:ml-4 transition-all">→</span></a>
                         </div>
                     </div>
 
                     <div class="reveal group">
-                        <div class="h-full bg-slate-50 border border-slate-100 p-10 rounded-[48px] transition hover:shadow-2xl hover:bg-white">
-                            <div class="w-16 h-16 bg-pink-500/10 rounded-2xl flex items-center justify-center text-pink-500 text-3xl mb-8 group-hover:scale-110 transition">🎨</div>
-                            <h3 class="text-3xl font-black text-slate-900 mb-6 italic leading-tight">10 Principles for Professional UI</h3>
-                            <p class="text-slate-500 text-lg mb-8 leading-relaxed">
-                                Design systems, accessibility, and visual hierarchy. Learn how to create interfaces that are beautiful, functional, and user-centric.
-                            </p>
-                            <a href="professional-ui-design.html" class="inline-flex items-center font-black text-pink-500 hover:gap-4 transition-all uppercase tracking-widest text-sm">
-                                Learn Design <span>→</span>
-                            </a>
+                        <div class="h-full bg-slate-50 dark:bg-darkCard border border-slate-100 dark:border-slate-800 p-10 rounded-[40px] transition hover:shadow-2xl hover:bg-white dark:hover:bg-slate-800">
+                            <div class="w-14 h-14 bg-pink-500/10 rounded-2xl flex items-center justify-center text-pink-500 text-2xl mb-8 group-hover:rotate-12 transition">🎨</div>
+                            <h3 class="text-2xl font-black text-slate-900 dark:text-white mb-6 leading-tight">Visual Hierarchy in Web Design</h3>
+                            <p class="text-slate-500 dark:text-slate-400 mb-8 leading-relaxed">A developer's guide to creating layouts that guide the user's eye and increase conversion.</p>
+                            <a href="#" class="text-pink-500 font-black uppercase tracking-widest text-xs flex items-center">Read More <span class="ml-2 group-hover:ml-4 transition-all">→</span></a>
                         </div>
                     </div>
 
                     <div class="reveal group">
-                        <div class="h-full bg-slate-50 border border-slate-100 p-10 rounded-[48px] transition hover:shadow-2xl hover:bg-white">
-                            <div class="w-16 h-16 bg-indigo-500/10 rounded-2xl flex items-center justify-center text-indigo-500 text-3xl mb-8 group-hover:scale-110 transition">⚛️</div>
-                            <h3 class="text-3xl font-black text-slate-900 mb-6 italic leading-tight">React vs Vue vs Angular in 2026</h3>
-                            <p class="text-slate-500 text-lg mb-8 leading-relaxed">
-                                The ultimate backend showdown. We compare performance, ecosystem, and learning curves to help you pick the right tool for your next project.
-                            </p>
-                            <a href="js-framework-comparison.html" class="inline-flex items-center font-black text-indigo-500 hover:gap-4 transition-all uppercase tracking-widest text-sm">
-                                Compare <span>→</span>
-                            </a>
+                        <div class="h-full bg-slate-50 dark:bg-darkCard border border-slate-100 dark:border-slate-800 p-10 rounded-[40px] transition hover:shadow-2xl hover:bg-white dark:hover:bg-slate-800">
+                            <div class="w-14 h-14 bg-purple-500/10 rounded-2xl flex items-center justify-center text-purple-500 text-2xl mb-8 group-hover:rotate-12 transition">📉</div>
+                            <h3 class="text-2xl font-black text-slate-900 dark:text-white mb-6 leading-tight">Load Testing Under Extreme Pressure</h3>
+                            <p class="text-slate-500 dark:text-slate-400 mb-8 leading-relaxed">Using tools like K6 and JMeter to find the breaking point of your infrastructure.</p>
+                            <a href="#" class="text-purple-500 font-black uppercase tracking-widest text-xs flex items-center">Read More <span class="ml-2 group-hover:ml-4 transition-all">→</span></a>
                         </div>
                     </div>
 
                     <div class="reveal group">
-                        <div class="h-full bg-slate-50 border border-slate-100 p-10 rounded-[48px] transition hover:shadow-2xl hover:bg-white">
-                            <div class="w-16 h-16 bg-purple-500/10 rounded-2xl flex items-center justify-center text-purple-500 text-3xl mb-8 group-hover:scale-110 transition">📦</div>
-                            <h3 class="text-3xl font-black text-slate-900 mb-6 italic leading-tight">The Complete Monorepo Guide</h3>
-                            <p class="text-slate-500 text-lg mb-8 leading-relaxed">
-                                Tools like Turborepo and Nx are changing the game. Learn how to manage multiple packages in a single repository without the headache.
-                            </p>
-                            <a href="monorepo-complete-guide.html" class="inline-flex items-center font-black text-purple-500 hover:gap-4 transition-all uppercase tracking-widest text-sm">
-                                View Guide <span>→</span>
-                            </a>
+                        <div class="h-full bg-slate-50 dark:bg-darkCard border border-slate-100 dark:border-slate-800 p-10 rounded-[40px] transition hover:shadow-2xl hover:bg-white dark:hover:bg-slate-800">
+                            <div class="w-14 h-14 bg-blue-400/10 rounded-2xl flex items-center justify-center text-blue-400 text-2xl mb-8 group-hover:rotate-12 transition">🔷</div>
+                            <h3 class="text-2xl font-black text-slate-900 dark:text-white mb-6 leading-tight">Conditional Types in TypeScript</h3>
+                            <p class="text-slate-500 dark:text-slate-400 mb-8 leading-relaxed">Unlocking the full power of the type system to create highly dynamic and safe APIs.</p>
+                            <a href="#" class="text-blue-400 font-black uppercase tracking-widest text-xs flex items-center">Read More <span class="ml-2 group-hover:ml-4 transition-all">→</span></a>
                         </div>
                     </div>
 
                     <div class="reveal group">
-                        <div class="h-full bg-slate-50 border border-slate-100 p-10 rounded-[48px] transition hover:shadow-2xl hover:bg-white">
-                            <div class="w-16 h-16 bg-orange-500/10 rounded-2xl flex items-center justify-center text-orange-500 text-3xl mb-8 group-hover:scale-110 transition">🔐</div>
-                            <h3 class="text-3xl font-black text-slate-900 mb-6 italic leading-tight">Mastering OAuth 2.0 and OIDC</h3>
-                            <p class="text-slate-500 text-lg mb-8 leading-relaxed">
-                                Authentication vs Authorization. Deep dive into flows, tokens, and scopes to build secure identity layers for your applications.
-                            </p>
-                            <a href="oauth-oidc-security-guide.html" class="inline-flex items-center font-black text-orange-500 hover:gap-4 transition-all uppercase tracking-widest text-sm">
-                                Deep Dive <span>→</span>
-                            </a>
+                        <div class="h-full bg-slate-50 dark:bg-darkCard border border-slate-100 dark:border-slate-800 p-10 rounded-[40px] transition hover:shadow-2xl hover:bg-white dark:hover:bg-slate-800">
+                            <div class="w-14 h-14 bg-teal-500/10 rounded-2xl flex items-center justify-center text-teal-500 text-2xl mb-8 group-hover:rotate-12 transition">🔑</div>
+                            <h3 class="text-2xl font-black text-slate-900 dark:text-white mb-6 leading-tight">The Future of Identity: Passkeys</h3>
+                            <p class="text-slate-500 dark:text-slate-400 mb-8 leading-relaxed">Implementing passwordless authentication flows with Auth.js and WebAuthn standards.</p>
+                            <a href="#" class="text-teal-500 font-black uppercase tracking-widest text-xs flex items-center">Read More <span class="ml-2 group-hover:ml-4 transition-all">→</span></a>
                         </div>
                     </div>
 
                     <div class="reveal group">
-                        <div class="h-full bg-slate-50 border border-slate-100 p-10 rounded-[48px] transition hover:shadow-2xl hover:bg-white">
-                            <div class="w-16 h-16 bg-sky-500/10 rounded-2xl flex items-center justify-center text-sky-500 text-3xl mb-8 group-hover:scale-110 transition">☁️</div>
-                            <h3 class="text-3xl font-black text-slate-900 mb-6 italic leading-tight">VMs vs Containers vs Serverless</h3>
-                            <p class="text-slate-500 text-lg mb-8 leading-relaxed">
-                                Where should you deploy? We break down the infrastructure costs, scalability, and maintenance requirements for each compute model.
-                            </p>
-                            <a href="cloud-compute-comparison.html" class="inline-flex items-center font-black text-sky-500 hover:gap-4 transition-all uppercase tracking-widest text-sm">
-                                Infrastructure <span>→</span>
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="reveal group">
-                        <div class="h-full bg-slate-50 border border-slate-100 p-10 rounded-[48px] transition hover:shadow-2xl hover:bg-white">
-                            <div class="w-16 h-16 bg-red-600/10 rounded-2xl flex items-center justify-center text-red-600 text-3xl mb-8 group-hover:scale-110 transition">📊</div>
-                            <h3 class="text-3xl font-black text-slate-900 mb-6 italic leading-tight">Big Data: SQL vs NoSQL Guide</h3>
-                            <p class="text-slate-500 text-lg mb-8 leading-relaxed">
-                                ACID vs BASE. Choosing between relational data integrity and non-relational horizontal scaling. Real-world decision guide.
-                            </p>
-                            <a href="sql-vs-nosql-big-data-guide.html" class="inline-flex items-center font-black text-red-600 hover:gap-4 transition-all uppercase tracking-widest text-sm">
-                                Database Guide <span>→</span>
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="reveal group">
-                        <div class="h-full bg-slate-50 border border-slate-100 p-10 rounded-[48px] transition hover:shadow-2xl hover:bg-white">
-                            <div class="w-16 h-16 bg-orange-600/10 rounded-2xl flex items-center justify-center text-orange-600 text-3xl mb-8 group-hover:scale-110 transition">🦀</div>
-                            <h3 class="text-3xl font-black text-slate-900 mb-6 italic leading-tight">Backend Showdown: Rust vs Go</h3>
-                            <p class="text-slate-500 text-lg mb-8 leading-relaxed">
-                                Safety vs Simplicity. We compare performance, concurrency models, and developer experience in the world's most powerful backend languages.
-                            </p>
-                            <a href="rust-vs-go-ultimate-backend-guide.html" class="inline-flex items-center font-black text-orange-600 hover:gap-4 transition-all uppercase tracking-widest text-sm">
-                                Performance <span>→</span>
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="reveal group">
-                        <div class="h-full bg-slate-50 border border-slate-100 p-10 rounded-[48px] transition hover:shadow-2xl hover:bg-white">
-                            <div class="w-16 h-16 bg-cyan-500/10 rounded-2xl flex items-center justify-center text-cyan-500 text-3xl mb-8 group-hover:scale-110 transition">🌐</div>
-                            <h3 class="text-3xl font-black text-slate-900 mb-6 italic leading-tight">Advanced CDN & Edge Computing</h3>
-                            <p class="text-slate-500 text-lg mb-8 leading-relaxed">
-                                Move your logic closer to the user. Learn about edge functions, global state consistency, and advanced caching invalidation.
-                            </p>
-                            <a href="blockchain-non-financial-applications-guide.html" class="inline-flex items-center font-black text-cyan-500 hover:gap-4 transition-all uppercase tracking-widest text-sm">
-                                Edge Guide <span>→</span>
-                            </a>
+                        <div class="h-full bg-slate-50 dark:bg-darkCard border border-slate-100 dark:border-slate-800 p-10 rounded-[40px] transition hover:shadow-2xl hover:bg-white dark:hover:bg-slate-800">
+                            <div class="w-14 h-14 bg-slate-900/10 dark:bg-white/10 rounded-2xl flex items-center justify-center text-slate-900 dark:text-white text-2xl mb-8 group-hover:rotate-12 transition">📦</div>
+                            <h3 class="text-2xl font-black text-slate-900 dark:text-white mb-6 leading-tight">Managing Large Scale Monorepos</h3>
+                            <p class="text-slate-500 dark:text-slate-400 mb-8 leading-relaxed">Why companies are moving back to monorepos and how tools like Turborepo make it viable.</p>
+                            <a href="#" class="text-slate-900 dark:text-white font-black uppercase tracking-widest text-xs flex items-center">Read More <span class="ml-2 group-hover:ml-4 transition-all">→</span></a>
                         </div>
                     </div>
 
@@ -419,212 +339,128 @@
             </div>
         </section>
 
-        <section class="py-32 bg-slate-50">
-            <div class="container mx-auto px-6">
-                <div class="max-w-4xl mx-auto text-center mb-24 reveal">
-                    <h2 class="text-5xl font-black mb-8">Your Journey at TajNova</h2>
-                    <p class="text-xl text-slate-500">We follow a proven methodology to take you from a curious coder to a production-ready engineer.</p>
-                </div>
-                
-                <div class="space-y-12 max-w-5xl mx-auto">
-                    <div class="flex flex-col md:flex-row gap-10 items-center reveal">
-                        <div class="w-20 h-20 bg-primary text-white flex items-center justify-center text-3xl font-black rounded-3xl shrink-0">01</div>
-                        <div class="bg-white p-10 rounded-[40px] shadow-sm border border-slate-100 flex-1">
-                            <h4 class="text-2xl font-black mb-4">Foundations & Architecture</h4>
-                            <p class="text-slate-500">Master the basics of computer science, data structures, and the mental models required for advanced engineering.</p>
-                        </div>
+        <section class="py-32 bg-slate-50 dark:bg-slate-900">
+            <div class="container mx-auto px-6 max-w-4xl">
+                <h2 class="text-5xl font-black text-center mb-20 dark:text-white">Questions? We Have Answers.</h2>
+                <div class="space-y-6">
+                    <div class="bg-white dark:bg-darkCard p-8 rounded-3xl border border-slate-200 dark:border-slate-800 reveal">
+                        <h4 class="text-xl font-bold mb-4 dark:text-white italic">Is the Academy suitable for absolute beginners?</h4>
+                        <p class="text-slate-500 dark:text-slate-400 leading-relaxed">Yes, we have a "Foundations" module designed to take you from zero to hero, focusing on the fundamentals before hitting the complex stacks.</p>
                     </div>
-                    <div class="flex flex-col md:flex-row gap-10 items-center reveal" style="transition-delay: 200ms;">
-                        <div class="w-20 h-20 bg-secondary text-white flex items-center justify-center text-3xl font-black rounded-3xl shrink-0">02</div>
-                        <div class="bg-white p-10 rounded-[40px] shadow-sm border border-slate-100 flex-1">
-                            <h4 class="text-2xl font-black mb-4">Full-Stack Implementation</h4>
-                            <p class="text-slate-500">Deep dive into Next.js, TypeScript, and advanced database modeling. Build real-world apps with auth and payments.</p>
-                        </div>
-                    </div>
-                    <div class="flex flex-col md:flex-row gap-10 items-center reveal" style="transition-delay: 400ms;">
-                        <div class="w-20 h-20 bg-accent text-dark flex items-center justify-center text-3xl font-black rounded-3xl shrink-0">03</div>
-                        <div class="bg-white p-10 rounded-[40px] shadow-sm border border-slate-100 flex-1">
-                            <h4 class="text-2xl font-black mb-4">DevOps & Cloud Scaling</h4>
-                            <p class="text-slate-500">Learn Docker, Kubernetes, and CI/CD pipelines. Deploy your applications to a global infrastructure with zero downtime.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="faq" class="py-40 bg-white">
-            <div class="container mx-auto px-6">
-                <h2 class="text-5xl font-black text-center mb-24">Frequently Asked Questions</h2>
-                <div class="max-w-4xl mx-auto divide-y divide-slate-200">
-                    <div class="py-8 reveal">
-                        <h4 class="text-2xl font-bold mb-4">How long does it take to finish the Academy?</h4>
-                        <p class="text-slate-500">While it depends on your pace, most students complete our core tracks in 3 to 6 months of dedicated study.</p>
-                    </div>
-                    <div class="py-8 reveal">
-                        <h4 class="text-2xl font-bold mb-4">Do I need prior experience?</h4>
-                        <p class="text-slate-500">Basic knowledge of HTML/CSS is recommended, but our foundations module covers everything you need to start from scratch.</p>
-                    </div>
-                    <div class="py-8 reveal">
-                        <h4 class="text-2xl font-bold mb-4">Is there a certificate?</h4>
-                        <p class="text-slate-500">Yes, upon completion of the flagship project and passing the final review, you will receive a verifiable TajNova certificate.</p>
-                    </div>
-                    <div class="py-8 reveal">
-                        <h4 class="text-2xl font-bold mb-4">Can I access the tools for free?</h4>
-                        <p class="text-slate-500">Absolutely! Our 'Free Tools' section is open to all developers, regardless of their enrollment status in the Academy.</p>
+                    <div class="bg-white dark:bg-darkCard p-8 rounded-3xl border border-slate-200 dark:border-slate-800 reveal">
+                        <h4 class="text-xl font-bold mb-4 dark:text-white italic">Do I get lifetime access to the tools?</h4>
+                        <p class="text-slate-500 dark:text-slate-400 leading-relaxed">Absolutely. All TajNova free tools and journal archives are open forever. Your learning journey should never have an expiration date.</p>
                     </div>
                 </div>
             </div>
         </section>
     </main>
 
-    <footer class="bg-slate-900 text-white pt-32 pb-12">
-        <div class="container mx-auto px-6">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-16 mb-24">
-                <div class="lg:col-span-2">
-                    <div class="flex items-center space-x-4 mb-8">
-                        <img src="assets/images/logotagnova.png" class="h-12" alt="TajNova">
-                        <span class="text-4xl font-black italic tracking-tighter">TajNova.</span>
-                    </div>
-                    <p class="text-slate-400 text-xl max-w-sm leading-relaxed mb-10">
-                        Bridging the gap between theory and world-class engineering. Join the elite.
-                    </p>
-                    <div class="flex space-x-6">
-                        <a href="#" class="text-2xl hover:text-primary transition">𝕏</a>
-                        <a href="#" class="text-2xl hover:text-primary transition">Linkedln</a>
-                        <a href="#" class="text-2xl hover:text-primary transition">Github</a>
-                    </div>
-                </div>
-                <div>
-                    <h5 class="text-lg font-black uppercase tracking-widest mb-8 text-primary">Academy</h5>
-                    <ul class="space-y-4 text-slate-400 font-bold">
-                        <li><a href="#" class="hover:text-white transition">Full-Stack Track</a></li>
-                        <li><a href="#" class="hover:text-white transition">Mobile Dev</a></li>
-                        <li><a href="#" class="hover:text-white transition">Cloud Engineering</a></li>
-                        <li><a href="#" class="hover:text-white transition">Syllabus</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h5 class="text-lg font-black uppercase tracking-widest mb-8 text-secondary">Company</h5>
-                    <ul class="space-y-4 text-slate-400 font-bold">
-                        <li><button onclick="openModal('about')" class="hover:text-white">About Us</button></li>
-                        <li><button onclick="openModal('contact')" class="hover:text-white">Contact</button></li>
-                        <li><a href="#" class="hover:text-white">Careers</a></li>
-                        <li><a href="#" class="hover:text-white">Success Stories</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h5 class="text-lg font-black uppercase tracking-widest mb-8 text-accent">Legal</h5>
-                    <ul class="space-y-4 text-slate-400 font-bold">
-                        <li><button onclick="openModal('privacy')" class="hover:text-white">Privacy Policy</button></li>
-                        <li><a href="#" class="hover:text-white">Terms of Use</a></li>
-                        <li><a href="#" class="hover:text-white">Refund Policy</a></li>
-                        <li><a href="#" class="hover:text-white">Cookie Settings</a></li>
-                    </ul>
-                </div>
+    <footer class="bg-slate-900 text-white py-24">
+        <div class="container mx-auto px-6 text-center">
+            <div class="flex flex-col items-center mb-16">
+                <img src="assets/images/logotagnova.png" class="h-20 mb-6" alt="Footer Logo">
+                <h3 class="text-4xl font-black tracking-tighter mb-4 italic">TAJNOVA ACADEMY</h3>
+                <p class="text-slate-400 max-w-md">The premier resource for professional software engineers in the Middle East.</p>
             </div>
-            <div class="border-t border-white/10 pt-12 flex flex-col md:flex-row justify-between items-center text-slate-500 text-sm font-bold">
-                <p>© 2026 TAJNOVA ECOSYSTEM. ALL RIGHTS RESERVED.</p>
-                <div class="flex space-x-8 mt-6 md:mt-0">
-                    <span>STATUS: ALL SYSTEMS NOMINAL</span>
-                    <span>v4.0.2</span>
-                </div>
+            <div class="flex justify-center space-x-12 mb-16 text-sm font-black uppercase tracking-widest">
+                <a href="#" class="hover:text-primary transition">Privacy</a>
+                <a href="#" class="hover:text-primary transition">Terms</a>
+                <a href="#" class="hover:text-primary transition">Contact</a>
             </div>
+            <p class="text-slate-600 text-xs">© 2026 TajNova Ecosystem. All Rights Reserved.</p>
         </div>
     </footer>
 
-    <div id="modal-container" class="fixed inset-0 bg-slate-950/90 backdrop-blur-xl hidden z-[3000] p-6 items-center justify-center">
-        <div id="modal-box" class="bg-white w-full max-w-4xl rounded-[50px] overflow-hidden shadow-2xl transform scale-90 opacity-0 transition-all duration-500">
-            <div class="relative flex flex-col md:flex-row">
-                <div class="md:w-1/3 bg-primary p-12 text-white flex flex-col justify-center">
-                    <div class="text-6xl mb-6">✨</div>
-                    <h3 id="modal-title" class="text-4xl font-black leading-tight tracking-tighter italic">TITLE</h3>
-                </div>
-                <div class="md:w-2/3 p-12 relative bg-white">
-                    <button id="close-modal" class="absolute top-8 right-8 text-5xl text-slate-300 hover:text-slate-900 transition">&times;</button>
-                    <div id="modal-content" class="text-xl text-slate-600 leading-relaxed pr-4">
-                        </div>
-                </div>
-            </div>
+    <div id="modal-overlay" class="fixed inset-0 bg-slate-950/90 backdrop-blur-md hidden z-[5000] p-4 flex items-center justify-center">
+        <div id="login-modal" class="bg-white dark:bg-darkCard w-full max-w-md rounded-[40px] p-12 relative transform scale-95 opacity-0 transition-all duration-500 hidden">
+            <button onclick="closeAllModals()" class="absolute top-8 right-8 text-3xl dark:text-white">×</button>
+            <h3 class="text-4xl font-black mb-8 dark:text-white italic">Login to Portal</h3>
+            <form class="space-y-6">
+                <input type="email" placeholder="Email Address" class="w-full p-4 rounded-xl bg-slate-100 dark:bg-slate-800 dark:text-white border-0 focus:ring-2 ring-primary">
+                <input type="password" placeholder="Password" class="w-full p-4 rounded-xl bg-slate-100 dark:bg-slate-800 dark:text-white border-0 focus:ring-2 ring-primary">
+                <button class="w-full bg-primary py-4 rounded-xl font-black text-white text-xl shadow-lg shadow-primary/30">Enter Workspace</button>
+            </form>
+        </div>
+        
+        <div id="info-modal" class="bg-white dark:bg-darkCard w-full max-w-2xl rounded-[40px] p-12 relative transform scale-95 opacity-0 transition-all duration-500 hidden">
+            <button onclick="closeAllModals()" class="absolute top-8 right-8 text-3xl dark:text-white">×</button>
+            <h3 id="info-title" class="text-4xl font-black mb-8 dark:text-white italic">Information</h3>
+            <div id="info-body" class="text-slate-500 dark:text-slate-400 leading-relaxed text-xl"></div>
         </div>
     </div>
 
     <script>
-        // Header Scroll Effect
-        const header = document.getElementById('main-header');
-        window.onscroll = () => {
-            if (window.scrollY > 50) {
-                header.classList.add('py-2', 'bg-white/95', 'shadow-2xl');
-                header.classList.remove('mt-2');
-            } else {
-                header.classList.remove('py-2', 'bg-white/95', 'shadow-2xl');
-                header.classList.add('mt-2');
-            }
-        };
+        // --- Dark Mode Controller ---
+        const themeToggle = document.getElementById('theme-toggle');
+        const darkIcon = document.getElementById('theme-toggle-icon-dark');
+        const lightIcon = document.getElementById('theme-toggle-icon-light');
 
-        // Advanced Intersection Observer for Animations
-        const observerOptions = { threshold: 0.15 };
-        const revealObserver = new IntersectionObserver((entries) => {
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+            darkIcon.classList.remove('hidden');
+            lightIcon.classList.add('hidden');
+        }
+
+        themeToggle.addEventListener('click', () => {
+            document.documentElement.classList.toggle('dark');
+            if (document.documentElement.classList.contains('dark')) {
+                localStorage.theme = 'dark';
+                darkIcon.classList.remove('hidden');
+                lightIcon.classList.add('hidden');
+            } else {
+                localStorage.theme = 'light';
+                darkIcon.classList.add('hidden');
+                lightIcon.classList.remove('hidden');
+            }
+        });
+
+        // --- Intersection Observer for Reveal Animation ---
+        const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('active');
-                    // Optional: Unobserve if you want it only once
-                    // revealObserver.unobserve(entry.target);
                 }
             });
-        }, observerOptions);
+        }, { threshold: 0.1 });
 
-        document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-        // Modal Database
-        const modalContents = {
-            'about': { title: 'OUR STORY', content: '<p class="mb-6 font-bold text-slate-900 text-2xl uppercase tracking-tighter">Forging the next generation of engineers.</p><p class="mb-4">TajNova was founded in 2024 with a singular mission: to provide world-class, production-grade technical education for developers who want more than just tutorials.</p><p>We focus on architecture, security, and scalability. Our students are now working at some of the world\'s most innovative tech companies.</p>' },
-            'privacy': { title: 'DATA PRIVACY', content: '<p class="mb-4 font-bold text-slate-900">Your security is our absolute priority.</p><p>We utilize AES-256 encryption for all user data. We do not sell your information to third parties. Our systems are GDPR and CCPA compliant, ensuring you have full control over your digital footprint.</p>' },
-            'contact': { title: 'GET IN TOUCH', content: '<p class="mb-4">Need technical support or have a partnership inquiry?</p><div class="space-y-4 font-black text-primary uppercase tracking-widest text-sm"><div>EMAIL: engineering@tajnova.com</div><div>DISCORD: TajNova Community</div><div>LOCATION: Tech Hub, Dubai, UAE</div></div>' }
-        };
-
-        const modalCont = document.getElementById('modal-container');
-        const modalBox = document.getElementById('modal-box');
-        const modalTitle = document.getElementById('modal-title');
-        const modalContent = document.getElementById('modal-content');
+        // --- Modal Engine ---
+        const overlay = document.getElementById('modal-overlay');
+        const loginModal = document.getElementById('login-modal');
+        const infoModal = document.getElementById('info-modal');
 
         function openModal(type) {
-            const data = modalContents[type];
-            modalTitle.innerText = data.title;
-            modalContent.innerHTML = data.content;
-            modalCont.classList.replace('hidden', 'flex');
-            setTimeout(() => {
-                modalBox.classList.remove('scale-90', 'opacity-0');
-                modalBox.classList.add('scale-100', 'opacity-100');
-            }, 10);
+            overlay.classList.remove('hidden');
+            if (type === 'login') {
+                loginModal.classList.remove('hidden');
+                setTimeout(() => { loginModal.classList.add('scale-100', 'opacity-100'); }, 10);
+            } else {
+                infoModal.classList.remove('hidden');
+                document.getElementById('info-title').innerText = "About TajNova";
+                document.getElementById('info-body').innerHTML = "Founded in 2024, TajNova is dedicated to bridging the gap between theoretical knowledge and practical application in the Arab software engineering world.";
+                setTimeout(() => { infoModal.classList.add('scale-100', 'opacity-100'); }, 10);
+            }
         }
 
-        document.getElementById('close-modal').onclick = () => {
-            modalBox.classList.replace('scale-100', 'opacity-100', 'scale-90', 'opacity-0');
-            setTimeout(() => modalCont.classList.replace('flex', 'hidden'), 500);
-        };
+        function closeAllModals() {
+            loginModal.classList.remove('scale-100', 'opacity-100');
+            infoModal.classList.remove('scale-100', 'opacity-100');
+            setTimeout(() => {
+                overlay.classList.add('hidden');
+                loginModal.classList.add('hidden');
+                infoModal.classList.add('hidden');
+            }, 500);
+        }
 
-        // Mobile Menu Logic
-        const mbBtn = document.getElementById('mobile-menu-btn');
-        mbBtn.onclick = () => {
-            alert('TajNova Academy: Navigation expanding for mobile device...');
-            // In a real app, you'd toggle a side drawer here
-        };
+        // --- Mobile Menu Drawer ---
+        const drawerTrigger = document.getElementById('mobile-menu-trigger');
+        const drawer = document.getElementById('mobile-drawer');
+        const closeDrawer = document.getElementById('close-drawer');
 
-        // Smooth Link Navigation for the whole 1000 lines
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
-            });
-        });
-
-        // About trigger listener
-        document.getElementById('about-trigger').addEventListener('click', (e) => {
-            e.preventDefault();
-            openModal('about');
-        });
+        drawerTrigger.onclick = () => drawer.classList.remove('hidden');
+        closeDrawer.onclick = () => drawer.classList.add('hidden');
     </script>
 </body>
 </html>
