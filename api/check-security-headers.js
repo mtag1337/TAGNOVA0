@@ -13,20 +13,12 @@ module.exports = async (req, res) => {
     try {
         const response = await axios.get(url, {
             headers: { 
-                // تم تحديثه ليبدو كمتصفح Chrome حقيقي 100%
                 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-                'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8',
-                'Accept-Language': 'en-US,en;q=0.5'
+                'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8'
             },
-            timeout: 10000,
-            validateStatus: false // مهم جداً: لكي لا ينهار السيرفر إذا كانت الصفحة محمية
+            timeout: 8000,
+            validateStatus: () => true // لا تجعل الطلب يفشل حتى لو كانت الحالة 403 أو 404
         });
-
-        // إذا كانت الاستجابة HTML رغم أننا نتوقع بيانات، فهذا يعني حجب
-        if (typeof response.data === 'string' && response.data.includes('<html')) {
-             // سنحاول استخراج الرؤوس حتى لو كانت الصفحة محجوبة (لأن الرؤوس تسبق المحتوى)
-             // ولكننا سنبلغ المستخدم أن هناك حماية
-        }
 
         const respHeaders = response.headers;
         const securityChecks = [
@@ -46,7 +38,7 @@ module.exports = async (req, res) => {
                 name: check.name,
                 status: value ? 'Present (Good)' : 'Missing (At Risk)',
                 value: value || 'مفقود',
-                recommendation: value ? 'سليم' : check.rec
+                recommendation: value ? 'الإعداد سليم.' : check.rec
             };
         });
 
@@ -59,11 +51,10 @@ module.exports = async (req, res) => {
         });
 
     } catch (error) {
-        // نضمن دائماً إرسال JSON حتى في حالة الفشل التام
         return res.status(200).json({ 
             status: 'error', 
             error: 'تعذر الاتصال', 
-            details: 'الموقع المستهدف يمنع أدوات الفحص التلقائي.' 
+            details: 'الموقع المستهدف يرفض الاتصال الآلي حالياً.' 
         });
     }
 };
