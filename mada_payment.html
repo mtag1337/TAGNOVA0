@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1262927411271648"
+     crossorigin="anonymous"></script>
+    <title>إتمام الدفع الآمن | بطاقة مدى Mada | TajNova</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --color-primary: #8b5cf6; /* بنفسجي */
+            --color-success: #10b981; /* أخضر */
+            --color-mada: #008945; /* أخضر مدى */
+        }
+        .text-primary { color: var(--color-primary); }
+        .bg-primary { background-color: var(--color-primary); }
+        body { direction: rtl; background-color: #f8fafc; }
+        .input-focus:focus {
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.5);
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body class="text-slate-700 min-h-screen flex flex-col justify-center items-center py-10">
+
+    <header class="mb-10 text-center">
+        <a href="index.html" class="flex items-center justify-center">
+            <span class="text-3xl font-extrabold text-primary">TajNova Mada Secure Payment</span>
+        </a>
+    </header>
+
+    <main class="w-full max-w-4xl px-4 grid grid-cols-1 lg:grid-cols-3 gap-8">
+        
+        <div class="lg:col-span-2 bg-white p-8 rounded-xl shadow-2xl border-t-4 border-color-mada">
+            
+            <h1 class="text-3xl font-extrabold mb-6 text-slate-800 flex items-center">
+                <i class="fas fa-credit-card text-color-mada ml-3"></i> بيانات الدفع الآمنة ببطاقة **مدى**
+            </h1>
+            
+            <div class="p-4 mb-6 bg-green-50 border-r-4 border-success text-slate-800">
+                <p class="font-bold"><i class="fas fa-lock text-success ml-2"></i> هذا الدفع آمن ومشفّر 100%.</p>
+                <div class="mt-2 flex items-center">
+                    <span class="text-sm font-semibold ml-2">طريقة الدفع:</span>
+                    <span class="text-3xl font-black text-color-mada border-b-4 border-color-mada" title="Mada">MADA</span>
+                </div>
+            </div>
+
+            <div class="flex border-b border-gray-200 mb-6">
+                <button class="py-3 px-6 font-bold text-color-mada border-b-2 border-color-mada transition duration-200 flex items-center">
+                    <i class="fas fa-credit-card ml-2"></i> بطاقة مدى (Mada)
+                </button>
+                <a href="checkout.html" class="py-3 px-6 font-semibold text-gray-500 hover:text-primary transition duration-200 flex items-center">
+                    <i class="fas fa-wallet ml-2"></i> طرق دفع أخرى
+                </a>
+            </div>
+
+            <form action="payment_success.html" method="POST" class="space-y-6">
+
+                <label class="block">
+                    <span class="text-slate-700 font-semibold mb-2 block">رقم بطاقة مدى</span>
+                    <input type="text" name="card_number" placeholder="XXXX XXXX XXXX XXXX" required class="w-full p-4 border border-gray-300 rounded-lg input-focus text-left ltr" maxlength="16" inputmode="numeric">
+                </label>
+
+                <label class="block">
+                    <span class="text-slate-700 font-semibold mb-2 block">الاسم على البطاقة</span>
+                    <input type="text" name="card_holder_name" required placeholder="الاسم كما هو مكتوب على البطاقة" class="w-full p-4 border border-gray-300 rounded-lg input-focus text-right">
+                </label>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <label class="block">
+                        <span class="text-slate-700 font-semibold mb-2 block">تاريخ الانتهاء (الشهر/السنة)</span>
+                        <input type="text" name="expiry_date" required placeholder="MM / YY" class="w-full p-4 border border-gray-300 rounded-lg input-focus text-left ltr" maxlength="5">
+                    </label>
+
+                    <label class="block">
+                        <span class="text-slate-700 font-semibold mb-2 block flex justify-between items-center">
+                            رمز الأمان (CVC/CVV)
+                        </span>
+                        <input type="text" name="cvc" required placeholder="XXX" class="w-full p-4 border border-gray-300 rounded-lg input-focus text-left ltr" maxlength="4" inputmode="numeric">
+                    </label>
+                </div>
+                
+                <label class="block">
+                    <span class="text-slate-700 font-semibold mb-2 block">البريد الإلكتروني للإيصال</span>
+                    <input type="email" name="email" required placeholder="أدخل بريدك الإلكتروني" class="w-full p-4 border border-gray-300 rounded-lg input-focus text-right">
+                </label>
+
+                <button type="submit" class="w-full bg-success text-white text-2xl font-extrabold px-12 py-4 rounded-xl hover:bg-emerald-600 transition duration-300 shadow-xl mt-8">
+                    <i class="fas fa-dollar-sign ml-2"></i> تأكيد الدفع - $8.00
+                </button>
+            </form>
+
+        </div>
+
+        <div class="lg:col-span-1 bg-white p-6 rounded-xl shadow-lg border-t-4 border-success h-fit">
+            <h2 class="text-2xl font-bold mb-4 text-slate-800 border-b pb-3">ملخص الطلب</h2>
+            
+            <div class="space-y-3 mb-6 text-lg">
+                <div class="flex justify-between items-start border-b pb-3">
+                    <span class="font-semibold text-primary">كورس: أمان السرعة (Next.js 14)</span>
+                    <span>$49.99</span>
+                </div>
+                <div class="flex justify-between text-red-600 font-semibold">
+                    <span>الخصم المطبق</span>
+                    <span>-$41.99</span>
+                </div>
+                <div class="flex justify-between border-t pt-3 font-bold text-slate-900 text-2xl">
+                    <span>الإجمالي النهائي</span>
+                    <span class="text-success">$8.00</span>
+                </div>
+            </div>
+
+            <div class="p-4 mt-6 bg-yellow-50 rounded-lg border border-yellow-300 text-center">
+                <i class="fas fa-star text-yellow-600 text-xl ml-2"></i>
+                <p class="font-bold text-gray-700 mt-2">ضمان استرداد الأموال لمدة 30 يوماً</p>
+                <p class="text-sm text-gray-600">تسوق بثقة تامة.</p>
+            </div>
+            
+        </div>
+
+    </main>
+    
+    <footer class="mt-10 text-center text-sm text-gray-500">
+        &copy; 2025 TajNova. جميع الحقوق محفوظة.
+    </footer>
+
+</body>
+</html>

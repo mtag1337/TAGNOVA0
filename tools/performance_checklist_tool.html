@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1262927411271648"
+     crossorigin="anonymous"></script>
+    <title>Core Web Vitals Readiness Checklist | TajNova Free Tool</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --color-primary: #3b82f6; /* Blue */
+            --color-success: #10b981; /* Green */
+        }
+        body { background-color: #f8fafc; }
+        .checklist-item {
+            transition: all 0.2s ease-in-out;
+            cursor: pointer;
+        }
+        .checklist-item.done {
+            background-color: #ecfdf5; /* Light Green */
+            border-left: 4px solid var(--color-success);
+            opacity: 0.8;
+        }
+        .checklist-item:hover {
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.06);
+        }
+        /* Custom styles for progress bar */
+        .progress-bar-fill {
+            transition: width 0.5s ease-in-out;
+            background-color: var(--color-success);
+        }
+    </style>
+</head>
+<body class="text-slate-800">
+
+    <header class="bg-white shadow-lg">
+        <div class="max-w-4xl mx-auto p-6 flex justify-between items-center">
+            <h1 class="text-3xl font-extrabold text-primary">
+                <i class="fas fa-list-check mr-2"></i> Core Web Vitals Readiness Checklist
+            </h1>
+            <span class="text-sm text-slate-500">TajNova Free Tool</span>
+        </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto py-10 px-4 sm:px-6 lg:px-8">
+        
+        <p class="mb-8 text-lg text-slate-600">
+            استخدم هذه القائمة السريعة لتقييم مدى جاهزية موقعك لمعايير الأداء الأساسية (Core Web Vitals). اضغط على أي مهمة لتحديدها كـ **مُنجزة**.
+        </p>
+
+        <section class="bg-white p-6 rounded-xl shadow-2xl mb-10 border-t-4 border-primary">
+            <h2 class="text-xl font-bold mb-4 flex items-center text-slate-700">
+                <i class="fas fa-chart-bar mr-2 text-primary"></i> ملخص التقدم
+            </h2>
+            
+            <div class="flex justify-between items-center mb-2">
+                <span id="progress-text" class="text-lg font-semibold text-success">0/10 مهام مُنجزة</span>
+                <span id="progress-percentage" class="text-2xl font-extrabold text-primary">0%</span>
+            </div>
+
+            <div class="w-full bg-gray-200 rounded-full h-3">
+                <div id="progress-bar" class="progress-bar-fill h-3 rounded-full" style="width: 0%"></div>
+            </div>
+        </section>
+
+        <section id="checklist">
+            <h2 class="text-2xl font-bold mb-4 text-slate-700 border-b pb-2">فئات التحسين الرئيسية</h2>
+
+            <h3 class="text-xl font-semibold mt-6 mb-3 text-primary">
+                <i class="fas fa-stopwatch mr-2"></i> Largest Contentful Paint (LCP)
+            </h3>
+            <div class="space-y-4">
+                <div class="checklist-item bg-white p-5 rounded-lg shadow-md flex items-center justify-between" data-task-id="t1">
+                    <span class="font-medium">1. تحديد وتحسين الصورة/العنصر الأكبر (LCP Element)</span>
+                    <i class="status-icon text-gray-400 fas fa-circle"></i>
+                </div>
+                <div class="checklist-item bg-white p-5 rounded-lg shadow-md flex items-center justify-between" data-task-id="t2">
+                    <span class="font-medium">2. تقليل زمن استجابة الخادم (TTFB) إلى أقل من 600 مللي ثانية</span>
+                    <i class="status-icon text-gray-400 fas fa-circle"></i>
+                </div>
+            </div>
+            
+            <h3 class="text-xl font-semibold mt-6 mb-3 text-primary">
+                <i class="fas fa-ruler-combined mr-2"></i> Cumulative Layout Shift (CLS)
+            </h3>
+            <div class="space-y-4">
+                <div class="checklist-item bg-white p-5 rounded-lg shadow-md flex items-center justify-between" data-task-id="t3">
+                    <span class="font-medium">3. تحديد أبعاد (width/height) جميع الصور والفيديوهات في HTML</span>
+                    <i class="status-icon text-gray-400 fas fa-circle"></i>
+                </div>
+                <div class="checklist-item bg-white p-5 rounded-lg shadow-md flex items-center justify-between" data-task-id="t4">
+                    <span class="font-medium">4. تجنب إدخال محتوى فوقي (Above-the-fold) بشكل ديناميكي (مثل الإعلانات)</span>
+                    <i class="status-icon text-gray-400 fas fa-circle"></i>
+                </div>
+            </div>
+
+            <h3 class="text-xl font-semibold mt-6 mb-3 text-primary">
+                <i class="fas fa-hand-pointer mr-2"></i> First Input Delay (FID) / INP
+            </h3>
+            <div class="space-y-4">
+                <div class="checklist-item bg-white p-5 rounded-lg shadow-md flex items-center justify-between" data-task-id="t5">
+                    <span class="font-medium">5. تقليل حجم ملفات JavaScript وإزالة الأكواد غير المستخدمة (Tree-shaking)</span>
+                    <i class="status-icon text-gray-400 fas fa-circle"></i>
+                </div>
+                <div class="checklist-item bg-white p-5 rounded-lg shadow-md flex items-center justify-between" data-task-id="t6">
+                    <span class="font-medium">6. تقسيم الكود (Code Splitting) وتحميل المكونات عند الطلب (Lazy Loading)</span>
+                    <i class="status-icon text-gray-400 fas fa-circle"></i>
+                </div>
+            </div>
+
+            <h3 class="text-xl font-semibold mt-6 mb-3 text-primary">
+                <i class="fas fa-rocket mr-2"></i> تحسينات عامة وأساسية
+            </h3>
+            <div class="space-y-4">
+                <div class="checklist-item bg-white p-5 rounded-lg shadow-md flex items-center justify-between" data-task-id="t7">
+                    <span class="font-medium">7. تفعيل ضغط ملفات الخادم (Gzip أو Brotli)</span>
+                    <i class="status-icon text-gray-400 fas fa-circle"></i>
+                </div>
+                <div class="checklist-item bg-white p-5 rounded-lg shadow-md flex items-center justify-between" data-task-id="t8">
+                    <span class="font-medium">8. تصغير ملفات CSS و JavaScript (Minification)</span>
+                    <i class="status-icon text-gray-400 fas fa-circle"></i>
+                </div>
+                <div class="checklist-item bg-white p-5 rounded-lg shadow-md flex items-center justify-between" data-task-id="t9">
+                    <span class="font-medium">9. استخدام صيغ صور حديثة (WebP/AVIF) وتحميل متأخر (Lazy Load)</span>
+                    <i class="status-icon text-gray-400 fas fa-circle"></i>
+                </div>
+                <div class="checklist-item bg-white p-5 rounded-lg shadow-md flex items-center justify-between" data-task-id="t10">
+                    <span class="font-medium">10. استخدام شبكة توصيل المحتوى (CDN) لخدمة الأصول الثابتة</span>
+                    <i class="status-icon text-gray-400 fas fa-circle"></i>
+                </div>
+            </div>
+
+        </section>
+        
+    </main>
+
+    <footer class="mt-10 p-6 text-center text-slate-500 border-t">
+        <p>مُقدمة بواسطة تاج نوفا - مجانية للمطورين.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const checklistContainer = document.getElementById('checklist');
+            const progressBar = document.getElementById('progress-bar');
+            const progressText = document.getElementById('progress-text');
+            const progressPercentage = document.getElementById('progress-percentage');
+            const allTasks = checklistContainer.querySelectorAll('.checklist-item');
+            const totalTasks = allTasks.length;
+
+            // Load saved state from localStorage
+            let taskStatus = JSON.parse(localStorage.getItem('performanceChecklist')) || {};
+
+            // Function to save state
+            const saveState = () => {
+                localStorage.setItem('performanceChecklist', JSON.stringify(taskStatus));
+            };
+
+            // Function to update progress bar and summary
+            const updateProgress = () => {
+                const completedTasks = Object.values(taskStatus).filter(status => status === 'done').length;
+                const percentage = totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0;
+                
+                progressBar.style.width = `${percentage}%`;
+                progressText.textContent = `${completedTasks}/${totalTasks} مهام مُنجزة`;
+                progressPercentage.textContent = `${percentage}%`;
+
+                // Optionally change text color based on progress
+                if (percentage === 100) {
+                    progressText.classList.add('text-primary');
+                    progressText.classList.remove('text-success');
+                } else {
+                    progressText.classList.add('text-success');
+                    progressText.classList.remove('text-primary');
+                }
+            };
+
+            // Initialize checklist items based on saved state
+            allTasks.forEach(item => {
+                const taskId = item.getAttribute('data-task-id');
+                const statusIcon = item.querySelector('.status-icon');
+
+                if (taskStatus[taskId] === 'done') {
+                    item.classList.add('done');
+                    statusIcon.classList.remove('fa-circle', 'text-gray-400');
+                    statusIcon.classList.add('fa-circle-check', 'text-success');
+                } else {
+                    // Initialize or reset status to 'pending'
+                    taskStatus[taskId] = 'pending';
+                    statusIcon.classList.add('fa-circle', 'text-gray-400');
+                    statusIcon.classList.remove('fa-circle-check', 'text-success');
+                }
+
+                // Add click listener
+                item.addEventListener('click', () => {
+                    if (taskStatus[taskId] === 'done') {
+                        // Mark as pending
+                        taskStatus[taskId] = 'pending';
+                        item.classList.remove('done');
+                        statusIcon.classList.remove('fa-circle-check', 'text-success');
+                        statusIcon.classList.add('fa-circle', 'text-gray-400');
+                    } else {
+                        // Mark as done
+                        taskStatus[taskId] = 'done';
+                        item.classList.add('done');
+                        statusIcon.classList.remove('fa-circle', 'text-gray-400');
+                        statusIcon.classList.add('fa-circle-check', 'text-success');
+                    }
+                    saveState();
+                    updateProgress();
+                });
+            });
+
+            // Initial progress update
+            updateProgress();
+            
+            // Initial save to ensure all tasks are logged if no previous state exists
+            saveState();
+        });
+    </script>
+
+</body>
+</html>

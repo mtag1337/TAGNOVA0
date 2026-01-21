@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1262927411271648"
+     crossorigin="anonymous"></script>
+    <title>مُحسن الصور (Image Optimizer) | TajNova Tool</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root { --color-primary: #3b82f6; /* Blue */ }
+        .loading-animation {
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            width: 1.25rem;
+            height: 1.25rem;
+            animation: spinner 1s linear infinite;
+        }
+        @keyframes spinner { to { transform: rotate(360deg); } }
+        .progress-bar { transition: width 0.3s ease; }
+    </style>
+</head>
+<body class="bg-gray-100 text-slate-800">
+
+    <header class="bg-white shadow-lg">
+        <div class="max-w-4xl mx-auto p-6 flex justify-between items-center">
+            <h1 class="text-3xl font-extrabold text-blue-600 flex items-center">
+                <i class="fas fa-image ml-2"></i> TajNova
+            </h1>
+            <a href="tools_list.html" class="text-blue-600 hover:text-blue-800 font-medium transition duration-150">
+                <i class="fas fa-arrow-right-to-bracket ml-2"></i> قائمة الأدوات
+            </a>
+        </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto py-10 px-4 sm:px-6 lg:px-8">
+        
+        <div class="bg-white p-8 rounded-xl shadow-2xl mb-8 border-t-4 border-blue-600">
+            <h2 class="text-2xl font-bold mb-4 text-slate-700">🖼️ مُحسن الصور (Image Optimizer)</h2>
+            <p class="text-gray-600 mb-6 text-right">ارفع صورتك (JPG, PNG)، وسنقوم بتحويلها إلى **WebP** وضغطها لزيادة سرعة الموقع. الحد الأقصى 10 ميجا بايت.</p>
+            
+            <form id="image-form" class="space-y-4">
+                <label for="image-upload" class="block text-right font-medium text-gray-700 mb-2">اختر ملف الصورة</label>
+                <input 
+                    type="file" 
+                    id="image-upload" 
+                    name="imageFile"
+                    accept=".jpg,.jpeg,.png" 
+                    required 
+                    class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+                >
+                
+                <button 
+                    type="submit" 
+                    id="optimize-button"
+                    class="w-full bg-blue-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-blue-700 transition duration-300 flex items-center justify-center"
+                >
+                    <i class="fas fa-magic ml-2"></i> تحسين وضغط الصورة
+                </button>
+            </form>
+            
+            <div id="progress-container" class="mt-4 hidden">
+                 <div class="bg-gray-200 rounded-full h-2.5">
+                    <div id="progress-bar" class="bg-blue-600 h-2.5 rounded-full progress-bar" style="width: 0%"></div>
+                 </div>
+                 <p id="progress-text" class="text-sm text-center mt-2 text-blue-600 font-medium"></p>
+            </div>
+            
+            <p id="message-area" class="mt-4 text-center hidden p-3 rounded-lg"></p>
+        </div>
+
+        <div id="results-container" class="space-y-6 hidden">
+            <div class="bg-white p-6 rounded-xl shadow-lg">
+                <h3 class="text-xl font-bold mb-3 text-slate-700 border-b pb-2">نتائج التحسين</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm mt-4">
+                    <p class="font-medium">الحجم الأصلي: <span id="original-size" class="text-lg font-extrabold text-slate-700"></span></p>
+                    <p class="font-medium">الحجم بعد الضغط: <span id="optimized-size" class="text-lg font-extrabold text-green-600"></span></p>
+                    <p class="font-medium">نسبة التوفير: <span id="savings-percentage" class="text-2xl font-extrabold text-green-700"></span></p>
+                </div>
+            </div>
+
+            <div class="bg-white p-6 rounded-xl shadow-lg">
+                <h4 class="font-bold mb-3 text-center text-slate-700">الصورة المحسنة (WebP) للمعاينة</h4>
+                <div class="flex justify-center mb-6">
+                    <img id="optimized-image-preview" src="#" alt="الصورة المحسنة" class="max-w-full h-auto rounded-lg shadow-md border-2 border-gray-200">
+                </div>
+                <div class="mt-6 text-center">
+                    <a id="download-link" href="#" download class="bg-green-600 text-white py-3 px-8 rounded-lg font-semibold hover:bg-green-700 transition duration-300 inline-flex items-center">
+                        <i class="fas fa-download ml-2"></i> تحميل الصورة المحسنة
+                    </a>
+                </div>
+            </div>
+            
+        </div>
+        
+    </main>
+
+    <script>
+        const form = document.getElementById('image-form');
+        const uploadInput = document.getElementById('image-upload');
+        const optimizeButton = document.getElementById('optimize-button');
+        const messageArea = document.getElementById('message-area');
+        const resultsContainer = document.getElementById('results-container');
+        const progressBar = document.getElementById('progress-bar');
+        const progressContainer = document.getElementById('progress-container');
+        const progressText = document.getElementById('progress-text');
+        const optimizedImagePreview = document.getElementById('optimized-image-preview');
+
+        const BACKEND_ENDPOINT = 'http://localhost:3000/api/optimize-image'; 
+        
+        function formatBytes(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+
+        function displayMessage(message, type = 'error') {
+            messageArea.textContent = message;
+            messageArea.classList.remove('hidden', 'bg-red-100', 'text-red-700', 'bg-green-100', 'text-green-700');
+            if (type === 'error') {
+                messageArea.classList.add('bg-red-100', 'text-red-700');
+            } else {
+                messageArea.classList.add('bg-green-100', 'text-green-700');
+            }
+            messageArea.classList.remove('hidden');
+        }
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault(); // *** حل مشكلة عدم الاستجابة: منع إعادة تحميل الصفحة ***
+            
+            const file = uploadInput.files[0];
+            if (!file) {
+                displayMessage('الرجاء اختيار ملف صورة أولاً.', 'error');
+                return;
+            }
+            if (file.size > 10 * 1024 * 1024) { 
+                 displayMessage('حجم الملف يتجاوز الحد المسموح به (10 ميجابايت).', 'error');
+                 return;
+            }
+
+            // إعداد حالة التحميل
+            optimizeButton.disabled = true;
+            optimizeButton.innerHTML = `<div class="loading-animation ml-2"></div> جارٍ الرفع والمعالجة...`;
+            resultsContainer.classList.add('hidden');
+            messageArea.classList.add('hidden');
+            progressContainer.classList.remove('hidden');
+            progressBar.style.width = '10%';
+            progressText.textContent = 'جارٍ الرفع... (الخطوة 1 من 2)';
+
+            const formData = new FormData();
+            formData.append('imageFile', file);
+
+            try {
+                const xhr = new XMLHttpRequest();
+                xhr.open('POST', BACKEND_ENDPOINT, true);
+                
+                // **** الحل لمشكلة العرض والتنزيل: طلب البيانات كـ arraybuffer ****
+                xhr.responseType = 'arraybuffer'; 
+
+                xhr.upload.onprogress = function(event) {
+                    if (event.lengthComputable) {
+                        const percentComplete = (event.loaded / event.total) * 10; 
+                        progressBar.style.width = percentComplete + '%';
+                    }
+                };
+
+                xhr.onload = function() {
+                    optimizeButton.disabled = false;
+                    optimizeButton.innerHTML = '<i class="fas fa-magic ml-2"></i> تحسين وضغط الصورة';
+                    progressContainer.classList.add('hidden');
+
+                    if (xhr.status >= 200 && xhr.status < 300) {
+                        
+                        // إنشاء Blob من arraybuffer المستلم واستخدام Content-Type من الرؤوس
+                        const contentType = xhr.getResponseHeader('Content-Type');
+                        const optimizedBlob = new Blob([xhr.response], { type: contentType });
+                        const downloadUrl = URL.createObjectURL(optimizedBlob);
+                        
+                        // استخلاص الأحجام واسم الملف من الرؤوس
+                        const originalSize = parseInt(xhr.getResponseHeader('Original-Size'));
+                        const optimizedSize = parseInt(xhr.getResponseHeader('Optimized-Size'));
+                        // استخدام regex لاستخلاص اسم الملف من رأس Content-Disposition
+                        const dispositionHeader = xhr.getResponseHeader('Content-Disposition');
+                        const filenameMatch = dispositionHeader && dispositionHeader.match(/filename="(.+?)"/);
+                        const optimizedFilename = filenameMatch ? filenameMatch[1] : 'optimized_image.webp';
+
+
+                        const savings = ((originalSize - optimizedSize) / originalSize) * 100;
+
+                        // عرض النتائج
+                        document.getElementById('original-size').textContent = formatBytes(originalSize);
+                        document.getElementById('optimized-size').textContent = formatBytes(optimizedSize);
+                        document.getElementById('savings-percentage').textContent = `${savings.toFixed(2)}%`;
+                        
+                        // عرض الصورة ورابط التنزيل
+                        optimizedImagePreview.src = downloadUrl; 
+                        document.getElementById('download-link').href = downloadUrl;
+                        document.getElementById('download-link').download = optimizedFilename;
+                        
+                        resultsContainer.classList.remove('hidden');
+                        displayMessage('تم تحسين الصورة بنجاح وتوفير حجم كبير! جاهزة للتنزيل.', 'success');
+
+                    } else {
+                        // التعامل مع أخطاء الخادم (تحويل البيانات الثنائية arraybuffer إلى نص)
+                         const errorBuffer = xhr.response;
+                         const decoder = new TextDecoder('utf-8');
+                         const errorText = decoder.decode(errorBuffer);
+
+                        try {
+                            const errorData = JSON.parse(errorText);
+                            displayMessage(`فشل التحسين: ${errorData.details || errorData.error}`, 'error');
+                        } catch (e) {
+                             displayMessage(`فشل التحسين: خطأ غير معروف (HTTP ${xhr.status})`, 'error');
+                        }
+                    }
+                };
+                
+                xhr.onerror = function() {
+                    optimizeButton.disabled = false;
+                    optimizeButton.innerHTML = '<i class="fas fa-magic ml-2"></i> تحسين وضغط الصورة';
+                    progressContainer.classList.add('hidden');
+                    displayMessage('فشل في الاتصال بالخادم. تأكد من تشغيل server.js.', 'error');
+                };
+
+                xhr.onloadstart = function() {
+                    progressBar.style.width = '50%';
+                    progressText.textContent = 'جارٍ معالجة الصورة... (الخطوة 2 من 2)';
+                };
+
+                xhr.send(formData);
+
+            } catch (error) {
+                optimizeButton.disabled = false;
+                optimizeButton.innerHTML = '<i class="fas fa-magic ml-2"></i> تحسين وضغط الصورة';
+                displayMessage('فشل عام في JavaScript: ' + error.message, 'error');
+            }
+        });
+
+    </script>
+</body>
+</html>

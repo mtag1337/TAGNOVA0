@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1262927411271648"
+     crossorigin="anonymous"></script>
+    <title>الدفع السريع عبر Google Pay | TajNova</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --color-primary: #8b5cf6; /* بنفسجي */
+            --color-google: #4285F4; /* أزرق جوجل */
+        }
+        .text-primary { color: var(--color-primary); }
+        .bg-primary { background-color: var(--color-primary); }
+        body { direction: rtl; background-color: #f8fafc; }
+        
+        /* تصميم زر Google Pay (مبني بالكامل على CSS والنص/الأيقونة) */
+        .google-pay-btn {
+            background-color: #000; /* خلفية سوداء */
+            color: #fff;
+            padding: 1rem 3rem;
+            border-radius: 9999px; /* شكل بيضاوي */
+            font-size: 1.5rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s;
+        }
+        .google-pay-btn:hover {
+            background-color: #333;
+        }
+        .text-google-color { color: var(--color-google); } /* لون نص جوجل */
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body class="text-slate-700 min-h-screen flex flex-col justify-center items-center py-10">
+
+    <header class="mb-10 text-center">
+        <a href="index.html" class="flex items-center justify-center">
+            <span class="text-3xl font-extrabold text-primary">TajNova Secure Payment</span>
+        </a>
+    </header>
+
+    <main class="w-full max-w-xl bg-white p-8 rounded-xl shadow-2xl border-t-4 border-color-google">
+        
+        <h1 class="text-3xl font-extrabold mb-4 text-slate-800 flex items-center justify-center">
+            <i class="fab fa-google text-google-color ml-3"></i> الدفع بلمسة واحدة عبر Google Pay
+        </h1>
+        
+        <div class="p-5 mb-8 bg-blue-50 rounded-lg border border-blue-200 text-center">
+            <p class="text-xl font-semibold text-gray-700">الطلب: كورس أمان السرعة (Next.js 14)</p>
+            <p class="text-3xl font-extrabold mt-2 text-google-color">الإجمالي: $8.00</p>
+        </div>
+
+        <h2 class="text-xl font-bold mb-4 border-b pb-2 text-slate-700">كيف يعمل Google Pay؟</h2>
+        
+        <ul class="space-y-3 mb-8 text-md list-disc list-inside">
+            <li class="flex items-start">
+                <i class="fas fa-check-circle text-google-color mt-1 ml-2"></i>
+                <span>**سرعة فائقة:** يتم الدفع ببطاقتك المحفوظة لدى جوجل بلمسة واحدة.</span>
+            </li>
+            <li class="flex items-start">
+                <i class="fas fa-check-circle text-google-color mt-1 ml-2"></i>
+                <span>**أمان مُحسّن:** لا يتم مشاركة بيانات بطاقتك الفعلية معنا.</span>
+            </li>
+            <li class="flex items-start">
+                <i class="fas fa-check-circle text-google-color mt-1 ml-2"></i>
+                <span>**سهولة الاستخدام:** يعمل على جميع الأجهزة المتوافقة مع حسابك.</span>
+            </li>
+        </ul>
+
+        <a href="payment_success.html" class="google-pay-btn hover:bg-gray-700 transition duration-300 shadow-lg">
+            <i class="fab fa-google text-white text-3xl mr-3"></i>
+            <span>ادفع باستخدام Google Pay</span>
+        </a>
+
+        <p class="text-center text-sm text-gray-500 mt-4">بمجرد النقر، ستظهر لك نافذة الدفع المألوفة من Google.</p>
+
+        <div class="mt-8 p-3 bg-gray-100 rounded-lg text-center">
+            <p class="text-sm text-gray-600">هذه المعاملة تتم من خلال بوابات دفع جوجل الموثوقة.</p>
+        </div>
+
+    </main>
+
+    <footer class="mt-10 text-center text-sm text-gray-500">
+        &copy; 2025 TajNova. جميع الحقوق محفوظة.
+    </footer>
+
+</body>
+</html>
