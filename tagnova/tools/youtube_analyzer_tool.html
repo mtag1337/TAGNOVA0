@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1262927411271648" crossorigin="anonymous"></script>
+    <title>محلل معلومات فيديوهات يوتيوب | TajNova Tool</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root { --color-primary: #ef4444; }
+        .loading-animation {
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top-color: var(--color-primary);
+            border-radius: 50%;
+            width: 1.25rem;
+            height: 1.25rem;
+            animation: spinner 1s linear infinite;
+        }
+        @keyframes spinner { to { transform: rotate(360deg); } }
+    </style>
+</head>
+<body class="bg-gray-100 text-slate-800">
+
+    <header class="bg-white shadow-lg">
+        <div class="max-w-4xl mx-auto p-6 flex justify-between items-center">
+            <h1 class="text-3xl font-extrabold text-red-600 flex items-center">
+                <i class="fab fa-youtube ml-2"></i> TajNova
+            </h1>
+            <a href="tools_list.html" class="text-blue-600 hover:text-blue-800 font-medium transition duration-150">
+                <i class="fas fa-arrow-right-to-bracket ml-2"></i> قائمة الأدوات
+            </a>
+        </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto py-10 px-4 sm:px-6 lg:px-8">
+        <div class="bg-white p-6 rounded-xl shadow-2xl mb-8 border-t-4 border-red-500">
+            <h2 class="text-2xl font-bold mb-4 text-slate-700">تحليل معلومات الفيديو</h2>
+            <form id="youtube-form" class="flex flex-col md:flex-row gap-3">
+                <input 
+                    type="text" 
+                    id="video-link" 
+                    placeholder="أدخل رابط فيديو يوتيوب أو الـ ID هنا..." 
+                    required 
+                    class="flex-grow p-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-red-500 transition duration-200 text-right"
+                >
+                <button 
+                    type="submit" 
+                    id="analyze-button"
+                    class="bg-red-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-red-700 transition duration-300 flex items-center justify-center"
+                >
+                    <i class="fas fa-search ml-2"></i> تحليل الفيديو
+                </button>
+            </form>
+            <p id="message-area" class="mt-4 text-center hidden p-3 rounded-lg"></p>
+        </div>
+
+        <div id="results-container" class="space-y-6 hidden"></div>
+    </main>
+
+    <script>
+        const form = document.getElementById('youtube-form');
+        const linkInput = document.getElementById('video-link');
+        const analyzeButton = document.getElementById('analyze-button');
+        const messageArea = document.getElementById('message-area');
+        const resultsContainer = document.getElementById('results-container');
+
+        // الرابط المربوط بـ Netlify Function (الباك إند المجاني)
+        const BACKEND_ENDPOINT = '/.netlify/functions/youtube'; 
+
+        function extractVideoId(url) {
+            const urlRegex = /(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=|user\/\S+\/|channel\/\S+\/|shorts\/))([^&\n#?]+)/;
+            const match = url.match(urlRegex);
+            if (!match && url.length === 11 && url.match(/^[a-zA-Z0-9_-]+$/)) return url; 
+            return match ? match[1] : null;
+        }
+
+        function displayMessage(message, type = 'error') {
+            messageArea.textContent = message;
+            messageArea.classList.remove('hidden', 'bg-red-100', 'text-red-700', 'bg-green-100', 'text-green-700');
+            messageArea.classList.add(type === 'error' ? 'bg-red-100' : 'bg-green-100');
+            messageArea.classList.add(type === 'error' ? 'text-red-700' : 'text-green-700');
+        }
+
+        function formatNumber(num) {
+            return num ? new Intl.NumberFormat('en-US').format(num) : '0';
+        }
+
+        function renderResults(data) {
+            const snippet = data.snippet;
+            const stats = data.statistics || {}; 
+            const maxResUrl = snippet.thumbnails.maxres ? snippet.thumbnails.maxres.url : (snippet.thumbnails.high ? snippet.thumbnails.high.url : ''); 
+
+            resultsContainer.innerHTML = `
+                <div class="bg-white p-6 rounded-xl shadow-lg border-t-4 border-gray-400">
+                    <h3 class="text-2xl font-extrabold mb-4 text-red-600">${snippet.title}</h3>
+                    <div class="aspect-video mb-4">
+                        <iframe src="https://www.youtube.com/embed/${data.id}" class="w-full h-full rounded-lg" allowfullscreen></iframe>
+                    </div>
+                    <div class="grid grid-cols-3 gap-4 text-center mt-6">
+                        <div class="p-3 bg-red-50 rounded-lg"><i class="fas fa-eye text-red-500 text-xl"></i><p class="font-bold mt-1">${formatNumber(stats.viewCount)}</p><p class="text-xs">مشاهدة</p></div>
+                        <div class="p-3 bg-red-50 rounded-lg"><i class="fas fa-thumbs-up text-red-500 text-xl"></i><p class="font-bold mt-1">${formatNumber(stats.likeCount)}</p><p class="text-xs">إعجاب</p></div>
+                        <div class="p-3 bg-red-50 rounded-lg"><i class="fas fa-comment text-red-500 text-xl"></i><p class="font-bold mt-1">${formatNumber(stats.commentCount)}</p><p class="text-xs">تعليق</p></div>
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-lg">
+                    <h4 class="font-bold mb-2 border-b pb-2">الكلمات المفتاحية (Tags):</h4>
+                    <div class="flex flex-wrap gap-2 mt-3">
+                        ${snippet.tags ? snippet.tags.map(t => `<span class="bg-gray-200 px-2 py-1 rounded text-sm">#${t}</span>`).join('') : 'لا توجد تاجات'}
+                    </div>
+                </div>
+            `;
+            resultsContainer.classList.remove('hidden');
+        }
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const videoId = extractVideoId(linkInput.value.trim());
+            if (!videoId) return displayMessage('يرجى إدخال رابط يوتيوب صحيح');
+
+            analyzeButton.disabled = true;
+            analyzeButton.innerHTML = `<div class="loading-animation ml-2"></div> جارٍ التحليل...`;
+            resultsContainer.classList.add('hidden');
+            messageArea.classList.add('hidden');
+
+            try {
+                // استدعاء الباك إند الجديد (Netlify Function)
+                const response = await fetch(`${BACKEND_ENDPOINT}?videoId=${videoId}`);
+                const data = await response.json();
+
+                if (!response.ok) throw new Error(data.error || 'خطأ في جلب البيانات');
+
+                renderResults(data);
+                displayMessage('تم التحليل بنجاح!', 'success');
+            } catch (error) {
+                displayMessage(error.message);
+            } finally {
+                analyzeButton.disabled = false;
+                analyzeButton.innerHTML = '<i class="fas fa-search ml-2"></i> تحليل الفيديو';
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1262927411271648"
+     crossorigin="anonymous"></script>
+    <title>مدقق الألوان والتباين | TajNova Tool</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root { --color-primary: #14b8a6; /* Teal */ }
+        .color-box {
+            width: 100%;
+            height: 100px;
+            border: 2px solid #ccc;
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #000; /* لون افتراضي للنص */
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.8);
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-slate-800">
+
+    <header class="bg-white shadow-lg">
+        <div class="max-w-4xl mx-auto p-6 flex justify-between items-center">
+            <h1 class="text-3xl font-extrabold text-primary flex items-center">
+                <i class="fas fa-palette ml-2"></i> TajNova
+            </h1>
+            <a href="tools.html" class="text-blue-600 hover:text-blue-800 font-medium transition duration-150">
+                <i class="fas fa-arrow-right-to-bracket ml-2"></i> قائمة الأدوات
+            </a>
+        </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto py-10 px-4 sm:px-6 lg:px-8">
+        
+        <div class="bg-white p-8 rounded-xl shadow-2xl border-t-4 border-primary">
+            <h2 class="text-3xl font-bold mb-6 text-slate-700">🎨 مدقق التباين ومعايير WCAG</h2>
+            
+            <p class="text-gray-600 mb-6 text-right">أدخل الأكواد السداسية للألوان (Hex Codes) للتحقق من نسبة التباين وفقًا لمعايير الوصول.</p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label for="text-color" class="block text-lg font-semibold mb-2">لون النص (Text Color)</label>
+                    <input 
+                        type="text" 
+                        id="text-color" 
+                        value="#FFFFFF" 
+                        maxlength="7"
+                        class="w-full p-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-primary transition duration-200 text-center font-mono text-xl"
+                    >
+                </div>
+                <div>
+                    <label for="bg-color" class="block text-lg font-semibold mb-2">لون الخلفية (Background Color)</label>
+                    <input 
+                        type="text" 
+                        id="bg-color" 
+                        value="#000000" 
+                        maxlength="7"
+                        class="w-full p-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-primary transition duration-200 text-center font-mono text-xl"
+                    >
+                </div>
+            </div>
+
+            <div class="mt-8 p-6 bg-gray-50 rounded-xl shadow-inner">
+                <div id="preview-box" class="color-box text-2xl font-black">
+                    هذا هو نص معاينة التباين
+                </div>
+
+                <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="bg-white p-4 rounded-lg shadow-md text-center">
+                        <p class="text-xl font-bold text-gray-700">نسبة التباين (Ratio)</p>
+                        <p id="ratio-display" class="text-4xl font-extrabold text-teal-600 mt-1">0.00:1</p>
+                    </div>
+                    <div class="bg-white p-4 rounded-lg shadow-md">
+                        <p class="text-xl font-bold text-gray-700 text-center mb-2">حالة مطابقة WCAG</p>
+                        <div id="wcag-status" class="space-y-2 text-sm">
+                            </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+        const textColorInput = document.getElementById('text-color');
+        const bgColorInput = document.getElementById('bg-color');
+        const previewBox = document.getElementById('preview-box');
+        const ratioDisplay = document.getElementById('ratio-display');
+        const wcagStatusEl = document.getElementById('wcag-status');
+        
+        // ----------------------------------------------------------------
+        // 1. دوال تحويل الألوان والحساب (الخوارزمية القياسية لـ WCAG)
+        // ----------------------------------------------------------------
+
+        // تحويل Hex إلى RGB
+        function hexToRgb(hex) {
+            const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+            return result ? [
+                parseInt(result[1], 16),
+                parseInt(result[2], 16),
+                parseInt(result[3], 16)
+            ] : null;
+        }
+
+        // حساب الإضاءة النسبية (Relative Luminance)
+        function getLuminance(rgb) {
+            const R = rgb[0] / 255;
+            const G = rgb[1] / 255;
+            const B = rgb[2] / 255;
+
+            const components = [R, G, B].map(val => {
+                return val <= 0.03928 ? val / 12.92 : Math.pow((val + 0.055) / 1.055, 2.4);
+            });
+
+            return 0.2126 * components[0] + 0.7152 * components[1] + 0.0722 * components[2];
+        }
+
+        // حساب نسبة التباين (Contrast Ratio)
+        function getContrastRatio(L1, L2) {
+            const lighter = Math.max(L1, L2);
+            const darker = Math.min(L1, L2);
+            return ((lighter + 0.05) / (darker + 0.05)).toFixed(2);
+        }
+
+        // ----------------------------------------------------------------
+        // 2. دالة التحقق والعرض الرئيسية
+        // ----------------------------------------------------------------
+        function updateContrast() {
+            const textHex = textColorInput.value.trim();
+            const bgHex = bgColorInput.value.trim();
+
+            const textRgb = hexToRgb(textHex);
+            const bgRgb = hexToRgb(bgHex);
+
+            // التحقق من صحة الأكواد المدخلة
+            if (!textRgb || !bgRgb) {
+                ratioDisplay.textContent = 'خطأ';
+                wcagStatusEl.innerHTML = '<p class="text-red-600 text-center font-bold">يرجى إدخال أكواد سداسية صحيحة (#RRGGBB).</p>';
+                return;
+            }
+
+            // تحديث مربع المعاينة
+            previewBox.style.backgroundColor = bgHex;
+            previewBox.style.color = textHex;
+            
+            // حساب الإضاءة ونسبة التباين
+            const L_text = getLuminance(textRgb);
+            const L_bg = getLuminance(bgRgb);
+            const ratio = getContrastRatio(L_text, L_bg);
+
+            ratioDisplay.textContent = `${ratio}:1`;
+            
+            // 3. تحليل معايير WCAG
+            renderWCAGStatus(parseFloat(ratio));
+        }
+
+        // ----------------------------------------------------------------
+        // 3. دالة عرض نتائج WCAG
+        // ----------------------------------------------------------------
+        function renderWCAGStatus(ratio) {
+            // معايير WCAG:
+            // AA (صغير/عادي): 4.5:1
+            // AA (كبير/عريض): 3.0:1
+            // AAA (صغير/عادي): 7.0:1
+            // AAA (كبير/عريض): 4.5:1
+            
+            const results = [
+                { id: 'aa-normal', required: 4.5, label: 'AA (نص عادي)', success: ratio >= 4.5 },
+                { id: 'aa-large', required: 3.0, label: 'AA (نص كبير/عريض)', success: ratio >= 3.0 },
+                { id: 'aaa-normal', required: 7.0, label: 'AAA (نص عادي)', success: ratio >= 7.0 },
+                { id: 'aaa-large', required: 4.5, label: 'AAA (نص كبير/عريض)', success: ratio >= 4.5 }
+            ];
+
+            wcagStatusEl.innerHTML = results.map(r => `
+                <div class="flex justify-between items-center ${r.success ? 'text-green-600' : 'text-red-600'}">
+                    <span class="font-medium">${r.label}</span>
+                    <span class="font-bold">
+                        ${r.success ? '<i class="fas fa-check-circle ml-1"></i> مُجتاز' : '<i class="fas fa-times-circle ml-1"></i> راسب'}
+                    </span>
+                </div>
+            `).join('');
+        }
+
+        // ربط الدوال بحدث الإدخال
+        textColorInput.addEventListener('input', updateContrast);
+        bgColorInput.addEventListener('input', updateContrast);
+
+        // التشغيل الأولي للبدء بالأبيض والأسود (19.98:1)
+        updateContrast();
+    </script>
+</body>
+</html>
