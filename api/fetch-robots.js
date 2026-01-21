@@ -1,39 +1,30 @@
 const axios = require('axios');
 
 module.exports = async (req, res) => {
-    // 1. إعدادات CORS للسماح لموقعك بالاتصال بالـ API
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
-    // التعامل مع طلبات التشييك المسبق (Preflight)
-    if (req.method === 'OPTIONS') {
-        return res.status(200).end();
-    }
-
-    // 2. التحقق من أن الطلب من نوع POST
-    if (req.method !== 'POST') {
-        return res.status(405).json({ error: 'الطريقة غير مسموح بها، استخدم POST' });
-    }
+    if (req.method === 'OPTIONS') return res.status(200).end();
 
     const { url } = req.body;
-
-    // 3. التحقق من وجود الرابط
-    if (!url) {
-        return res.status(400).json({ error: 'الرابط مطلوب' });
-    }
+    if (!url) return res.status(400).json({ error: 'الرابط مطلوب' });
 
     try {
-        // 4. محاولة جلب ملف robots.txt مع وضع User-Agent لتبدو كمتصفح حقيقي
         const response = await axios.get(url, {
             headers: {
-                'User-Agent': 'Mozilla/5.0 (compatible; TajNovaBot/1.0; +https://tagnova-0.vercel.app/)',
-                'Accept': 'text/plain'
+                // تحديث الـ User-Agent ليبدو كمتصفح كروم حقيقي تماماً
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+                'Accept': 'text/plain,text/html,application/xhtml+xml',
+                'Accept-Language': 'en-US,en;q=0.9',
+                'Cache-Control': 'no-cache',
+                'Pragma': 'no-cache'
             },
-            timeout: 10000 // مهلة 10 ثوانٍ للجلب
+            timeout: 10000,
+            // السماح بتتبع التحويلات (Redirects)
+            maxRedirects: 5 
         });
 
-        // 5. إرسال المحتوى في حال النجاح
         return res.status(200).json({
             status: 'success',
             url: url,
@@ -41,32 +32,19 @@ module.exports = async (req, res) => {
         });
 
     } catch (error) {
-        // 6. التعامل مع الأخطاء المختلفة
-        if (error.response) {
-            // الموقع رد ولكن بخطأ (مثل 404 غير موجود)
-            if (error.response.status === 404) {
-                return res.status(200).json({
-                    status: 'not_found',
-                    url: url,
-                    content: '# تنبيه: هذا الموقع لا يمتلك ملف robots.txt (خطأ 404)'
-                });
-            }
-            return res.status(error.response.status).json({
-                error: 'فشل جلب الملف',
-                details: `الموقع رد بالكود: ${error.response.status}`
-            });
-        } else if (error.request) {
-            // الطلب أرسل ولكن لم يصل رد (مشكلة اتصال أو حظر)
-            return res.status(504).json({
-                error: 'فشل الاتصال',
-                details: 'الموقع المستهدف لم يستجب أو قام بحظر الاتصال.'
-            });
-        } else {
-            // خطأ آخر في الإعدادات
-            return res.status(500).json({
-                error: 'خطأ داخلي',
-                details: error.message
+        // إذا استمر الخطأ 401، سنعطي المستخدم رسالة مفهومة
+        if (error.response && error.response.status === 401) {
+            return res.status(200).json({
+                status: 'protected',
+                url: url,
+                content: '⚠️ عذراً، هذا الموقع محمي بكلمة مرور أو نظام حماية يمنع الوصول الآلي لملف الروبوتات.'
             });
         }
+        
+        const status = error.response?.status || 500;
+        return res.status(status).json({ 
+            error: 'فشل الجلب', 
+            details: `الموقع رفض الطلب بالكود: ${status}` 
+        });
     }
 };
