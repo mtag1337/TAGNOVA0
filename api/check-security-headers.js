@@ -8,7 +8,7 @@ module.exports = async (req, res) => {
     if (req.method === 'OPTIONS') return res.status(200).end();
 
     const { url } = req.body;
-    if (!url) return res.status(400).json({ error: 'الرابط مطلوب' });
+    if (!url) return res.status(400).json({ status: 'error', error: 'الرابط مطلوب' });
 
     try {
         const response = await axios.get(url, {
@@ -17,41 +17,45 @@ module.exports = async (req, res) => {
             validateStatus: false
         });
 
-        const headers = response.headers;
-        const securityHeaders = [
-            { name: 'Strict-Transport-Security', desc: 'تشفير الاتصال الدائم (HSTS)' },
-            { name: 'Content-Security-Policy', desc: 'منع حقن النصوص الخبيثة (CSP)' },
-            { name: 'X-Frame-Options', desc: 'حماية من هجمات Clickjacking' },
-            { name: 'X-Content-Type-Options', desc: 'منع تخمين نوع الملفات' },
-            { name: 'Referrer-Policy', desc: 'التحكم في معلومات الإحالة' },
-            { name: 'Permissions-Policy', desc: 'التحكم في ميزات المتصفح (الكاميرا/الموقع)' }
+        const respHeaders = response.headers;
+        const securityChecks = [
+            { name: 'Strict-Transport-Security', rec: 'يجب تفعيل HSTS لإجبار الاتصال الآمن HTTPS.' },
+            { name: 'Content-Security-Policy', rec: 'يمنع هجمات XSS عن طريق تحديد مصادر المحتوى الموثوقة.' },
+            { name: 'X-Frame-Options', rec: 'يحمي من هجمات Clickjacking بمنع عرض الموقع داخل iFrame.' },
+            { name: 'X-Content-Type-Options', rec: 'يمنع المتصفح من تخمين نوع الملفات (MIME sniffing).' },
+            { name: 'Referrer-Policy', rec: 'يتحكم في مقدار المعلومات المرسلة في رابط الإحالة.' },
+            { name: 'Permissions-Policy', rec: 'يحدد الميزات التي يمكن للمتصفح استخدامها (مثل الكاميرا).' }
         ];
 
-        let score = 0;
-        const results = securityHeaders.map(sh => {
-            const value = headers[sh.name.toLowerCase()];
-            if (value) score += 1;
+        let secureCount = 0;
+        const results = securityChecks.map(check => {
+            const value = respHeaders[check.name.toLowerCase()];
+            const isPresent = !!value;
+            if (isPresent) secureCount++;
+
             return {
-                header: sh.name,
-                description: sh.desc,
-                value: value || 'مفقود ❌',
-                status: value ? 'safe' : 'unsafe'
+                name: check.name,
+                status: isPresent ? 'Present (Good)' : 'Missing (At Risk)',
+                value: value || 'لا يوجد قيمة مرصودة',
+                recommendation: isPresent ? 'الإعداد سليم.' : check.rec
             };
         });
 
-        // حساب التقييم النهائي
-        const grade = score >= 5 ? 'A' : score >= 3 ? 'B' : score >= 1 ? 'C' : 'F';
+        const percentage = ((secureCount / securityChecks.length) * 100).toFixed(0);
 
         return res.status(200).json({
-            success: true,
-            url: url,
-            grade: grade,
-            score: score,
-            total: securityHeaders.length,
-            results: results
+            status: 'success',
+            targetUrl: url,
+            score: `${secureCount} / ${securityChecks.length}`,
+            percentage: percentage,
+            headers: results
         });
 
     } catch (error) {
-        return res.status(200).json({ success: false, error: 'فشل فحص الموقع' });
+        return res.status(200).json({ 
+            status: 'error', 
+            error: 'تعذر الوصول للموقع', 
+            details: 'تأكد من صحة الرابط أو أن الموقع يسمح بالفحص.' 
+        });
     }
 };
