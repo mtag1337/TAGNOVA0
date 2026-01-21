@@ -65,8 +65,8 @@
         const messageArea = document.getElementById('message-area');
         const resultsContainer = document.getElementById('results-container');
 
-        // الرابط المربوط بـ Netlify Function (الباك إند المجاني)
-        const BACKEND_ENDPOINT = '/.netlify/functions/youtube'; 
+        // التعديل الجذري هنا ليعمل مع Vercel
+        const BACKEND_ENDPOINT = '/api/youtube'; 
 
         function extractVideoId(url) {
             const urlRegex = /(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=|user\/\S+\/|channel\/\S+\/|shorts\/))([^&\n#?]+)/;
@@ -89,7 +89,6 @@
         function renderResults(data) {
             const snippet = data.snippet;
             const stats = data.statistics || {}; 
-            const maxResUrl = snippet.thumbnails.maxres ? snippet.thumbnails.maxres.url : (snippet.thumbnails.high ? snippet.thumbnails.high.url : ''); 
 
             resultsContainer.innerHTML = `
                 <div class="bg-white p-6 rounded-xl shadow-lg border-t-4 border-gray-400">
@@ -124,10 +123,16 @@
             messageArea.classList.add('hidden');
 
             try {
-                // استدعاء الباك إند الجديد (Netlify Function)
+                // استدعاء الباك إند الجديد الخاص بـ Vercel
                 const response = await fetch(`${BACKEND_ENDPOINT}?videoId=${videoId}`);
-                const data = await response.json();
+                
+                // التأكد من أن الرد ليس صفحة HTML (حل مشكلة Unexpected token T)
+                const contentType = response.headers.get("content-type");
+                if (!contentType || !contentType.includes("application/json")) {
+                    throw new Error("السيرفر لم يستجب بشكل صحيح. تأكد من إعدادات الـ API.");
+                }
 
+                const data = await response.json();
                 if (!response.ok) throw new Error(data.error || 'خطأ في جلب البيانات');
 
                 renderResults(data);
