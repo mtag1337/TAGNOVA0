@@ -98,149 +98,127 @@
     </main>
 
     <script>
-        const form = document.getElementById('image-form');
-        const uploadInput = document.getElementById('image-upload');
-        const optimizeButton = document.getElementById('optimize-button');
-        const messageArea = document.getElementById('message-area');
-        const resultsContainer = document.getElementById('results-container');
-        const progressBar = document.getElementById('progress-bar');
-        const progressContainer = document.getElementById('progress-container');
-        const progressText = document.getElementById('progress-text');
-        const optimizedImagePreview = document.getElementById('optimized-image-preview');
+       const form = document.getElementById('image-form');
+const uploadInput = document.getElementById('image-upload');
+const optimizeButton = document.getElementById('optimize-button');
+const messageArea = document.getElementById('message-area');
+const resultsContainer = document.getElementById('results-container');
+const progressBar = document.getElementById('progress-bar');
+const progressContainer = document.getElementById('progress-container');
+const progressText = document.getElementById('progress-text');
+const optimizedImagePreview = document.getElementById('optimized-image-preview');
 
-        const BACKEND_ENDPOINT = 'http://localhost:3000/api/optimize-image'; 
-        
-        function formatBytes(bytes) {
-            if (bytes === 0) return '0 Bytes';
-            const k = 1024;
-            const sizes = ['Bytes', 'KB', 'MB'];
-            const i = Math.floor(Math.log(bytes) / Math.log(k));
-            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
-        }
+// التعديل الأهم: استخدام مسار نسبي ليعمل على Vercel تلقائياً
+const BACKEND_ENDPOINT = '/api/optimize-image'; 
 
-        function displayMessage(message, type = 'error') {
-            messageArea.textContent = message;
-            messageArea.classList.remove('hidden', 'bg-red-100', 'text-red-700', 'bg-green-100', 'text-green-700');
-            if (type === 'error') {
-                messageArea.classList.add('bg-red-100', 'text-red-700');
+function formatBytes(bytes) {
+    if (!bytes || bytes === 0) return '0 Bytes';
+    const k = 1024;
+    const sizes = ['Bytes', 'KB', 'MB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+}
+
+function displayMessage(message, type = 'error') {
+    messageArea.textContent = message;
+    messageArea.className = `mt-4 text-center p-4 rounded-lg font-medium shadow-sm transition-all ${
+        type === 'error' ? 'bg-red-50 text-red-600 border border-red-100' : 'bg-green-50 text-green-700 border border-green-100'
+    }`;
+    messageArea.classList.remove('hidden');
+}
+
+form.addEventListener('submit', async (e) => {
+    e.preventDefault(); 
+    
+    const file = uploadInput.files[0];
+    if (!file) {
+        displayMessage('الرجاء اختيار ملف صورة أولاً.', 'error');
+        return;
+    }
+    
+    // الحد الأقصى 10 ميجابايت (Vercel Free Tier له حدود في حجم الطلب)
+    if (file.size > 10 * 1024 * 1024) { 
+         displayMessage('حجم الملف كبير جداً. الحد الأقصى هو 10 ميجابايت.', 'error');
+         return;
+    }
+
+    // تهيئة حالة التحميل
+    optimizeButton.disabled = true;
+    optimizeButton.innerHTML = `<div class="loading-animation ml-2 border-2 border-white border-t-transparent rounded-full w-4 h-4 animate-spin inline-block"></div> جارٍ المعالجة...`;
+    resultsContainer.classList.add('hidden');
+    messageArea.classList.add('hidden');
+    progressContainer.classList.remove('hidden');
+    progressBar.style.width = '0%';
+    progressText.textContent = 'بدء الرفع...';
+
+    const formData = new FormData();
+    formData.append('imageFile', file);
+
+    try {
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', BACKEND_ENDPOINT, true);
+        xhr.responseType = 'arraybuffer'; 
+
+        // تتبع تقدم الرفع
+        xhr.upload.onprogress = function(event) {
+            if (event.lengthComputable) {
+                const percentComplete = (event.loaded / event.total) * 100;
+                progressBar.style.width = percentComplete + '%';
+                progressText.textContent = `جارٍ الرفع... ${Math.round(percentComplete)}%`;
+            }
+        };
+
+        xhr.onload = function() {
+            optimizeButton.disabled = false;
+            optimizeButton.innerHTML = '<i class="fas fa-magic ml-2"></i> تحسين وضغط الصورة';
+            progressContainer.classList.add('hidden');
+
+            if (xhr.status >= 200 && xhr.status < 300) {
+                const contentType = xhr.getResponseHeader('Content-Type');
+                const optimizedBlob = new Blob([xhr.response], { type: contentType });
+                const downloadUrl = URL.createObjectURL(optimizedBlob);
+                
+                // استلام الأحجام من الرؤوس التي يرسلها الباك إند
+                const originalSize = parseInt(xhr.getResponseHeader('X-Original-Size')) || file.size;
+                const optimizedSize = parseInt(xhr.getResponseHeader('X-Optimized-Size')) || optimizedBlob.size;
+                const savings = ((originalSize - optimizedSize) / originalSize) * 100;
+
+                // عرض النتائج في الواجهة
+                document.getElementById('original-size').textContent = formatBytes(originalSize);
+                document.getElementById('optimized-size').textContent = formatBytes(optimizedSize);
+                document.getElementById('savings-percentage').textContent = `${savings.toFixed(1)}%`;
+                
+                optimizedImagePreview.src = downloadUrl; 
+                const dlLink = document.getElementById('download-link');
+                dlLink.href = downloadUrl;
+                dlLink.download = `tajnova_${file.name.split('.')[0]}.webp`;
+                
+                resultsContainer.classList.remove('hidden');
+                displayMessage('تم تحسين الصورة بنجاح!', 'success');
             } else {
-                messageArea.classList.add('bg-green-100', 'text-green-700');
+                const decoder = new TextDecoder('utf-8');
+                const errorText = decoder.decode(xhr.response);
+                displayMessage(`فشل التحسين: ${xhr.status}`, 'error');
             }
-            messageArea.classList.remove('hidden');
-        }
+        };
 
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault(); // *** حل مشكلة عدم الاستجابة: منع إعادة تحميل الصفحة ***
-            
-            const file = uploadInput.files[0];
-            if (!file) {
-                displayMessage('الرجاء اختيار ملف صورة أولاً.', 'error');
-                return;
-            }
-            if (file.size > 10 * 1024 * 1024) { 
-                 displayMessage('حجم الملف يتجاوز الحد المسموح به (10 ميجابايت).', 'error');
-                 return;
-            }
+        xhr.onerror = function() {
+            optimizeButton.disabled = false;
+            optimizeButton.innerHTML = '<i class="fas fa-magic ml-2"></i> تحسين وضغط الصورة';
+            progressContainer.classList.add('hidden');
+            displayMessage('فشل الاتصال بالخادم. تأكد من رفع مجلد api إلى Vercel.', 'error');
+        };
 
-            // إعداد حالة التحميل
-            optimizeButton.disabled = true;
-            optimizeButton.innerHTML = `<div class="loading-animation ml-2"></div> جارٍ الرفع والمعالجة...`;
-            resultsContainer.classList.add('hidden');
-            messageArea.classList.add('hidden');
-            progressContainer.classList.remove('hidden');
-            progressBar.style.width = '10%';
-            progressText.textContent = 'جارٍ الرفع... (الخطوة 1 من 2)';
+        xhr.send(formData);
 
-            const formData = new FormData();
-            formData.append('imageFile', file);
-
-            try {
-                const xhr = new XMLHttpRequest();
-                xhr.open('POST', BACKEND_ENDPOINT, true);
-                
-                // **** الحل لمشكلة العرض والتنزيل: طلب البيانات كـ arraybuffer ****
-                xhr.responseType = 'arraybuffer'; 
-
-                xhr.upload.onprogress = function(event) {
-                    if (event.lengthComputable) {
-                        const percentComplete = (event.loaded / event.total) * 10; 
-                        progressBar.style.width = percentComplete + '%';
-                    }
-                };
-
-                xhr.onload = function() {
-                    optimizeButton.disabled = false;
-                    optimizeButton.innerHTML = '<i class="fas fa-magic ml-2"></i> تحسين وضغط الصورة';
-                    progressContainer.classList.add('hidden');
-
-                    if (xhr.status >= 200 && xhr.status < 300) {
-                        
-                        // إنشاء Blob من arraybuffer المستلم واستخدام Content-Type من الرؤوس
-                        const contentType = xhr.getResponseHeader('Content-Type');
-                        const optimizedBlob = new Blob([xhr.response], { type: contentType });
-                        const downloadUrl = URL.createObjectURL(optimizedBlob);
-                        
-                        // استخلاص الأحجام واسم الملف من الرؤوس
-                        const originalSize = parseInt(xhr.getResponseHeader('Original-Size'));
-                        const optimizedSize = parseInt(xhr.getResponseHeader('Optimized-Size'));
-                        // استخدام regex لاستخلاص اسم الملف من رأس Content-Disposition
-                        const dispositionHeader = xhr.getResponseHeader('Content-Disposition');
-                        const filenameMatch = dispositionHeader && dispositionHeader.match(/filename="(.+?)"/);
-                        const optimizedFilename = filenameMatch ? filenameMatch[1] : 'optimized_image.webp';
-
-
-                        const savings = ((originalSize - optimizedSize) / originalSize) * 100;
-
-                        // عرض النتائج
-                        document.getElementById('original-size').textContent = formatBytes(originalSize);
-                        document.getElementById('optimized-size').textContent = formatBytes(optimizedSize);
-                        document.getElementById('savings-percentage').textContent = `${savings.toFixed(2)}%`;
-                        
-                        // عرض الصورة ورابط التنزيل
-                        optimizedImagePreview.src = downloadUrl; 
-                        document.getElementById('download-link').href = downloadUrl;
-                        document.getElementById('download-link').download = optimizedFilename;
-                        
-                        resultsContainer.classList.remove('hidden');
-                        displayMessage('تم تحسين الصورة بنجاح وتوفير حجم كبير! جاهزة للتنزيل.', 'success');
-
-                    } else {
-                        // التعامل مع أخطاء الخادم (تحويل البيانات الثنائية arraybuffer إلى نص)
-                         const errorBuffer = xhr.response;
-                         const decoder = new TextDecoder('utf-8');
-                         const errorText = decoder.decode(errorBuffer);
-
-                        try {
-                            const errorData = JSON.parse(errorText);
-                            displayMessage(`فشل التحسين: ${errorData.details || errorData.error}`, 'error');
-                        } catch (e) {
-                             displayMessage(`فشل التحسين: خطأ غير معروف (HTTP ${xhr.status})`, 'error');
-                        }
-                    }
-                };
-                
-                xhr.onerror = function() {
-                    optimizeButton.disabled = false;
-                    optimizeButton.innerHTML = '<i class="fas fa-magic ml-2"></i> تحسين وضغط الصورة';
-                    progressContainer.classList.add('hidden');
-                    displayMessage('فشل في الاتصال بالخادم. تأكد من تشغيل server.js.', 'error');
-                };
-
-                xhr.onloadstart = function() {
-                    progressBar.style.width = '50%';
-                    progressText.textContent = 'جارٍ معالجة الصورة... (الخطوة 2 من 2)';
-                };
-
-                xhr.send(formData);
-
-            } catch (error) {
-                optimizeButton.disabled = false;
-                optimizeButton.innerHTML = '<i class="fas fa-magic ml-2"></i> تحسين وضغط الصورة';
-                displayMessage('فشل عام في JavaScript: ' + error.message, 'error');
-            }
-        });
+    } catch (error) {
+        optimizeButton.disabled = false;
+        displayMessage('حدث خطأ غير متوقع: ' + error.message, 'error');
+    }
+});
 
     </script>
 </body>
 
 </html>
+
