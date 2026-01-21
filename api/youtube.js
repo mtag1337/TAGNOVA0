@@ -1,35 +1,23 @@
 const axios = require('axios');
 
-exports.handler = async (event, context) => {
-    // 1. إعداد الرؤوس (Headers) للسماح بالاتصال من أي مكان (حل مشكلة CORS)
-    const headers = {
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Headers": "Content-Type",
-        "Access-Control-Allow-Methods": "GET, POST, OPTIONS"
-    };
+module.exports = async (req, res) => {
+    // 1. إعداد الرؤوس (Headers) بنظام Vercel
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+    res.setHeader('Content-Type', 'application/json');
 
-    // 2. التعامل مع طلبات الاختبار (Preflight) التي يرسلها المتصفح
-    if (event.httpMethod === "OPTIONS") {
-        return {
-            statusCode: 200,
-            headers,
-            body: ""
-        };
+    // 2. التعامل مع طلبات OPTIONS
+    if (req.method === 'OPTIONS') {
+        return res.status(200).end();
     }
 
-    // 3. استلام الـ Video ID من الرابط (Query Parameters)
-    const videoId = event.queryStringParameters.videoId;
-    
-    // جلب المفتاح من إعدادات Netlify (Environment Variables) لضمان الأمان
+    // 3. استلام الـ Video ID (في فيرسيل نستخدم req.query)
+    const { videoId } = req.query;
     const API_KEY = process.env.PAGESPEED_API_KEY;
 
-    // التحقق من وجود المعرف
     if (!videoId) {
-        return {
-            statusCode: 400,
-            headers,
-            body: JSON.stringify({ error: 'برجاء إدخال رابط فيديو أو معرف (Video ID) صحيح.' })
-        };
+        return res.status(400).json({ error: 'برجاء إدخال رابط فيديو أو معرف (Video ID) صحيح.' });
     }
 
     try {
@@ -37,31 +25,17 @@ exports.handler = async (event, context) => {
         const apiUrl = `https://www.googleapis.com/youtube/v3/videos?id=${videoId}&key=${API_KEY}&part=snippet,statistics`;
         const response = await axios.get(apiUrl);
 
-        // التحقق من وجود بيانات للفيديو
         if (!response.data.items || response.data.items.length === 0) {
-            return {
-                statusCode: 404,
-                headers,
-                body: JSON.stringify({ error: 'لم يتم العثور على الفيديو. تأكد من صحة الرابط.' })
-            };
+            return res.status(404).json({ error: 'لم يتم العثور على الفيديو. تأكد من صحة الرابط.' });
         }
 
         // 5. إرسال بيانات الفيديو بنجاح
-        return {
-            statusCode: 200,
-            headers,
-            body: JSON.stringify(response.data.items[0])
-        };
+        return res.status(200).json(response.data.items[0]);
 
     } catch (error) {
-        // في حالة حدوث خطأ في الشبكة أو في مفتاح الـ API
-        return {
-            statusCode: 500,
-            headers,
-            body: JSON.stringify({ 
-                error: 'فشل في الاتصال بخدمة يوتيوب.', 
-                details: error.message 
-            })
-        };
+        return res.status(500).json({ 
+            error: 'فشل في الاتصال بخدمة يوتيوب.', 
+            details: error.message 
+        });
     }
 };
