@@ -97,110 +97,123 @@
     </main>
 
     <script>
-        const form = document.getElementById('security-form');
-        const urlInput = document.getElementById('url-input');
-        const analyzeButton = document.getElementById('analyze-button');
-        const messageArea = document.getElementById('message-area');
-        const resultsContainer = document.getElementById('results-container');
-        const headersTable = document.getElementById('headers-table');
-        const scoreCircle = document.getElementById('score-circle');
-        const scoreDisplay = document.getElementById('score-display');
-        const missingCountDisplay = document.getElementById('missing-count');
-        const targetUrlDisplay = document.getElementById('target-url-display');
+       const form = document.getElementById('security-form');
+const urlInput = document.getElementById('url-input');
+const analyzeButton = document.getElementById('analyze-button');
+const messageArea = document.getElementById('message-area');
+const resultsContainer = document.getElementById('results-container');
+const headersTable = document.getElementById('headers-table');
+const scoreCircle = document.getElementById('score-circle');
+const scoreDisplay = document.getElementById('score-display');
+const missingCountDisplay = document.getElementById('missing-count');
+const targetUrlDisplay = document.getElementById('target-url-display');
 
-        const BACKEND_ENDPOINT = '/api/security-check'; 
-        
-        function displayMessage(message, type = 'error') {
-            messageArea.textContent = message;
-            messageArea.className = `mt-4 text-center p-4 rounded-lg ${type === 'error' ? 'bg-red-50 text-red-600 border border-red-100' : 'bg-green-50 text-green-700 border border-green-100'}`;
-            messageArea.classList.remove('hidden');
-        }
+// مسار الـ API على Vercel
+const BACKEND_ENDPOINT = '/api/security-check'; 
 
-        function renderResults(data) {
-            const percentage = parseInt(data.percentage);
-            const scorePart = data.score.split(' / ');
-            const found = parseInt(scorePart[0]);
-            const total = parseInt(scorePart[1]);
-            
-            let color = 'bg-red-500';
-            if (percentage >= 80) color = 'bg-green-500';
-            else if (percentage >= 50) color = 'bg-yellow-500';
+// دالة عرض الرسائل (خطأ أو نجاح)
+function displayMessage(message, type = 'error') {
+    messageArea.textContent = message;
+    messageArea.className = `mt-4 text-center p-4 rounded-lg font-medium shadow-sm transition-all ${
+        type === 'error' 
+        ? 'bg-red-50 text-red-600 border border-red-100' 
+        : 'bg-green-50 text-green-700 border border-green-100'
+    }`;
+    messageArea.classList.remove('hidden');
+}
 
-            scoreCircle.className = `score-circle ${color}`;
-            scoreDisplay.textContent = `${percentage}%`;
-            missingCountDisplay.textContent = `${found} من أصل ${total} مفعلة`;
-            targetUrlDisplay.textContent = data.targetUrl;
+// دالة بناء وعرض النتائج في الجدول
+function renderResults(data) {
+    const percentage = parseInt(data.percentage) || 0;
+    const scorePart = data.score ? data.score.split(' / ') : [0, 6];
+    const found = parseInt(scorePart[0]);
+    const total = parseInt(scorePart[1]);
+    
+    // تحديث لون الدائرة بناءً على النتيجة
+    let colorClass = 'bg-red-500';
+    if (percentage >= 80) colorClass = 'bg-green-500';
+    else if (percentage >= 50) colorClass = 'bg-yellow-500';
 
-            let tableHTML = `
-                <table class="min-w-full divide-y divide-gray-200 text-right">
-                    <thead class="bg-gray-50">
-                        <tr>
-                            <th class="px-6 py-4 text-xs font-bold text-gray-500 uppercase">اسم الرأس الأمني</th>
-                            <th class="px-6 py-4 text-xs font-bold text-gray-500 uppercase">الحالة</th>
-                            <th class="px-6 py-4 text-xs font-bold text-gray-500 uppercase">التوصية الأمنية</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-gray-200 bg-white">
-            `;
-            
-            data.headers.forEach(h => {
-                const isGood = h.status.includes('Good') || h.status.includes('Present');
-                tableHTML += `
-                    <tr class="hover:bg-gray-50 transition">
-                        <td class="px-6 py-4 text-sm font-bold text-gray-800">${h.name}</td>
-                        <td class="px-6 py-4 text-sm font-medium ${isGood ? 'text-green-600' : 'text-red-500'}">
-                            <span class="flex items-center">
-                                <i class="fas ${isGood ? 'fa-check-circle' : 'fa-exclamation-triangle'} ml-2"></i>
-                                ${isGood ? 'محمي' : 'غير موجود'}
-                            </span>
-                        </td>
-                        <td class="px-6 py-4 text-xs text-gray-500 leading-loose">${h.recommendation}</td>
-                    </tr>
-                `;
-            });
+    scoreCircle.className = `score-circle ${colorClass}`;
+    scoreDisplay.textContent = `${percentage}%`;
+    missingCountDisplay.textContent = `${found} من أصل ${total} مفعلة`;
+    targetUrlDisplay.textContent = data.targetUrl;
 
-            tableHTML += `</tbody></table>`;
-            headersTable.innerHTML = tableHTML;
-            resultsContainer.classList.remove('hidden');
-        }
+    let tableHTML = `
+        <table class="min-w-full divide-y divide-gray-200 text-right">
+            <thead class="bg-gray-50">
+                <tr>
+                    <th class="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider">اسم الرأس الأمني</th>
+                    <th class="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider">الحالة</th>
+                    <th class="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider text-center">التوصية الأمنية</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-200 bg-white">
+    `;
+    
+    data.headers.forEach(h => {
+        const isGood = h.status.toLowerCase().includes('good') || h.status.toLowerCase().includes('present');
+        tableHTML += `
+            <tr class="hover:bg-gray-50 transition-colors">
+                <td class="px-6 py-4 text-sm font-bold text-gray-800">${h.name}</td>
+                <td class="px-6 py-4 text-sm font-medium ${isGood ? 'text-green-600' : 'text-red-500'}">
+                    <span class="flex items-center">
+                        <i class="fas ${isGood ? 'fa-check-circle' : 'fa-exclamation-triangle'} ml-2"></i>
+                        ${isGood ? 'محمي' : 'غير موجود'}
+                    </span>
+                </td>
+                <td class="px-6 py-4 text-xs text-gray-500 leading-relaxed">${h.recommendation}</td>
+            </tr>
+        `;
+    });
 
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const url = urlInput.value.trim();
-            
-            analyzeButton.disabled = true;
-            analyzeButton.innerHTML = `<div class="loading-animation ml-2"></div> جاري تحليل الأمان...`;
-            messageArea.classList.add('hidden');
-            resultsContainer.classList.add('hidden');
+    tableHTML += `</tbody></table>`;
+    headersTable.innerHTML = tableHTML;
+    resultsContainer.classList.remove('hidden');
+}
 
-            try {
-                const response = await fetch(BACKEND_ENDPOINT, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ url: url })
-                });
+// معالج إرسال النموذج
+form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const url = urlInput.value.trim();
+    
+    // تحضير الواجهة للتحميل
+    analyzeButton.disabled = true;
+    analyzeButton.innerHTML = `<div class="loading-animation ml-2 border-2 border-white border-t-transparent rounded-full w-4 h-4 animate-spin"></div> جاري التحليل...`;
+    messageArea.classList.add('hidden');
+    resultsContainer.classList.add('hidden');
 
-                // فحص ما إذا كان الرد فعلاً JSON لمنع خطأ الـ Unexpected Token T
-                const contentType = response.headers.get("content-type");
-                if (!contentType || !contentType.includes("application/json")) {
-                    throw new Error("تلقى السيرفر رداً غير صالح من الموقع المستهدف. قد يكون الموقع محمياً ضد أدوات الفحص.");
-                }
-
-                const data = await response.json();
-
-                if (data.status === 'success') {
-                    renderResults(data);
-                    displayMessage('تم تحليل رؤوس الأمان بنجاح!', 'success');
-                } else {
-                    throw new Error(data.details || data.error || "حدث خطأ غير متوقع");
-                }
-            } catch (error) {
-                displayMessage(error.message, 'error');
-            } finally {
-                analyzeButton.disabled = false;
-                analyzeButton.innerHTML = '<i class="fas fa-shield-virus ml-2"></i> بدء الفحص';
-            }
+    try {
+        const response = await fetch(BACKEND_ENDPOINT, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ url: url })
         });
+
+        // فحص نوع المحتوى قبل محاولة تحويله لـ JSON لتجنب خطأ "T is not valid JSON"
+        const contentType = response.headers.get("content-type");
+        if (!contentType || !contentType.includes("application/json")) {
+            throw new Error("تلقى الخادم رداً غير صالح (HTML). الموقع المستهدف غالباً يحجب أدوات الفحص التلقائية.");
+        }
+
+        const data = await response.json();
+
+        if (data.status === 'success') {
+            renderResults(data);
+            displayMessage('تم تحليل رؤوس الأمان بنجاح!', 'success');
+        } else {
+            throw new Error(data.details || data.error || "حدث خطأ غير متوقع أثناء الفحص");
+        }
+
+    } catch (error) {
+        console.error("Analysis Error:", error);
+        displayMessage(error.message);
+    } finally {
+        analyzeButton.disabled = false;
+        analyzeButton.innerHTML = '<i class="fas fa-shield-virus ml-2"></i> بدء الفحص';
+    }
+});
     </script>
 </body>
 </html>
+
