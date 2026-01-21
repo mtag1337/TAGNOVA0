@@ -1,260 +1,146 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1262927411271648" crossorigin="anonymous"></script>
-    <title>TajNova | Your Future in Dev Starts Here</title>
+    <title>TajNova | Full Platform</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
-        // تفعيل إعدادات الثيم في Tailwind
         tailwind.config = {
             darkMode: 'class',
             theme: {
                 extend: {
-                    colors: {
-                        primary: '#8b5cf6',
-                        secondary: '#4f46e5',
-                        accent: '#22d3ee',
-                    }
+                    colors: { primary: '#8b5cf6', secondary: '#4f46e5', accent: '#22d3ee' }
                 }
             }
         }
     </script>
     <style>
-        :root {
-            --color-primary: #8b5cf6;
-            --color-secondary: #4f46e5;
-            --color-accent: #22d3ee;
-        }
-        body {
-            font-family: 'Inter', sans-serif;
-            transition: background-color 0.3s;
-        }
-        h1, h2, h3, h4 { font-family: 'Lexend Deca', sans-serif; }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .animate-fadeIn { animation: fadeIn 0.8s ease-out forwards; }
-        .animate-delay-200 { animation-delay: 0.2s; }
-        .animate-delay-400 { animation-delay: 0.4s; }
-
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Lexend+Deca:wght@400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap');
+        body { font-family: 'Cairo', sans-serif; scroll-behavior: smooth; }
+        .glass { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }
     </style>
 </head>
-<body class="bg-slate-50 dark:bg-slate-950 text-slate-700 dark:text-slate-300">
+<body class="bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-200">
 
-    <header class="bg-white/80 dark:bg-slate-900/80 backdrop-blur-md shadow-md sticky top-0 z-50 transition-colors">
-        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
-            <a href="#" class="flex items-center">
-                <img src="images/logotagnova.png" alt="TajNova Logo" class="h-12 md:h-16 mr-3"> 
-                <span class="text-3xl font-extrabold text-primary hidden sm:block">TajNova</span>
-            </a>
+    <header class="fixed top-0 w-full z-50 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md shadow-sm">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center gap-4">
+                <img src="images/logotagnova.png" alt="Logo" class="h-12">
+                <span class="text-2xl font-black text-primary">TajNova</span>
+            </div>
             
-            <nav class="hidden md:flex items-center space-x-8 text-lg font-medium">
-                <a href="academy.html" class="dark:text-white hover:text-primary transition duration-300">Academy</a>
-                <a href="#blog" class="dark:text-white hover:text-primary transition duration-300">Blog</a>
-                <a href="#tools" class="dark:text-white hover:text-primary transition duration-300">Free Tools</a>
-                <a href="#" id="about-link" class="dark:text-white hover:text-primary transition duration-300">About Us</a>
+            <nav class="hidden md:flex items-center gap-8 font-bold">
+                <a href="#academy" class="hover:text-primary transition">الأكاديمية</a>
+                <a href="#blog" class="hover:text-primary transition">المقالات</a>
+                <a href="#tools-section" class="hover:text-primary transition text-secondary">الأدوات</a>
                 
-                <button id="theme-toggle" class="p-2 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-yellow-400 transition-all">
-                    <span id="theme-toggle-icon">🌙</span>
-                </button>
+                <button id="theme-toggle" class="p-2 bg-slate-100 dark:bg-slate-800 rounded-full">🌙</button>
+                
+                <a href="login.html" class="px-6 py-2 border-2 border-primary text-primary rounded-xl hover:bg-primary hover:text-white transition">تسجيل الدخول</a>
+                
+                <a href="academy.html" class="px-6 py-2 bg-primary text-white rounded-xl shadow-lg hover:scale-105 transition">ابدأ الآن</a>
             </nav>
-
-            <a href="academy.html" class="bg-secondary text-white px-6 py-2 rounded-lg hover:bg-indigo-700 transition shadow-lg hidden md:block transform hover:scale-105 font-bold">
-                Start Your Journey
-            </a>
-            
-            <button id="mobile-menu-button" class="md:hidden text-3xl text-gray-700 dark:text-white transition">☰</button>
         </div>
-
-        <nav id="mobile-menu" class="hidden md:hidden bg-white dark:bg-slate-900 border-t border-gray-200 dark:border-slate-800 py-2">
-            <a href="academy.html" class="block px-4 py-3 text-lg hover:bg-gray-100 dark:hover:bg-slate-800 transition">Academy</a>
-            <a href="#blog" class="block px-4 py-3 text-lg hover:bg-gray-100 dark:hover:bg-slate-800 transition">Blog</a>
-            <a href="#tools" class="block px-4 py-3 text-lg hover:bg-gray-100 dark:hover:bg-slate-800 transition">Free Tools</a>
-            <a href="academy.html" class="block text-center mt-3 mx-4 bg-secondary text-white px-6 py-2 rounded-lg font-bold">Start Your Journey</a>
-        </nav>
     </header>
 
-    <main>
-        <section id="hero" class="bg-gradient-to-r from-violet-600 to-indigo-700 py-24 md:py-40 text-center text-white relative overflow-hidden">
-            <div class="container mx-auto px-6 max-w-5xl relative z-10">
-                <h1 class="text-6xl md:text-7xl font-extrabold mb-6 leading-tight animate-fadeIn">
-                    Your Future in <span class="text-accent">Dev</span> Starts Here.
-                </h1>
-                <p class="text-xl md:text-2xl mb-10 animate-fadeIn animate-delay-200">
-                    Cutting-edge software solutions and intensive practical training for Full-Stack developers.
-                </p>
-                <a href="academy.html" class="bg-accent text-gray-900 text-xl font-bold px-10 py-5 rounded-full hover:bg-cyan-300 transition shadow-xl transform hover:scale-110 inline-block animate-fadeIn animate-delay-400">
-                    Explore Our Academy!
-                </a>
-            </div>
-        </section>
-
-        <section id="course" class="py-24 transition-colors">
+    <main class="pt-24">
+        <section id="academy" class="py-20">
             <div class="container mx-auto px-6">
-                <div class="relative overflow-hidden rounded-[40px] bg-slate-900 p-8 md:p-16 shadow-2xl border border-white/5">
-                    <div class="absolute top-0 right-0 -mt-20 -mr-20 h-96 w-96 rounded-full bg-primary/10 blur-[100px]"></div>
-                    <div class="relative z-10 flex flex-col lg:flex-row items-center justify-between gap-12">
-                        <div class="lg:w-1/2 text-left">
-                            <span class="inline-block bg-primary/20 text-primary px-5 py-2 rounded-full text-xs font-black tracking-widest mb-6 uppercase">TajNova Global Academy</span>
-                            <h2 class="text-4xl md:text-6xl font-black text-white mb-6 leading-tight">
-                                Elevate Your Skills to <span class="text-primary italic">World Class</span>
-                            </h2>
-                            <p class="text-slate-400 text-xl mb-10 leading-relaxed italic">
-                                انضم إلى منصة تعليمية مصممة لنقلك من الأساسيات إلى مستوى الاحتراف العالمي. مناهج معتمدة، مشاريع حقيقية، ودعم مستمر.
-                            </p>
-                            <div class="grid grid-cols-2 gap-6 mb-12">
-                                <div class="flex items-center space-x-3 group">
-                                    <div class="bg-green-500/20 p-2 rounded-lg text-green-400 font-bold">✓</div>
-                                    <span class="font-bold text-slate-300">Practical Projects</span>
-                                </div>
-                                <div class="flex items-center space-x-3 group">
-                                    <div class="bg-green-500/20 p-2 rounded-lg text-green-400 font-bold">✓</div>
-                                    <span class="font-bold text-slate-300">Expert Mentors</span>
-                                </div>
-                            </div>
-                            <a href="academy.html" class="inline-block bg-white text-slate-900 px-12 py-5 rounded-2xl font-black text-lg hover:bg-primary hover:text-white transition transform hover:-translate-y-1 shadow-2xl">
-                                Join The Academy Now →
-                            </a>
+                <div class="relative group overflow-hidden rounded-[40px] bg-slate-900 mb-10 shadow-2xl">
+                    <div class="absolute inset-0 bg-gradient-to-r from-primary/20 to-transparent"></div>
+                    <div class="relative z-10 p-10 md:p-20 flex flex-col md:flex-row items-center justify-between">
+                        <div class="md:w-1/2">
+                            <h2 class="text-5xl md:text-7xl font-black text-white mb-6">احترف البرمجة <span class="text-accent italic">عالمياً</span></h2>
+                            <p class="text-slate-400 text-xl mb-8 leading-relaxed">من الصفر حتى التوظيف في كبرى شركات التقنية. تدريب عملي 100%.</p>
+                            <a href="academy.html" class="inline-block bg-white text-black px-12 py-4 rounded-2xl font-black hover:bg-accent transition transform hover:translate-x-2">سجل الآن مجاناً</a>
                         </div>
-                        <div class="lg:w-1/2">
-                            <div class="rounded-3xl border-8 border-white/5 overflow-hidden shadow-2xl transform lg:rotate-3 transition duration-500">
-                                <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1000" alt="Academy Preview" class="w-full h-full object-cover grayscale hover:grayscale-0 transition">
-                            </div>
+                        <div class="md:w-1/2 mt-10 md:mt-0">
+                            <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=1000" class="rounded-3xl shadow-2xl rotate-2 group-hover:rotate-0 transition duration-500" alt="Cyber">
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section id="blog" class="py-20 md:py-28 bg-slate-50 dark:bg-slate-950 transition-colors">
+        <section id="blog" class="py-20 bg-slate-100 dark:bg-slate-900/50">
             <div class="container mx-auto px-6">
-                <h2 class="text-4xl font-extrabold mb-12 text-center text-slate-800 dark:text-white">
-                    Latest Blog Posts: Solutions to Your Toughest Dev Problems.
-                </h2>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
-                    <div class="bg-white dark:bg-slate-800 p-8 rounded-xl shadow-lg hover:shadow-2xl transition transform hover:-translate-y-2">
-                        <span class="text-sm font-semibold text-primary mb-3 block uppercase">Full-Stack Development</span>
-                        <h3 class="text-2xl font-bold mb-4 text-slate-800 dark:text-white">5 Common API Mistakes and How to Avoid Them</h3>
-                        <p class="text-slate-600 dark:text-slate-400 text-base mb-5">A brief summary of the article content, enticing the reader to click and learn more.</p>
-                        <a href="_common_api_mistakes.html" class="text-secondary font-semibold hover:underline flex items-center">Read More →</a>
-                    </div>
+                <div class="flex justify-between items-end mb-12">
+                    <h2 class="text-4xl font-black dark:text-white">آخر المقالات التقنية</h2>
+                    <span class="text-primary font-bold">15 مقالة تعليمية</span>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <article class="bg-white dark:bg-slate-800 rounded-3xl p-6 shadow-sm hover:shadow-xl transition group">
+                        <div class="h-48 rounded-2xl bg-slate-200 mb-6 overflow-hidden">
+                            <img src="https://via.placeholder.com/400x200" class="w-full h-full object-cover group-hover:scale-110 transition">
+                        </div>
+                        <h3 class="text-2xl font-bold mb-4 dark:text-white">كيف تبدأ في تعلم الـ Full Stack؟</h3>
+                        <a href="article1.html" class="text-primary font-bold inline-flex items-center gap-2">اقرأ المزيد <span>←</span></a>
+                    </article>
+
+                    <article class="bg-white dark:bg-slate-800 rounded-3xl p-6 shadow-sm hover:shadow-xl transition group">
+                        <div class="h-48 rounded-2xl bg-slate-200 mb-6 overflow-hidden">
+                            <img src="https://via.placeholder.com/400x200" class="w-full h-full object-cover group-hover:scale-110 transition">
+                        </div>
+                        <h3 class="text-2xl font-bold mb-4 dark:text-white">دليلك الشامل لـ React 2026</h3>
+                        <a href="article2.html" class="text-primary font-bold inline-flex items-center gap-2">اقرأ المزيد <span>←</span></a>
+                    </article>
                     
-                    <div class="bg-white dark:bg-slate-800 p-8 rounded-xl shadow-lg hover:shadow-2xl transition transform hover:-translate-y-2">
-                        <span class="text-sm font-semibold text-primary mb-3 block uppercase">Web Performance</span>
-                        <h3 class="text-2xl font-bold mb-4 text-slate-800 dark:text-white">Supercharge Your Website: The Ultimate Speed Guide</h3>
-                        <p class="text-slate-600 dark:text-slate-400 text-base mb-5">A brief summary of the article content, enticing the reader to click and learn more.</p>
-                        <a href="web_performance_part1.html" class="text-secondary font-semibold hover:underline flex items-center">Read More →</a>
-                    </div>
-                    
-                    <div class="bg-white dark:bg-slate-800 p-8 rounded-xl shadow-lg hover:shadow-2xl transition transform hover:-translate-y-2">
-                        <span class="text-sm font-semibold text-primary mb-3 block uppercase">JavaScript</span>
-                        <h3 class="text-2xl font-bold mb-4 text-slate-800 dark:text-white">Why You Need to Learn TypeScript Now</h3>
-                        <p class="text-slate-600 dark:text-slate-400 text-base mb-5">A brief summary of the article content, enticing the reader to click and learn more.</p>
-                        <a href="typescript_deepdive_full_en.html" class="text-secondary font-semibold hover:underline flex items-center">Read More →</a>
-                    </div>
                     </div>
             </div>
         </section>
 
-        <section id="tools" class="py-20 md:py-28 bg-white dark:bg-slate-900 border-t dark:border-slate-800">
-            <div class="container mx-auto px-6 text-center">
-                <h2 class="text-4xl font-extrabold mb-8 text-slate-800 dark:text-white">🛠️ Free Developer Tools</h2>
-                <p class="text-lg text-slate-600 dark:text-slate-400 mb-12 max-w-3xl mx-auto">Utilize our simple and expertly crafted tools to accelerate your workflow.</p>
-                <a href="tools_list.html" class="bg-secondary text-white px-8 py-4 rounded-lg hover:bg-indigo-700 transition shadow-lg inline-block font-bold">Discover All Tools</a>
+        <section id="tools-section" class="py-24 bg-gradient-to-b from-primary to-secondary text-white text-center">
+            <div class="container mx-auto px-6">
+                <h2 class="text-6xl font-black mb-8 italic tracking-tighter">TOOLS & RESOURCES</h2>
+                <p class="text-2xl mb-12 opacity-90 max-w-2xl mx-auto">كل ما يحتاجه المبرمج من أدوات مساعدة في مكان واحد.</p>
+                <a href="tools_list.html" class="bg-white text-primary px-16 py-6 rounded-[2rem] font-black text-2xl shadow-2xl hover:bg-accent hover:text-white transition transform hover:scale-110 inline-block">تصفح قائمة الأدوات</a>
             </div>
         </section>
     </main>
 
-    <footer class="bg-gray-900 text-white py-16">
-        <div class="container mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-12 text-center md:text-left">
+    <footer class="bg-slate-950 text-white pt-20 pb-10 border-t border-white/10">
+        <div class="container mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-12">
             <div>
-                <a href="#" class="flex items-center justify-center md:justify-start mb-5">
-                    <img src="images/logotagnova.png" alt="TajNova Logo" class="h-12 mr-3">
-                    <span class="text-3xl font-extrabold text-primary">TajNova</span>
-                </a>
-                <p class="text-sm text-gray-400">Building the future of tech, one line of code at a time.</p>
+                <img src="images/logotagnova.png" class="h-12 mb-6">
+                <p class="text-slate-500">منصة TajNova تهدف لتمكين الشباب العربي في مجال التكنولوجيا والبرمجة.</p>
             </div>
+            <div>
+                <h4 class="text-xl font-bold mb-6 text-primary">روابط سريعة</h4>
+                <ul class="space-y-4 text-slate-400">
+                    <li><a href="#" class="hover:text-white transition">الرئيسية</a></li>
+                    <li><a href="#academy" class="hover:text-white transition">الأكاديمية</a></li>
+                    <li><a href="#blog" class="hover:text-white transition">المدونة</a></li>
+                </ul>
             </div>
-        <div class="text-center mt-16 border-t border-gray-700 pt-8 text-gray-500 text-sm">
-            &copy; 2026 TajNova. All rights reserved.
+            <div>
+                <h4 class="text-xl font-bold mb-6 text-primary">الدعم</h4>
+                <ul class="space-y-4 text-slate-400">
+                    <li><a href="#" class="hover:text-white transition">تواصل معنا</a></li>
+                    <li><a href="#" class="hover:text-white transition">الأسئلة الشائعة</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-xl font-bold mb-6 text-primary">قانوني</h4>
+                <ul class="space-y-4 text-slate-400">
+                    <li><a href="#" class="hover:text-white transition">سياسة الخصوصية</a></li>
+                    <li><a href="#" class="hover:text-white transition">الشروط والأحكام</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="text-center mt-20 pt-10 border-t border-white/5 text-slate-600">
+            © 2026 TajNova. جميع الحقوق محفوظة.
         </div>
     </footer>
 
-    <div id="modal-container" class="fixed inset-0 bg-black bg-opacity-70 hidden flex items-center justify-center z-50 p-4">
-        <div class="bg-white dark:bg-slate-900 p-8 md:p-10 rounded-xl max-w-xl w-full shadow-3xl opacity-0 relative transition-opacity duration-300">
-            <button id="close-modal" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800 dark:hover:text-white text-4xl">&times;</button>
-            <h3 id="modal-title" class="text-3xl font-extrabold mb-5 text-primary"></h3>
-            <div id="modal-content" class="text-gray-700 dark:text-slate-300 text-lg max-h-96 overflow-y-auto"></div>
-        </div>
-    </div>
-
     <script>
-        // تفعيل الوضع الليلي فعلياً
-        const themeToggle = document.getElementById('theme-toggle');
-        const themeIcon = document.getElementById('theme-toggle-icon');
-        
-        function updateTheme() {
-            if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-                document.documentElement.classList.add('dark');
-                themeIcon.innerText = '☀️';
-            } else {
-                document.documentElement.classList.remove('dark');
-                themeIcon.innerText = '🌙';
-            }
-        }
-        updateTheme();
-
-        themeToggle.addEventListener('click', () => {
+        // سكريبت تحويل الوضع الليلي
+        const toggleBtn = document.getElementById('theme-toggle');
+        toggleBtn.addEventListener('click', () => {
             document.documentElement.classList.toggle('dark');
-            const isDark = document.documentElement.classList.contains('dark');
-            localStorage.theme = isDark ? 'dark' : 'light';
-            themeIcon.innerText = isDark ? '☀️' : '🌙';
+            toggleBtn.innerText = document.documentElement.classList.contains('dark') ? '☀️' : '🌙';
         });
-
-        // تشغيل المودال والمنيو كما في كودك الأصلي
-        const mobileMenuButton = document.getElementById('mobile-menu-button');
-        const mobileMenu = document.getElementById('mobile-menu');
-        if (mobileMenuButton) {
-            mobileMenuButton.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
-        }
-
-        // --- بقية الـ Modal Script بتاعك هنا بالظبط ---
-        // (أنا حافظت على منطق المودال اللي بعته في السكريبت الأصلي)
-        const modalContainer = document.getElementById('modal-container');
-        const closeModalButton = document.getElementById('close-modal');
-        const modalTitle = document.getElementById('modal-title');
-        const modalContent = document.getElementById('modal-content');
-        const modalContentBox = document.querySelector('#modal-container > div');
-
-        const modalContents = {
-            'about': { title: 'About TajNova', content: 'TajNova was founded by passionate developers...' },
-            'privacy': { title: 'Privacy Policy', content: 'TajNova is committed to protecting your privacy...' },
-            'contact': { title: 'Contact Us', content: 'For inquiries, you can reach us via info@tajnova.com' }
-        };
-
-        function openModal(type) {
-            const contentData = modalContents[type];
-            if (contentData) {
-                modalTitle.textContent = contentData.title;
-                modalContent.innerHTML = contentData.content;
-                modalContainer.classList.remove('hidden');
-                modalContainer.style.display = 'flex';
-                setTimeout(() => { modalContentBox.style.opacity = '1'; }, 10);
-            }
-        }
-        
-        function closeModal() {
-            modalContentBox.style.opacity = '0';
-            setTimeout(() => { modalContainer.classList.add('hidden'); modalContainer.style.display = 'none'; }, 300);
-        }
-
-        document.getElementById('about-link')?.addEventListener('click', (e) => { e.preventDefault(); openModal('about'); });
-        closeModalButton.addEventListener('click', closeModal);
     </script>
 </body>
 </html>
