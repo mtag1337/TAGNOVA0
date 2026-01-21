@@ -3,90 +3,101 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1262927411271648"
-     crossorigin="anonymous"></script>
     <title>محلل رؤوس HTTP | TajNova Tool</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        :root { --color-primary: #f97316; /* Orange */ }
+        :root { --color-primary: #f97316; }
         .loading-animation {
-            border: 4px solid rgba(255, 255, 255, 0.3);
-            border-top-color: var(--color-primary);
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-top-color: #fff;
             border-radius: 50%;
-            width: 1.25rem;
-            height: 1.25rem;
-            animation: spinner 1s linear infinite;
+            width: 1.2rem;
+            height: 1.2rem;
+            animation: spinner 0.8s linear infinite;
         }
         @keyframes spinner { to { transform: rotate(360deg); } }
+        .dir-ltr { direction: ltr; }
     </style>
 </head>
-<body class="bg-gray-100 text-slate-800">
+<body class="bg-gray-50 text-slate-800">
 
-    <header class="bg-white shadow-lg">
-        <div class="max-w-5xl mx-auto p-6 flex justify-between items-center">
-            <h1 class="text-3xl font-extrabold text-primary flex items-center">
+    <header class="bg-white shadow-sm border-b">
+        <div class="max-w-5xl mx-auto p-5 flex justify-between items-center">
+            <h1 class="text-2xl font-bold text-orange-600 flex items-center">
                 <i class="fas fa-network-wired ml-2"></i> TajNova
             </h1>
-            <a href="/tools_list.html" class="text-blue-600 hover:text-blue-800 font-medium transition duration-150">
-                <i class="fas fa-arrow-right-to-bracket ml-2"></i> قائمة الأدوات
+            <a href="/tools_list.html" class="text-gray-600 hover:text-orange-600 transition font-medium">
+                <i class="fas fa-arrow-right ml-1"></i> قائمة الأدوات
             </a>
         </div>
     </header>
 
-    <main class="max-w-5xl mx-auto py-10 px-4 sm:px-6 lg:px-8">
-        
-        <div class="bg-white p-6 rounded-xl shadow-2xl mb-8 border-t-4 border-primary">
-            <h2 class="text-2xl font-bold mb-4 text-slate-700">🔍 محلل رؤوس HTTP</h2>
+    <main class="max-w-5xl mx-auto py-12 px-4">
+        <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 mb-8">
+            <h2 class="text-2xl font-bold mb-2 text-gray-800 text-center md:text-right">🔍 محلل رؤوس HTTP</h2>
+            <p class="text-gray-500 mb-6 text-center md:text-right">حلل استجابة الخادم وتحقق من إعدادات الأمان والتخزين المؤقت.</p>
             
-            <form id="headers-form" class="flex flex-col md:flex-row gap-3">
+            <form id="headers-form" class="flex flex-col md:flex-row gap-4">
                 <input 
-                    type="url" 
+                    type="text" 
                     id="target-url" 
-                    placeholder="أدخل رابط الموقع كاملاً (مثل: https://www.google.com)" 
+                    placeholder="مثال: google.com" 
                     required 
-                    class="flex-grow p-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-primary transition duration-200 text-right"
+                    class="flex-grow p-4 border border-gray-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none transition text-right"
                 >
                 <button 
                     type="submit" 
                     id="analyze-button"
-                    class="bg-primary text-white py-3 px-6 rounded-lg font-semibold hover:bg-orange-600 transition duration-300 flex items-center justify-center"
+                    class="bg-orange-600 text-white py-4 px-8 rounded-xl font-bold hover:bg-orange-700 active:scale-95 transition-all duration-200 flex items-center justify-center min-w-[180px]"
                 >
-                    <i class="fas fa-search ml-2"></i> تحليل الرؤوس
+                    <i class="fas fa-search ml-2"></i> 
+                    <span id="button-text">تحليل الرؤوس</span>
                 </button>
             </form>
             
-            <p id="message-area" class="mt-4 text-center hidden p-3 rounded-lg"></p>
+            <div id="message-area" class="mt-4 text-center hidden p-3 rounded-lg font-medium"></div>
         </div>
 
         <div id="results-container" class="space-y-6 hidden">
-            <div class="bg-white p-6 rounded-xl shadow-lg">
-                <h3 class="text-xl font-bold mb-3 text-slate-700 border-b pb-2">ملخص التحليل</h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-                    <p class="font-medium">الرابط المُدخل: <code id="initial-url" class="font-normal text-blue-600"></code></p>
-                    <p class="font-medium">الرابط النهائي: <code id="final-url" class="font-normal text-green-600"></code></p>
-                    <p class="font-medium">كود الحالة (Status Code): <span id="status-code" class="text-lg font-extrabold"></span></p>
-                    <p class="font-medium">رسالة الحالة: <span id="status-text" class="text-lg font-extrabold"></span></p>
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+                <h3 class="text-lg font-bold mb-4 text-gray-700 border-b pb-2">ملخص التحليل</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <p class="text-sm text-gray-400">الرابط النهائي</p>
+                        <p id="final-url" class="font-mono text-blue-600 break-all dir-ltr text-right"></p>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <div>
+                            <p class="text-sm text-gray-400">كود الحالة</p>
+                            <span id="status-code" class="text-2xl font-black"></span>
+                        </div>
+                        <div class="mr-4">
+                            <p class="text-sm text-gray-400">الرسالة</p>
+                            <span id="status-text" class="text-lg font-bold"></span>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <div class="bg-white p-6 rounded-xl shadow-lg">
-                <h3 class="text-xl font-bold mb-4 text-slate-700">رؤوس HTTP المُستلمة (HTTP Headers)</h3>
+            <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                <div class="p-6 bg-gray-50 border-b">
+                    <h3 class="text-lg font-bold text-gray-700">رؤوس HTTP المُستلمة</h3>
+                </div>
                 <div class="overflow-x-auto">
                     <table class="min-w-full divide-y divide-gray-200">
                         <thead class="bg-gray-50">
                             <tr>
-                                <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">اسم الرأس (Header Name)</th>
-                                <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">القيمة (Value)</th>
+                                <th class="px-6 py-4 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">اسم الرأس (Header)</th>
+                                <th class="px-6 py-4 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">القيمة (Value)</th>
                             </tr>
                         </thead>
-                        <tbody id="headers-table-body" class="bg-white divide-y divide-gray-200 text-sm">
+                        <tbody id="headers-table-body" class="bg-white divide-y divide-gray-200">
                             </tbody>
                     </table>
                 </div>
             </div>
         </div>
-        
     </main>
 
     <script>
@@ -97,72 +108,46 @@
         const resultsContainer = document.getElementById('results-container');
         const headersTableBody = document.getElementById('headers-table-body');
 
-        // نقطة نهاية الخادم الخلفي الجديدة
-        const BACKEND_ENDPOINT = 'http://localhost:3000/api/analyze-headers'; 
+        const BACKEND_ENDPOINT = '/api/analyze-headers'; 
 
         function displayMessage(message, type = 'error') {
             messageArea.textContent = message;
-            messageArea.classList.remove('hidden', 'bg-red-100', 'text-red-700', 'bg-green-100', 'text-green-700');
-            if (type === 'error') {
-                messageArea.classList.add('bg-red-100', 'text-red-700');
-            } else {
-                messageArea.classList.add('bg-green-100', 'text-green-700');
-            }
+            messageArea.className = `mt-4 text-center p-3 rounded-lg ${type === 'error' ? 'bg-red-50 text-red-600' : 'bg-green-50 text-green-600'}`;
             messageArea.classList.remove('hidden');
-        }
-        
-        function renderHeadersTable(headers) {
-            headersTableBody.innerHTML = ''; // تفريغ الجدول
-            headers.forEach(header => {
-                const row = headersTableBody.insertRow();
-                row.className = 'hover:bg-gray-50';
-                
-                const nameCell = row.insertCell();
-                nameCell.className = 'px-6 py-4 whitespace-nowrap font-medium text-gray-900 font-mono';
-                nameCell.textContent = header.name;
-
-                const valueCell = row.insertCell();
-                valueCell.className = 'px-6 py-4 text-gray-700 break-all';
-                valueCell.textContent = header.value;
-            });
         }
 
         function renderResults(data) {
             resultsContainer.classList.remove('hidden');
-            
-            document.getElementById('initial-url').textContent = data.initialUrl;
             document.getElementById('final-url').textContent = data.finalUrl;
-            document.getElementById('status-code').textContent = data.statusCode;
-            document.getElementById('status-text').textContent = data.statusText;
-
-            // تلوين كود الحالة
+            
             const statusCodeEl = document.getElementById('status-code');
-            statusCodeEl.className = 'text-lg font-extrabold';
-            if (data.statusCode >= 200 && data.statusCode < 300) {
-                statusCodeEl.classList.add('text-green-600');
-            } else if (data.statusCode >= 300 && data.statusCode < 400) {
-                statusCodeEl.classList.add('text-yellow-600');
-            } else {
-                statusCodeEl.classList.add('text-red-600');
-            }
+            const statusTextEl = document.getElementById('status-text');
+            
+            statusCodeEl.textContent = data.statusCode;
+            statusTextEl.textContent = data.statusText;
 
-            // عرض جدول الرؤوس
-            renderHeadersTable(data.headers);
+            // تلوين الحالة بناءً على الكود
+            statusCodeEl.className = 'text-2xl font-black ' + 
+                (data.statusCode < 300 ? 'text-green-600' : data.statusCode < 400 ? 'text-yellow-600' : 'text-red-600');
+
+            // ملء الجدول بالرؤوس
+            headersTableBody.innerHTML = data.headers.map(h => `
+                <tr class="hover:bg-gray-50 transition">
+                    <td class="px-6 py-4 font-mono text-sm font-bold text-slate-700 border-l">${h.name}</td>
+                    <td class="px-6 py-4 text-sm text-gray-600 break-all dir-ltr text-left">${h.value}</td>
+                </tr>
+            `).join('');
         }
 
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
-            
-            const url = targetUrlInput.value.trim();
+            let url = targetUrlInput.value.trim();
+            if (!url) return;
+            if (!url.startsWith('http')) url = 'https://' + url;
 
-            if (!url) {
-                displayMessage('الرجاء إدخال رابط موقع صحيح.');
-                return;
-            }
-
-            // حالة التحميل
+            // تفعيل حالة التحميل
             analyzeButton.disabled = true;
-            analyzeButton.innerHTML = `<div class="loading-animation ml-2"></div> جارٍ التحليل...`;
+            analyzeButton.innerHTML = `<div class="loading-animation ml-2"></div> <span>جاري التحليل...</span>`;
             resultsContainer.classList.add('hidden');
             messageArea.classList.add('hidden');
 
@@ -175,24 +160,19 @@
 
                 const data = await response.json();
 
-                if (!response.ok || data.error) {
-                    throw new Error(data.details || data.error || 'فشل الجلب بسبب خطأ في الخادم.');
+                if (data.success) {
+                    renderResults(data);
+                    displayMessage('تم تحليل الرؤوس بنجاح!', 'success');
+                } else {
+                    displayMessage(data.details || 'فشل جلب البيانات من هذا الرابط.');
                 }
-
-                // عرض النتائج 
-                renderResults(data);
-                displayMessage('تم تحليل الرؤوس بنجاح!', 'success');
-
             } catch (error) {
-                console.error('Fetch Error:', error);
-                displayMessage('فشل التحليل: ' + error.message);
+                displayMessage('حدث خطأ في الاتصال بالخادم.');
             } finally {
                 analyzeButton.disabled = false;
-                analyzeButton.innerHTML = '<i class="fas fa-search ml-2"></i> تحليل الرؤوس';
+                analyzeButton.innerHTML = `<i class="fas fa-search ml-2"></i> <span>تحليل الرؤوس</span>`;
             }
         });
-
     </script>
 </body>
-
 </html>
