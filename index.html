@@ -3,105 +3,114 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TajNova | منصة النخبة الرقمية</title>
+    <title>TajNova | المنصة العربية الشاملة للتعليم والخدمات الرقمية</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <script>
-        // إعدادات Tailwind لتناسب ألوان 1xbet والدارك مود
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        brandDark: '#0e1a23',
-                        brandBlue: '#1a3144',
-                        brandAccent: '#28a745', // أخضر زي 1xbet أو ممكن نخليه أزرق فاتح
-                        brandGold: '#ffc107'
-                    }
-                }
-            }
-        }
-    </script>
     <style>
-        body { font-family: 'Cairo', sans-serif; background-color: #0e1a23; }
-        .sidebar-item:hover { background: rgba(255,255,255,0.05); border-left: 4px solid #1d71b8; }
-        .glass-card { background: #1a3144; border: 1px solid #2d4a61; }
-        .glass-card:hover { border-color: #1d71b8; transform: translateY(-5px); transition: all 0.3s; }
+        body { font-family: 'Cairo', sans-serif; background-color: #0b0f19; color: #f3f4f6; }
+        .sidebar-item { transition: 0.3s; border-right: 3px solid transparent; }
+        .sidebar-item:hover { background: #1e293b; border-right-color: #3b82f6; color: #3b82f6; }
+        .nav-glass { background: rgba(17, 24, 39, 0.8); backdrop-filter: blur(10px); border-bottom: 1px solid #1f2937; }
+        .card-premium { background: #111827; border: 1px solid #1f2937; transition: 0.3s; }
+        .card-premium:hover { border-color: #3b82f6; transform: translateY(-5px); box-shadow: 0 10px 30px -10px rgba(59, 130, 246, 0.3); }
+        .btn-action { background: #22c55e; transition: 0.3s; }
+        .btn-action:hover { background: #16a34a; transform: scale(1.05); }
     </style>
 </head>
-<body class="text-white">
+<body class="overflow-x-hidden">
 
-    <header class="bg-[#1a3144] border-b border-[#2d4a61] sticky top-0 z-50">
-        <div class="container mx-auto px-4 py-2 flex justify-between items-center">
+    <header class="nav-glass sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
             <div class="flex items-center gap-4">
                 <img src="images/logotagnova.png" alt="TajNova" class="h-10">
-                <span class="text-xl font-black text-white uppercase tracking-wider">TajNova</span>
+                <span class="text-2xl font-black text-white tracking-tighter">TAJNOVA</span>
             </div>
-
-            <div class="hidden lg:flex gap-1">
-                <a href="dashboard.html" class="px-4 py-2 hover:bg-[#2d4a61] rounded transition text-sm">الأكاديمية</a>
-                <a href="tools_list.html" class="px-4 py-2 hover:bg-[#2d4a61] rounded transition text-sm text-brandGold font-bold">الأدوات المميزة</a>
-                <a href="#" class="px-4 py-2 hover:bg-[#2d4a61] rounded transition text-sm">المقالات</a>
-            </div>
+            
+            <nav class="hidden lg:flex items-center gap-8 text-sm font-bold opacity-80">
+                <a href="dashboard.html" class="hover:text-blue-500 transition">الأكاديمية</a>
+                <a href="tools_list.html" class="hover:text-blue-500 transition">أدوات ذكية</a>
+                <a href="#" class="hover:text-blue-500 transition">المقالات التقنية</a>
+                <a href="#" class="hover:text-blue-500 transition">من نحن</a>
+            </nav>
 
             <div class="flex items-center gap-3">
-                <button onclick="toggleDarkMode()" class="p-2 text-gray-400 hover:text-white"><i class="fas fa-moon"></i></button>
-                <a href="checkout.html" class="text-sm font-bold px-4 py-2 border border-gray-500 rounded hover:bg-gray-700">تسجيل الدخول</a>
-                <a href="enroll.html" class="text-sm font-bold px-4 py-2 bg-[#28a745] hover:bg-green-600 rounded">التسجيل</a>
+                <a href="checkout.html" class="text-xs font-bold px-4 py-2 text-gray-400 hover:text-white transition">دخول</a>
+                <a href="enroll.html" class="btn-action text-white text-xs font-bold px-5 py-2 rounded-lg shadow-lg shadow-green-900/20">انضم كمدرب أو طالب</a>
             </div>
         </div>
     </header>
 
     <div class="flex">
-        <aside class="hidden lg:block w-64 bg-[#142634] h-screen sticky top-14 border-l border-[#2d4a61]">
-            <div class="p-4 border-b border-[#2d4a61] text-xs font-bold text-gray-500 uppercase tracking-widest">المجالات الرئيسية</div>
-            <nav class="p-2 space-y-1">
-                <a href="dashboard.html" class="sidebar-item flex items-center p-3 gap-3 rounded">
-                    <i class="fas fa-university text-blue-400"></i> الأكاديمية التعليمية
+        <aside class="hidden lg:block w-72 h-[calc(100vh-64px)] bg-[#0f172a] border-l border-[#1f2937] sticky top-16 p-4">
+            <p class="text-[10px] font-black text-gray-500 uppercase mb-6 pr-2 tracking-[2px]">تصفح الأقسام</p>
+            <nav class="space-y-2">
+                <a href="dashboard.html" class="sidebar-item flex items-center p-3 gap-4 rounded-xl">
+                    <i class="fas fa-layer-group text-blue-500"></i>
+                    <span class="text-sm font-bold">جميع التخصصات</span>
                 </a>
-                <a href="tools_list.html" class="sidebar-item flex items-center p-3 gap-3 rounded">
-                    <i class="fas fa-magic text-yellow-400"></i> أدوات الدروب شيبنج
+                <a href="#" class="sidebar-item flex items-center p-3 gap-4 rounded-xl">
+                    <i class="fas fa-code text-indigo-500"></i>
+                    <span class="text-sm font-bold">البرمجة والتطوير</span>
                 </a>
-                <a href="#" class="sidebar-item flex items-center p-3 gap-3 rounded">
-                    <i class="fas fa-code text-green-400"></i> خدمات المبرمجين
+                <a href="#" class="sidebar-item flex items-center p-3 gap-4 rounded-xl">
+                    <i class="fas fa-chart-line text-emerald-500"></i>
+                    <span class="text-sm font-bold">الأعمال والاقتصاد</span>
                 </a>
-                <a href="#" class="sidebar-item flex items-center p-3 gap-3 rounded">
-                    <i class="fas fa-newspaper text-red-400"></i> المجلة الحصرية
+                <a href="#" class="sidebar-item flex items-center p-3 gap-4 rounded-xl">
+                    <i class="fas fa-paint-brush text-pink-500"></i>
+                    <span class="text-sm font-bold">التصميم والإبداع</span>
+                </a>
+                <a href="tools_list.html" class="sidebar-item flex items-center p-3 gap-4 rounded-xl bg-blue-500/5 text-blue-400">
+                    <i class="fas fa-bolt"></i>
+                    <span class="text-sm font-bold">أدوات حصرية للمشتركين</span>
                 </a>
             </nav>
         </aside>
 
-        <main class="flex-1 p-6">
-            <section class="bg-gradient-to-r from-blue-900 to-indigo-900 rounded-2xl p-10 mb-10 relative overflow-hidden">
+        <main class="flex-1 p-6 lg:p-10">
+            <section class="relative bg-gradient-to-br from-blue-700 to-indigo-900 rounded-[2rem] p-8 lg:p-16 mb-12 overflow-hidden shadow-2xl">
                 <div class="relative z-10">
-                    <h1 class="text-4xl font-black mb-4 uppercase">المنصة الشاملة للمال والتقنية</h1>
-                    <p class="text-gray-300 max-w-xl mb-6">استمتع بأقوى الكورسات الحصرية وأدوات الذكاء الاصطناعي التي تضمن لك التفوق في سوق العمل.</p>
-                    <div class="flex gap-4">
-                        <button class="bg-[#28a745] px-8 py-3 rounded-lg font-black uppercase shadow-lg">ابدأ الآن</button>
-                        <button class="bg-white/10 backdrop-blur px-8 py-3 rounded-lg font-black uppercase">عن تاجنوفا</button>
+                    <span class="bg-black/20 backdrop-blur-md px-4 py-1 rounded-full text-[10px] font-bold uppercase mb-4 inline-block">مستقبل التعلم الرقمي</span>
+                    <h1 class="text-4xl lg:text-6xl font-black mb-6 leading-[1.2]">حول مهاراتك إلى <br><span class="text-green-400">مشروع ناجح</span></h1>
+                    <p class="text-blue-100 text-lg max-w-xl mb-8 leading-relaxed opacity-80 font-medium">
+                        سواء كنت خبيراً تريد مشاركة علمك أو طالباً يسعى للاحتراف، تاجنوفا هي بوابتك لسوق العمل العالمي.
+                    </p>
+                    <div class="flex flex-wrap gap-4">
+                        <a href="enroll.html" class="bg-white text-blue-900 px-10 py-4 rounded-2xl font-black shadow-xl hover:bg-gray-100 transition">ابدأ رحلتك الآن</a>
+                        <a href="dashboard.html" class="bg-black/20 backdrop-blur-xl border border-white/10 text-white px-10 py-4 rounded-2xl font-black">تصفح الكورسات</a>
                     </div>
                 </div>
-                <i class="fas fa-rocket absolute -bottom-10 -right-10 text-[200px] text-white/5 rotate-12"></i>
+                <i class="fas fa-shield-alt absolute -bottom-10 -left-10 text-[250px] text-white/5 -rotate-12"></i>
             </section>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
-                <div class="glass-card p-6 rounded-xl">
-                    <div class="flex justify-between items-start mb-4">
-                        <span class="bg-blue-600 px-2 py-1 text-[10px] rounded uppercase font-bold">New</span>
+            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                <div class="card-premium p-8 rounded-[2rem]">
+                    <div class="w-14 h-14 bg-blue-500/10 rounded-2xl flex items-center justify-center mb-6">
                         <i class="fas fa-graduation-cap text-2xl text-blue-500"></i>
                     </div>
-                    <h3 class="font-bold mb-2">أكاديمية المبدعين</h3>
-                    <p class="text-xs text-gray-400">تعلم البرمجة، السيو، والدروب شيبنج مع خبراء المجال.</p>
+                    <h3 class="text-xl font-bold mb-3 italic">أكاديمية تاجنوفا</h3>
+                    <p class="text-sm text-gray-400 leading-relaxed">منصة تعليمية تتيح لأي متخصص رفع كورساته، ولأي طالب الوصول لأفضل محتوى تعليمي في كافة المجالات.</p>
                 </div>
+
+                <div class="card-premium p-8 rounded-[2rem]">
+                    <div class="w-14 h-14 bg-emerald-500/10 rounded-2xl flex items-center justify-center mb-6">
+                        <i class="fas fa-tools text-2xl text-emerald-500"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 italic">مركز الأدوات والحلول</h3>
+                    <p class="text-sm text-gray-400 leading-relaxed">مجموعة أدوات ذكية برمجية وتسويقية نطورها خصيصاً لمساعدة رواد الأعمال والمطورين على تسريع أعمالهم.</p>
                 </div>
+
+                <div class="card-premium p-8 rounded-[2rem]">
+                    <div class="w-14 h-14 bg-purple-500/10 rounded-2xl flex items-center justify-center mb-6">
+                        <i class="fas fa-handshake text-2xl text-purple-500"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 italic">مجتمع الخبراء</h3>
+                    <p class="text-sm text-gray-400 leading-relaxed">نظام "اختبار الثقة" يضمن للمتعلم محتوى عالي الجودة، ويضمن للمعلم بيئة احترافية لعرض خبراته.</p>
+                </div>
+            </div>
         </main>
     </div>
 
-    <script>
-        function toggleDarkMode() {
-            document.documentElement.classList.toggle('dark');
-        }
-    </script>
 </body>
 </html>
