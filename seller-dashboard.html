@@ -3,205 +3,194 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>لوحة تحكم التاجر | TajNova</title>
+    <title>لوحة تحكم البائع | TajNova Academy</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
     <style>
         body { font-family: 'Cairo', sans-serif; background-color: #080b12; color: #e5e7eb; }
-        .stat-card { background: linear-gradient(145deg, #111827, #1f2937); border: 1px solid #374151; transition: 0.3s; }
-        .stat-card:hover { border-color: #3b82f6; transform: translateY(-5px); }
-        .table-row:hover { background-color: rgba(59, 130, 246, 0.05); }
-        .status-pill { padding: 2px 10px; border-radius: 99px; font-size: 10px; font-weight: bold; }
+        .glass-card { background: rgba(17, 24, 39, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(75, 85, 99, 0.2); transition: 0.3s; }
+        .glass-card:hover { border-color: #3b82f6; transform: translateY(-5px); }
+        .status-pill { padding: 4px 12px; border-radius: 99px; font-size: 11px; font-weight: bold; }
+        input, textarea, select { background: rgba(31, 41, 55, 0.5) !important; border: 1px solid #374151 !important; color: white !important; }
     </style>
 </head>
-<body class="p-4 lg:p-8">
+<body class="p-4 lg:p-8 pb-20">
 
     <div class="max-w-7xl mx-auto">
-        <div class="flex flex-col md:flex-row justify-between items-center mb-10 gap-4">
+        <header class="flex justify-between items-center mb-10">
             <div>
-                <h1 class="text-3xl font-black text-white italic">أهلاً بك، يا مبدع! 👋</h1>
-                <p class="text-gray-400 text-sm mt-1">تابع مبيعاتك وأداء كورساتك من مكان واحد.</p>
+                <h1 class="text-3xl font-black text-white italic">لوحة التحكم <span class="text-blue-500">TajNova</span></h1>
+                <p class="text-gray-400 text-sm">مرحباً بك في مركز إدارة أعمالك التعليمية</p>
             </div>
-            <div class="flex gap-3">
-                <button class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-2xl font-bold text-sm shadow-lg transition">
-                    <i class="fas fa-plus ml-2"></i> إضافة كورس جديد
-                </button>
-                <div class="bg-gray-800 p-3 rounded-2xl border border-gray-700">
-                    <i class="fas fa-bell text-yellow-500"></i>
-                </div>
-            </div>
-        </div>
+            <button onclick="location.reload()" class="bg-gray-800 p-3 rounded-2xl hover:bg-gray-700 transition">
+                <i class="fas fa-sync-alt"></i>
+            </button>
+        </header>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
-            <div class="stat-card p-6 rounded-[2rem]">
-                <div class="flex justify-between items-start mb-4">
-                    <div class="w-12 h-12 bg-green-500/10 rounded-2xl flex items-center justify-center">
-                        <i class="fas fa-wallet text-green-500"></i>
-                    </div>
-                    <span class="text-[10px] text-green-500 bg-green-500/10 px-2 py-1 rounded-lg">+12%</span>
-                </div>
-                <p class="text-gray-400 text-xs font-bold uppercase tracking-wider">إجمالي الأرباح</p>
-                <h3 class="text-2xl font-black mt-1">$4,250.00</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+            <div class="glass-card p-6 rounded-[2rem]">
+                <p class="text-gray-400 text-xs font-bold uppercase mb-2">إجمالي الأرباح</p>
+                <h3 id="totalEarnings" class="text-3xl font-black text-green-500">$0.00</h3>
             </div>
-
-            <div class="stat-card p-6 rounded-[2rem]">
-                <div class="flex justify-between items-start mb-4">
-                    <div class="w-12 h-12 bg-blue-500/10 rounded-2xl flex items-center justify-center">
-                        <i class="fas fa-users text-blue-500"></i>
-                    </div>
-                </div>
-                <p class="text-gray-400 text-xs font-bold uppercase tracking-wider">عدد الطلاب</p>
-                <h3 class="text-2xl font-black mt-1">1,120 طالباً</h3>
+            <div class="glass-card p-6 rounded-[2rem]">
+                <p class="text-gray-400 text-xs font-bold uppercase mb-2">رصيد معلق</p>
+                <h3 id="pendingBalance" class="text-3xl font-black text-yellow-500">$0.00</h3>
             </div>
-
-            <div class="stat-card p-6 rounded-[2rem]">
-                <div class="flex justify-between items-start mb-4">
-                    <div class="w-12 h-12 bg-yellow-500/10 rounded-2xl flex items-center justify-center">
-                        <i class="fas fa-clock text-yellow-500"></i>
-                    </div>
-                </div>
-                <p class="text-gray-400 text-xs font-bold uppercase tracking-wider">رصيد قيد الانتظار</p>
-                <h3 class="text-2xl font-black mt-1">$120.50</h3>
+            <div class="glass-card p-6 rounded-[2rem]">
+                <p class="text-gray-400 text-xs font-bold uppercase mb-2">كورساتك النشطة</p>
+                <h3 id="activeCoursesCount" class="text-3xl font-black text-blue-500">0</h3>
             </div>
-
-            <div class="stat-card p-6 rounded-[2rem]">
-                <div class="flex justify-between items-start mb-4">
-                    <div class="w-12 h-12 bg-purple-500/10 rounded-2xl flex items-center justify-center">
-                        <i class="fas fa-book text-purple-500"></i>
-                    </div>
-                </div>
-                <p class="text-gray-400 text-xs font-bold uppercase tracking-wider">كورسات نشطة</p>
-                <h3 class="text-2xl font-black mt-1">8 كورسات</h3>
+            <div class="glass-card p-6 rounded-[2rem]">
+                <p class="text-gray-400 text-xs font-bold uppercase mb-2">إجمالي الطلاب</p>
+                <h3 class="text-3xl font-black text-purple-500">0</h3>
             </div>
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <div class="lg:col-span-2 bg-[#111827] rounded-[2.5rem] p-8 border border-gray-800">
-                <div class="flex justify-between items-center mb-6">
-                    <h3 class="text-xl font-bold italic">آخر عمليات السحب</h3>
-                    <button class="text-blue-500 text-xs font-bold">عرض الكل</button>
-                </div>
-                <div class="overflow-x-auto">
-                    <table class="w-full text-right">
-                        <thead>
-                            <tr class="text-gray-500 text-xs border-b border-gray-800">
-                                <th class="pb-4 font-black">التاريخ</th>
-                                <th class="pb-4 font-black">المبلغ</th>
-                                <th class="pb-4 font-black">طريقة السحب</th>
-                                <th class="pb-4 font-black text-center">الحالة</th>
-                            </tr>
-                        </thead>
-                        <tbody class="text-sm">
-                            <tr class="table-row border-b border-gray-800/50">
-                                <td class="py-4 font-medium">2024/03/10</td>
-                                <td class="py-4 font-black text-green-500">$500.00</td>
-                                <td class="py-4 text-gray-400">PayPal</td>
-                                <td class="py-4 text-center">
-                                    <span class="status-pill bg-green-500/20 text-green-500">مكتملة</span>
-                                </td>
-                            </tr>
-                            <tr class="table-row border-b border-gray-800/50">
-                                <td class="py-4 font-medium">2024/03/12</td>
-                                <td class="py-4 font-black text-yellow-500">$120.00</td>
-                                <td class="py-4 text-gray-400">Vodafone Cash</td>
-                                <td class="py-4 text-center">
-                                    <span class="status-pill bg-yellow-500/20 text-yellow-500">قيد المراجعة</span>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+            <div class="lg:col-span-2 glass-card p-8 rounded-[2.5rem]">
+                <h3 class="text-xl font-bold mb-6 italic"><i class="fas fa-upload ml-2"></i> رفع كورس جديد</h3>
+                <form id="courseForm" class="space-y-4">
+                    <input type="text" id="courseTitle" placeholder="عنوان الكورس" class="w-full p-4 rounded-2xl outline-none" required>
+                    <textarea id="courseDesc" placeholder="وصف سريع للكورس..." class="w-full p-4 rounded-2xl outline-none h-28" required></textarea>
+                    <div class="grid grid-cols-2 gap-4">
+                        <input type="number" id="coursePrice" placeholder="السعر ($)" class="p-4 rounded-2xl outline-none" required>
+                        <input type="text" id="courseImg" placeholder="رابط صورة الغلاف" class="p-4 rounded-2xl outline-none">
+                    </div>
+                    <button type="submit" id="uploadBtn" class="w-full py-4 bg-blue-600 hover:bg-blue-700 text-white font-black rounded-2xl transition shadow-lg shadow-blue-900/40">
+                        إرسال للمراجعة والنشر
+                    </button>
+                </form>
             </div>
 
-            <div class="bg-gradient-to-b from-blue-900/40 to-black p-8 rounded-[2.5rem] border border-blue-500/20 shadow-2xl">
-                <h3 class="text-xl font-bold mb-6 text-white italic">طلب سحب أرباح</h3>
-                <div class="mb-8">
-                    <p class="text-gray-400 text-xs mb-1">الرصيد القابل للسحب</p>
-                    <h2 class="text-5xl font-black text-white">$4,129.50</h2>
-                </div>
-                
-                <div class="space-y-4 mb-8">
-                    <label class="block">
-                        <span class="text-xs text-gray-400 mr-2">المبلغ المراد سحبه</span>
-                        <input type="number" placeholder="مثلاً: 100" class="w-full mt-2 bg-white/5 border border-gray-700 p-4 rounded-2xl focus:ring-2 focus:ring-blue-500 outline-none text-white font-bold">
-                    </label>
-                    <label class="block">
-                        <span class="text-xs text-gray-400 mr-2">وسيلة الاستلام</span>
-                        <select class="w-full mt-2 bg-white/5 border border-gray-700 p-4 rounded-2xl outline-none font-bold text-gray-300">
-                            <option>PayPal</option>
-                            <option>حساب بنكي</option>
-                            <option>Vodafone Cash</option>
+            <div class="glass-card p-8 rounded-[2.5rem] flex flex-col justify-between">
+                <div>
+                    <h3 class="text-xl font-bold mb-4 italic">المحفظة</h3>
+                    <p class="text-gray-400 text-xs">الرصيد القابل للسحب</p>
+                    <h2 id="availableToWithdraw" class="text-5xl font-black text-white my-4">$0.00</h2>
+                    
+                    <div class="space-y-3 mt-6">
+                        <select id="withdrawMethod" class="w-full p-4 rounded-2xl outline-none text-sm">
+                            <option value="PayPal">PayPal</option>
+                            <option value="Vodafone Cash">Vodafone Cash</option>
+                            <option value="Bank Transfer">حساب بنكي</option>
                         </select>
-                    </label>
+                        <input type="number" id="withdrawAmount" placeholder="المبلغ المطلوب" class="w-full p-4 rounded-2xl outline-none">
+                    </div>
                 </div>
-                
-                <button class="w-full py-5 bg-white text-black font-black rounded-3xl hover:bg-gray-200 transition-all shadow-xl shadow-blue-500/10">
-                    تأكيد طلب السحب
+                <button onclick="handleWithdrawal()" class="w-full mt-6 py-4 bg-white text-black font-black rounded-2xl hover:bg-gray-200 transition">
+                    سحب الرصيد الآن
                 </button>
+            </div>
+        </div>
+
+        <div class="mt-10 glass-card p-8 rounded-[2.5rem] overflow-hidden">
+            <h3 class="text-xl font-bold mb-6 italic">سجل المعاملات الأخيرة</h3>
+            <div class="overflow-x-auto">
+                <table class="w-full text-right">
+                    <thead>
+                        <tr class="text-gray-500 text-xs border-b border-gray-800">
+                            <th class="pb-4">التاريخ</th>
+                            <th class="pb-4">المبلغ</th>
+                            <th class="pb-4">الوسيلة</th>
+                            <th class="pb-4 text-center">الحالة</th>
+                        </tr>
+                    </thead>
+                    <tbody id="withdrawalsTable" class="text-sm">
+                        </tbody>
+                </table>
             </div>
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        const SUPABASE_URL = 'https://dkj_3ziMpBx6GzAjHFkjKw.supabase.co';
+        const SUPABASE_KEY = 'sb_publishable_DKj_3ziMpBx6GzAjHFkjKw_GJBXNlck';
+        const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-<script>
-    // 1. إعداد الاتصال بقاعدة البيانات
-    const SUPABASE_URL = 'https://dkj_3ziMpBx6GzAjHFkjKw.supabase.co'; // اتأكد من الرابط ده من صفحة API عندك
-    const SUPABASE_KEY = 'sb_publishable_DKj_3ziMpBx6GzAjHFkjKw_GJBXNlck';
-    const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        // 1. جلب البيانات عند التحميل
+        async function initDashboard() {
+            // جلب أول بروفايل متاح (كـ تجربة لحد نظام الـ Login)
+            const { data: profile } = await supabase.from('profiles').select('*').limit(1).single();
+            
+            if (profile) {
+                document.getElementById('totalEarnings').innerText = `$${profile.balance}`;
+                document.getElementById('availableToWithdraw').innerText = `$${profile.balance}`;
+                document.getElementById('pendingBalance').innerText = `$${profile.pending_balance}`;
+            }
 
-    // 2. دالة جلب بيانات البائع (الرصيد والكورسات)
-    async function fetchSellerData() {
-        // ملاحظة: هنا بنفترض إن المستخدم مسجل دخول، حالياً هنجيب بيانات تجريبية 
-        // لحد ما نعمل صفحة الـ Login
-        
-        // جلب الرصيد
-        document.getElementById('walletBalance').innerText = "$0.00";
-        document.getElementById('pendingCount').innerText = "0";
-    }
+            // جلب عدد الكورسات
+            const { count } = await supabase.from('courses').select('*', { count: 'exact', head: true });
+            document.getElementById('activeCoursesCount').innerText = count || 0;
 
-    // 3. دالة رفع الكورس الحقيقية
-    const courseForm = document.getElementById('courseForm');
-    courseForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        
-        const submitBtn = document.getElementById('submitBtn');
-        submitBtn.innerText = 'جاري الرفع للمراجعة...';
-        submitBtn.disabled = true;
+            // جلب جدول المعاملات
+            const { data: withdrawals } = await supabase.from('withdrawals').select('*').order('created_at', { ascending: false });
+            const tableBody = document.getElementById('withdrawalsTable');
+            tableBody.innerHTML = '';
 
-        const title = document.getElementById('title').value;
-        const description = document.getElementById('description').value;
-        const price = document.getElementById('price').value;
-        const imageUrl = document.getElementById('imageUrl').value;
-
-        // إرسال البيانات لجدول courses في Supabase
-        const { data, error } = await supabase
-            .from('courses')
-            .insert([
-                { 
-                    title: title, 
-                    description: description, 
-                    price: parseFloat(price), 
-                    image_url: imageUrl,
-                    status: 'pending' // الكورس بينزل "تحت المراجعة"
-                }
-            ]);
-
-        if (error) {
-            alert('عفواً، حدث خطأ أثناء الرفع: ' + error.message);
-        } else {
-            alert('تم إرسال كورس "' + title + '" بنجاح! سيتم مراجعته من قبل الإدارة.');
-            courseForm.reset();
+            if(withdrawals && withdrawals.length > 0) {
+                withdrawals.forEach(w => {
+                    tableBody.innerHTML += `
+                        <tr class="border-b border-gray-800/50 hover:bg-white/5 transition">
+                            <td class="py-4 text-gray-400">${new Date(w.created_at).toLocaleDateString('ar-EG')}</td>
+                            <td class="py-4 font-bold text-green-500">$${w.amount}</td>
+                            <td class="py-4">${w.method}</td>
+                            <td class="py-4 text-center">
+                                <span class="status-pill ${w.status === 'completed' ? 'bg-green-500/20 text-green-500' : 'bg-yellow-500/20 text-yellow-500'}">
+                                    ${w.status === 'completed' ? 'مكتملة' : 'قيد المراجعة'}
+                                </span>
+                            </td>
+                        </tr>`;
+                });
+            } else {
+                tableBody.innerHTML = '<tr><td colspan="4" class="py-8 text-center text-gray-500">لا توجد معاملات بعد.</td></tr>';
+            }
         }
 
-        submitBtn.innerText = 'إرسال للمراجعة الآن';
-        submitBtn.disabled = false;
-    });
+        // 2. رفع كورس جديد
+        document.getElementById('courseForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('uploadBtn');
+            btn.innerText = 'جاري المعالجة...';
 
-    // تشغيل جلب البيانات عند فتح الصفحة
-    fetchSellerData();
-</script>
+            const { error } = await supabase.from('courses').insert([{
+                title: document.getElementById('courseTitle').value,
+                description: document.getElementById('courseDesc').value,
+                price: parseFloat(document.getElementById('coursePrice').value),
+                image_url: document.getElementById('courseImg').value,
+                status: 'pending'
+            }]);
 
+            if (error) alert("خطأ: " + error.message);
+            else {
+                alert("تم رفع الكورس بنجاح!");
+                location.reload();
+            }
+        });
+
+        // 3. طلب سحب رصيد
+        async function handleWithdrawal() {
+            const amount = document.getElementById('withdrawAmount').value;
+            const method = document.getElementById('withdrawMethod').value;
+
+            if(!amount || amount <= 0) return alert("أدخل مبلغاً صالحاً");
+
+            const { error } = await supabase.from('withdrawals').insert([{
+                amount: parseFloat(amount),
+                method: method,
+                status: 'pending'
+            }]);
+
+            if (error) alert("خطأ: " + error.message);
+            else {
+                alert("تم تقديم طلب السحب بنجاح!");
+                location.reload();
+            }
+        }
+
+        window.onload = initDashboard;
+    </script>
 </body>
 </html>
