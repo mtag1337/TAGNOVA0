@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة تحكم التاجر | TajNova</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body { font-family: 'Cairo', sans-serif; background-color: #080b12; color: #e5e7eb; }
+        .stat-card { background: linear-gradient(145deg, #111827, #1f2937); border: 1px solid #374151; transition: 0.3s; }
+        .stat-card:hover { border-color: #3b82f6; transform: translateY(-5px); }
+        .table-row:hover { background-color: rgba(59, 130, 246, 0.05); }
+        .status-pill { padding: 2px 10px; border-radius: 99px; font-size: 10px; font-weight: bold; }
+    </style>
+</head>
+<body class="p-4 lg:p-8">
+
+    <div class="max-w-7xl mx-auto">
+        <div class="flex flex-col md:flex-row justify-between items-center mb-10 gap-4">
+            <div>
+                <h1 class="text-3xl font-black text-white italic">أهلاً بك، يا مبدع! 👋</h1>
+                <p class="text-gray-400 text-sm mt-1">تابع مبيعاتك وأداء كورساتك من مكان واحد.</p>
+            </div>
+            <div class="flex gap-3">
+                <button class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-2xl font-bold text-sm shadow-lg transition">
+                    <i class="fas fa-plus ml-2"></i> إضافة كورس جديد
+                </button>
+                <div class="bg-gray-800 p-3 rounded-2xl border border-gray-700">
+                    <i class="fas fa-bell text-yellow-500"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+            <div class="stat-card p-6 rounded-[2rem]">
+                <div class="flex justify-between items-start mb-4">
+                    <div class="w-12 h-12 bg-green-500/10 rounded-2xl flex items-center justify-center">
+                        <i class="fas fa-wallet text-green-500"></i>
+                    </div>
+                    <span class="text-[10px] text-green-500 bg-green-500/10 px-2 py-1 rounded-lg">+12%</span>
+                </div>
+                <p class="text-gray-400 text-xs font-bold uppercase tracking-wider">إجمالي الأرباح</p>
+                <h3 class="text-2xl font-black mt-1">$4,250.00</h3>
+            </div>
+
+            <div class="stat-card p-6 rounded-[2rem]">
+                <div class="flex justify-between items-start mb-4">
+                    <div class="w-12 h-12 bg-blue-500/10 rounded-2xl flex items-center justify-center">
+                        <i class="fas fa-users text-blue-500"></i>
+                    </div>
+                </div>
+                <p class="text-gray-400 text-xs font-bold uppercase tracking-wider">عدد الطلاب</p>
+                <h3 class="text-2xl font-black mt-1">1,120 طالباً</h3>
+            </div>
+
+            <div class="stat-card p-6 rounded-[2rem]">
+                <div class="flex justify-between items-start mb-4">
+                    <div class="w-12 h-12 bg-yellow-500/10 rounded-2xl flex items-center justify-center">
+                        <i class="fas fa-clock text-yellow-500"></i>
+                    </div>
+                </div>
+                <p class="text-gray-400 text-xs font-bold uppercase tracking-wider">رصيد قيد الانتظار</p>
+                <h3 class="text-2xl font-black mt-1">$120.50</h3>
+            </div>
+
+            <div class="stat-card p-6 rounded-[2rem]">
+                <div class="flex justify-between items-start mb-4">
+                    <div class="w-12 h-12 bg-purple-500/10 rounded-2xl flex items-center justify-center">
+                        <i class="fas fa-book text-purple-500"></i>
+                    </div>
+                </div>
+                <p class="text-gray-400 text-xs font-bold uppercase tracking-wider">كورسات نشطة</p>
+                <h3 class="text-2xl font-black mt-1">8 كورسات</h3>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div class="lg:col-span-2 bg-[#111827] rounded-[2.5rem] p-8 border border-gray-800">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-xl font-bold italic">آخر عمليات السحب</h3>
+                    <button class="text-blue-500 text-xs font-bold">عرض الكل</button>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-right">
+                        <thead>
+                            <tr class="text-gray-500 text-xs border-b border-gray-800">
+                                <th class="pb-4 font-black">التاريخ</th>
+                                <th class="pb-4 font-black">المبلغ</th>
+                                <th class="pb-4 font-black">طريقة السحب</th>
+                                <th class="pb-4 font-black text-center">الحالة</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-sm">
+                            <tr class="table-row border-b border-gray-800/50">
+                                <td class="py-4 font-medium">2024/03/10</td>
+                                <td class="py-4 font-black text-green-500">$500.00</td>
+                                <td class="py-4 text-gray-400">PayPal</td>
+                                <td class="py-4 text-center">
+                                    <span class="status-pill bg-green-500/20 text-green-500">مكتملة</span>
+                                </td>
+                            </tr>
+                            <tr class="table-row border-b border-gray-800/50">
+                                <td class="py-4 font-medium">2024/03/12</td>
+                                <td class="py-4 font-black text-yellow-500">$120.00</td>
+                                <td class="py-4 text-gray-400">Vodafone Cash</td>
+                                <td class="py-4 text-center">
+                                    <span class="status-pill bg-yellow-500/20 text-yellow-500">قيد المراجعة</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="bg-gradient-to-b from-blue-900/40 to-black p-8 rounded-[2.5rem] border border-blue-500/20 shadow-2xl">
+                <h3 class="text-xl font-bold mb-6 text-white italic">طلب سحب أرباح</h3>
+                <div class="mb-8">
+                    <p class="text-gray-400 text-xs mb-1">الرصيد القابل للسحب</p>
+                    <h2 class="text-5xl font-black text-white">$4,129.50</h2>
+                </div>
+                
+                <div class="space-y-4 mb-8">
+                    <label class="block">
+                        <span class="text-xs text-gray-400 mr-2">المبلغ المراد سحبه</span>
+                        <input type="number" placeholder="مثلاً: 100" class="w-full mt-2 bg-white/5 border border-gray-700 p-4 rounded-2xl focus:ring-2 focus:ring-blue-500 outline-none text-white font-bold">
+                    </label>
+                    <label class="block">
+                        <span class="text-xs text-gray-400 mr-2">وسيلة الاستلام</span>
+                        <select class="w-full mt-2 bg-white/5 border border-gray-700 p-4 rounded-2xl outline-none font-bold text-gray-300">
+                            <option>PayPal</option>
+                            <option>حساب بنكي</option>
+                            <option>Vodafone Cash</option>
+                        </select>
+                    </label>
+                </div>
+                
+                <button class="w-full py-5 bg-white text-black font-black rounded-3xl hover:bg-gray-200 transition-all shadow-xl shadow-blue-500/10">
+                    تأكيد طلب السحب
+                </button>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
