@@ -143,5 +143,65 @@
         </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+    // 1. إعداد الاتصال بقاعدة البيانات
+    const SUPABASE_URL = 'https://dkj_3ziMpBx6GzAjHFkjKw.supabase.co'; // اتأكد من الرابط ده من صفحة API عندك
+    const SUPABASE_KEY = 'sb_publishable_DKj_3ziMpBx6GzAjHFkjKw_GJBXNlck';
+    const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    // 2. دالة جلب بيانات البائع (الرصيد والكورسات)
+    async function fetchSellerData() {
+        // ملاحظة: هنا بنفترض إن المستخدم مسجل دخول، حالياً هنجيب بيانات تجريبية 
+        // لحد ما نعمل صفحة الـ Login
+        
+        // جلب الرصيد
+        document.getElementById('walletBalance').innerText = "$0.00";
+        document.getElementById('pendingCount').innerText = "0";
+    }
+
+    // 3. دالة رفع الكورس الحقيقية
+    const courseForm = document.getElementById('courseForm');
+    courseForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const submitBtn = document.getElementById('submitBtn');
+        submitBtn.innerText = 'جاري الرفع للمراجعة...';
+        submitBtn.disabled = true;
+
+        const title = document.getElementById('title').value;
+        const description = document.getElementById('description').value;
+        const price = document.getElementById('price').value;
+        const imageUrl = document.getElementById('imageUrl').value;
+
+        // إرسال البيانات لجدول courses في Supabase
+        const { data, error } = await supabase
+            .from('courses')
+            .insert([
+                { 
+                    title: title, 
+                    description: description, 
+                    price: parseFloat(price), 
+                    image_url: imageUrl,
+                    status: 'pending' // الكورس بينزل "تحت المراجعة"
+                }
+            ]);
+
+        if (error) {
+            alert('عفواً، حدث خطأ أثناء الرفع: ' + error.message);
+        } else {
+            alert('تم إرسال كورس "' + title + '" بنجاح! سيتم مراجعته من قبل الإدارة.');
+            courseForm.reset();
+        }
+
+        submitBtn.innerText = 'إرسال للمراجعة الآن';
+        submitBtn.disabled = false;
+    });
+
+    // تشغيل جلب البيانات عند فتح الصفحة
+    fetchSellerData();
+</script>
+
 </body>
 </html>
