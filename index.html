@@ -3,114 +3,153 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TajNova | المنصة العربية الشاملة للتعليم والخدمات الرقمية</title>
+    <title>TajNova | المنصة الرقمية الشاملة</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            darkMode: 'class', // تفعيل خاصية تبديل الدارك مود
+            theme: {
+                extend: {
+                    colors: {
+                        darkBg: '#0b0f19',
+                        lightBg: '#f8fafc',
+                    }
+                }
+            }
+        }
+    </script>
     <style>
-        body { font-family: 'Cairo', sans-serif; background-color: #0b0f19; color: #f3f4f6; }
-        .sidebar-item { transition: 0.3s; border-right: 3px solid transparent; }
-        .sidebar-item:hover { background: #1e293b; border-right-color: #3b82f6; color: #3b82f6; }
-        .nav-glass { background: rgba(17, 24, 39, 0.8); backdrop-filter: blur(10px); border-bottom: 1px solid #1f2937; }
-        .card-premium { background: #111827; border: 1px solid #1f2937; transition: 0.3s; }
-        .card-premium:hover { border-color: #3b82f6; transform: translateY(-5px); box-shadow: 0 10px 30px -10px rgba(59, 130, 246, 0.3); }
-        .btn-action { background: #22c55e; transition: 0.3s; }
-        .btn-action:hover { background: #16a34a; transform: scale(1.05); }
+        body { font-family: 'Cairo', sans-serif; transition: background-color 0.3s, color 0.3s; }
+        .dark body { background-color: #0b0f19; color: #f3f4f6; }
+        .light body { background-color: #f8fafc; color: #1e293b; }
+        
+        /* أماكن الإعلانات */
+        .ad-slot { background: rgba(156, 163, 175, 0.1); border: 2px dashed #4b5563; display: flex; align-items: center; justify-content: center; color: #6b7280; font-weight: bold; }
+        
+        .sidebar-item:hover { background: #3b82f620; border-right: 4px solid #3b82f6; }
+        .glass-header { backdrop-filter: blur(12px); border-bottom: 1px solid rgba(156, 163, 175, 0.2); }
     </style>
 </head>
 <body class="overflow-x-hidden">
 
-    <header class="nav-glass sticky top-0 z-50">
+    <header class="glass-header sticky top-0 z-[100] w-full">
         <div class="container mx-auto px-4 py-3 flex justify-between items-center">
-            <div class="flex items-center gap-4">
-                <img src="images/logotagnova.png" alt="TajNova" class="h-10">
-                <span class="text-2xl font-black text-white tracking-tighter">TAJNOVA</span>
+            <div class="flex items-center gap-3">
+                <img src="images/logotagnova.png" alt="TajNova" class="h-8 lg:h-10">
+                <span class="text-xl font-black tracking-tighter">TAJNOVA</span>
             </div>
             
-            <nav class="hidden lg:flex items-center gap-8 text-sm font-bold opacity-80">
+            <nav class="hidden lg:flex gap-6 text-sm font-bold">
                 <a href="dashboard.html" class="hover:text-blue-500 transition">الأكاديمية</a>
-                <a href="tools_list.html" class="hover:text-blue-500 transition">أدوات ذكية</a>
-                <a href="#" class="hover:text-blue-500 transition">المقالات التقنية</a>
-                <a href="#" class="hover:text-blue-500 transition">من نحن</a>
+                <a href="tools_list.html" class="hover:text-blue-500 transition">الأدوات</a>
+                <a href="#" class="hover:text-blue-500 transition">المقالات</a>
             </nav>
 
-            <div class="flex items-center gap-3">
-                <a href="checkout.html" class="text-xs font-bold px-4 py-2 text-gray-400 hover:text-white transition">دخول</a>
-                <a href="enroll.html" class="btn-action text-white text-xs font-bold px-5 py-2 rounded-lg shadow-lg shadow-green-900/20">انضم كمدرب أو طالب</a>
+            <div class="flex items-center gap-2 lg:gap-4">
+                <button onclick="toggleTheme()" class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-800 transition">
+                    <i id="theme-icon" class="fas fa-sun text-yellow-500"></i>
+                </button>
+                <a href="enroll.html" class="hidden sm:block bg-blue-600 text-white text-xs font-bold px-5 py-2 rounded-lg hover:bg-blue-700 transition">انضم إلينا</a>
+                <button class="lg:hidden p-2 text-2xl"><i class="fas fa-bars"></i></button>
             </div>
         </div>
     </header>
 
-    <div class="flex">
-        <aside class="hidden lg:block w-72 h-[calc(100vh-64px)] bg-[#0f172a] border-l border-[#1f2937] sticky top-16 p-4">
-            <p class="text-[10px] font-black text-gray-500 uppercase mb-6 pr-2 tracking-[2px]">تصفح الأقسام</p>
+    <div class="container mx-auto px-4 mt-4">
+        <div class="ad-slot w-full h-20 lg:h-24 rounded-xl border-dashed italic text-xs">
+            مساحة إعلانية علوية (728x90)
+        </div>
+    </div>
+
+    <div class="flex container mx-auto px-4 lg:px-0 gap-6">
+        <aside class="hidden lg:block w-72 h-screen sticky top-20 p-4">
             <nav class="space-y-2">
                 <a href="dashboard.html" class="sidebar-item flex items-center p-3 gap-4 rounded-xl">
-                    <i class="fas fa-layer-group text-blue-500"></i>
-                    <span class="text-sm font-bold">جميع التخصصات</span>
+                    <i class="fas fa-th-large text-blue-500"></i>
+                    <span class="text-sm font-bold">لوحة التحكم</span>
                 </a>
-                <a href="#" class="sidebar-item flex items-center p-3 gap-4 rounded-xl">
-                    <i class="fas fa-code text-indigo-500"></i>
-                    <span class="text-sm font-bold">البرمجة والتطوير</span>
+                <a href="tools_list.html" class="sidebar-item flex items-center p-3 gap-4 rounded-xl">
+                    <i class="fas fa-wrench text-emerald-500"></i>
+                    <span class="text-sm font-bold">الأدوات المميزة</span>
                 </a>
-                <a href="#" class="sidebar-item flex items-center p-3 gap-4 rounded-xl">
-                    <i class="fas fa-chart-line text-emerald-500"></i>
-                    <span class="text-sm font-bold">الأعمال والاقتصاد</span>
-                </a>
-                <a href="#" class="sidebar-item flex items-center p-3 gap-4 rounded-xl">
-                    <i class="fas fa-paint-brush text-pink-500"></i>
-                    <span class="text-sm font-bold">التصميم والإبداع</span>
-                </a>
-                <a href="tools_list.html" class="sidebar-item flex items-center p-3 gap-4 rounded-xl bg-blue-500/5 text-blue-400">
-                    <i class="fas fa-bolt"></i>
-                    <span class="text-sm font-bold">أدوات حصرية للمشتركين</span>
-                </a>
+                <div class="ad-slot h-64 mt-8 rounded-2xl italic text-xs px-4 text-center">
+                    إعلان جانبي (300x600)
+                </div>
             </nav>
         </aside>
 
-        <main class="flex-1 p-6 lg:p-10">
-            <section class="relative bg-gradient-to-br from-blue-700 to-indigo-900 rounded-[2rem] p-8 lg:p-16 mb-12 overflow-hidden shadow-2xl">
-                <div class="relative z-10">
-                    <span class="bg-black/20 backdrop-blur-md px-4 py-1 rounded-full text-[10px] font-bold uppercase mb-4 inline-block">مستقبل التعلم الرقمي</span>
-                    <h1 class="text-4xl lg:text-6xl font-black mb-6 leading-[1.2]">حول مهاراتك إلى <br><span class="text-green-400">مشروع ناجح</span></h1>
-                    <p class="text-blue-100 text-lg max-w-xl mb-8 leading-relaxed opacity-80 font-medium">
-                        سواء كنت خبيراً تريد مشاركة علمك أو طالباً يسعى للاحتراف، تاجنوفا هي بوابتك لسوق العمل العالمي.
-                    </p>
-                    <div class="flex flex-wrap gap-4">
-                        <a href="enroll.html" class="bg-white text-blue-900 px-10 py-4 rounded-2xl font-black shadow-xl hover:bg-gray-100 transition">ابدأ رحلتك الآن</a>
-                        <a href="dashboard.html" class="bg-black/20 backdrop-blur-xl border border-white/10 text-white px-10 py-4 rounded-2xl font-black">تصفح الكورسات</a>
+        <main class="flex-1 py-8">
+            <section class="bg-blue-600 dark:bg-blue-900 rounded-[2rem] p-8 lg:p-12 text-white mb-10 shadow-xl">
+                <div class="max-w-2xl">
+                    <h1 class="text-3xl lg:text-5xl font-black mb-4">أهلاً بك في مستقبل <br>العمل الحر</h1>
+                    <p class="opacity-80 mb-8 font-medium">منصة تاجنوفا تمنحك الأدوات والخبرة لتبدأ مشروعك الخاص اليوم.</p>
+                    <div class="flex gap-4">
+                        <a href="enroll.html" class="bg-white text-blue-600 px-6 py-3 rounded-xl font-black text-sm">سجل الآن</a>
+                        <a href="dashboard.html" class="bg-black/20 px-6 py-3 rounded-xl font-black text-sm border border-white/20">تصفح المجالات</a>
                     </div>
                 </div>
-                <i class="fas fa-shield-alt absolute -bottom-10 -left-10 text-[250px] text-white/5 -rotate-12"></i>
             </section>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-                <div class="card-premium p-8 rounded-[2rem]">
-                    <div class="w-14 h-14 bg-blue-500/10 rounded-2xl flex items-center justify-center mb-6">
-                        <i class="fas fa-graduation-cap text-2xl text-blue-500"></i>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-6">
+                <a href="dashboard.html" class="p-6 rounded-3xl bg-white dark:bg-[#111827] border border-gray-200 dark:border-gray-800 hover:border-blue-500 transition shadow-sm group">
+                    <div class="flex justify-between items-center mb-4">
+                        <i class="fas fa-university text-3xl text-blue-500"></i>
+                        <i class="fas fa-arrow-left opacity-0 group-hover:opacity-100 transition translate-x-4 group-hover:translate-x-0"></i>
                     </div>
-                    <h3 class="text-xl font-bold mb-3 italic">أكاديمية تاجنوفا</h3>
-                    <p class="text-sm text-gray-400 leading-relaxed">منصة تعليمية تتيح لأي متخصص رفع كورساته، ولأي طالب الوصول لأفضل محتوى تعليمي في كافة المجالات.</p>
-                </div>
-
-                <div class="card-premium p-8 rounded-[2rem]">
-                    <div class="w-14 h-14 bg-emerald-500/10 rounded-2xl flex items-center justify-center mb-6">
-                        <i class="fas fa-tools text-2xl text-emerald-500"></i>
+                    <h3 class="text-xl font-bold mb-2 italic">الأكاديمية</h3>
+                    <p class="text-sm opacity-60">تعلم المهارات الأكثر طلباً في سوق العمل من خبراء حقيقيين.</p>
+                </a>
+                
+                <a href="tools_list.html" class="p-6 rounded-3xl bg-white dark:bg-[#111827] border border-gray-200 dark:border-gray-800 hover:border-emerald-500 transition shadow-sm group">
+                    <div class="flex justify-between items-center mb-4">
+                        <i class="fas fa-rocket text-3xl text-emerald-500"></i>
+                        <i class="fas fa-arrow-left opacity-0 group-hover:opacity-100 transition translate-x-4 group-hover:translate-x-0"></i>
                     </div>
-                    <h3 class="text-xl font-bold mb-3 italic">مركز الأدوات والحلول</h3>
-                    <p class="text-sm text-gray-400 leading-relaxed">مجموعة أدوات ذكية برمجية وتسويقية نطورها خصيصاً لمساعدة رواد الأعمال والمطورين على تسريع أعمالهم.</p>
-                </div>
-
-                <div class="card-premium p-8 rounded-[2rem]">
-                    <div class="w-14 h-14 bg-purple-500/10 rounded-2xl flex items-center justify-center mb-6">
-                        <i class="fas fa-handshake text-2xl text-purple-500"></i>
-                    </div>
-                    <h3 class="text-xl font-bold mb-3 italic">مجتمع الخبراء</h3>
-                    <p class="text-sm text-gray-400 leading-relaxed">نظام "اختبار الثقة" يضمن للمتعلم محتوى عالي الجودة، ويضمن للمعلم بيئة احترافية لعرض خبراته.</p>
-                </div>
+                    <h3 class="text-xl font-bold mb-2 italic">الأدوات</h3>
+                    <p class="text-sm opacity-60">أدوات ذكاء اصطناعي وبرمجيات لتسريع إنتاجيتك.</p>
+                </a>
             </div>
         </main>
     </div>
 
+    <nav class="lg:hidden fixed bottom-0 left-0 right-0 bg-white dark:bg-[#111827] border-t border-gray-200 dark:border-gray-800 flex justify-around py-3 z-[100]">
+        <a href="dashboard.html" class="flex flex-col items-center gap-1 text-blue-500">
+            <i class="fas fa-home"></i><span class="text-[10px]">الرئيسية</span>
+        </a>
+        <a href="tools_list.html" class="flex flex-col items-center gap-1 text-gray-500">
+            <i class="fas fa-box"></i><span class="text-[10px]">الأدوات</span>
+        </a>
+        <a href="enroll.html" class="flex flex-col items-center gap-1 text-gray-500">
+            <i class="fas fa-user-plus"></i><span class="text-[10px]">انضم</span>
+        </a>
+    </nav>
+
+    <script>
+        // دالة تبديل الوضع الليلي
+        function toggleTheme() {
+            const html = document.documentElement;
+            const icon = document.getElementById('theme-icon');
+            
+            if (html.classList.contains('dark')) {
+                html.classList.remove('dark');
+                html.classList.add('light');
+                icon.classList.replace('fa-sun', 'fa-moon');
+                localStorage.setItem('theme', 'light');
+            } else {
+                html.classList.remove('light');
+                html.classList.add('dark');
+                icon.classList.replace('fa-moon', 'fa-sun');
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+
+        // حفظ التفضيلات عند إعادة تحميل الصفحة
+        if (localStorage.getItem('theme') === 'light') {
+            document.documentElement.classList.replace('dark', 'light');
+            document.getElementById('theme-icon').classList.replace('fa-sun', 'fa-moon');
+        }
+    </script>
 </body>
 </html>
