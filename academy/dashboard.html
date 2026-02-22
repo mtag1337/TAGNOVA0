@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>لوحة التحكم | TajNova</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style> @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap'); body { font-family: 'Cairo', sans-serif; background: #0b0e14; color: white; } </style>
+</head>
+<body class="p-4 md:p-8">
+
+    <div class="max-w-6xl mx-auto">
+        <div class="flex justify-between items-center mb-10 bg-[#161b22] p-6 rounded-2xl border border-gray-800">
+            <div>
+                <h1 class="text-2xl font-black">أهلاً بك في <span class="text-purple-500">تاج نوفا</span></h1>
+                <p id="userEmail" class="text-gray-400 text-sm"></p>
+            </div>
+            <button onclick="signOut()" class="bg-red-500/10 text-red-500 px-4 py-2 rounded-xl border border-red-500/20">خروج</button>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div class="bg-[#161b22] p-6 rounded-3xl border border-gray-800 h-fit">
+                <h2 class="text-xl font-bold mb-6 italic"><i class="fas fa-plus-circle ml-2 text-purple-500"></i>إضافة كورس جديد</h2>
+                <div class="space-y-4">
+                    <input type="text" id="c_title" placeholder="اسم الكورس" class="w-full bg-[#0b0e14] border border-gray-700 p-3 rounded-xl focus:border-purple-500 outline-none">
+                    <textarea id="c_desc" placeholder="وصف قصير" class="w-full bg-[#0b0e14] border border-gray-700 p-3 rounded-xl focus:border-purple-500 outline-none"></textarea>
+                    <input type="number" id="c_price" placeholder="السعر ($)" class="w-full bg-[#0b0e14] border border-gray-700 p-3 rounded-xl focus:border-purple-500 outline-none">
+                    <input type="text" id="c_img" placeholder="رابط صورة الغلاف" class="w-full bg-[#0b0e14] border border-gray-700 p-3 rounded-xl focus:border-purple-500 outline-none">
+                    <button onclick="handleUpload()" class="w-full bg-purple-600 hover:bg-purple-700 py-3 rounded-xl font-bold transition-all shadow-lg shadow-purple-500/20">رفع للمراجعة</button>
+                </div>
+            </div>
+
+            <div class="lg:col-span-2 space-y-4">
+                <h2 class="text-xl font-bold mb-6">كورساتك الحالية</h2>
+                <div id="myCoursesList" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const { createClient } = supabase;
+        const _supabase = createClient('https://gfqwpxxnqeaemfnlnpjs.supabase.co', 'YOUR_ANON_KEY');
+
+        // جلب بيانات المستخدم والكورسات أول ما يفتح الصفحة
+        async function init() {
+            const { data: { user } } = await _supabase.auth.getUser();
+            if (!user) { window.location.href = 'auth.html'; return; }
+            document.getElementById('userEmail').innerText = user.email;
+            fetchMyCourses(user.id);
+        }
+
+        // رفع كورس جديد
+        async function handleUpload() {
+            const { data: { user } } = await _supabase.auth.getUser();
+            const title = document.getElementById('c_title').value;
+            const price = document.getElementById('c_price').value;
+            const desc = document.getElementById('c_desc').value;
+            const img = document.getElementById('c_img').value;
+
+            const { error } = await _supabase.from('courses').insert([{
+                title, price, description: desc, image_url: img, seller_id: user.id, status: 'pending'
+            }]);
+
+            if (error) alert("حدث خطأ: " + error.message);
+            else { alert("تم الرفع بنجاح! كورس في انتظار مراجعة الأدمن."); location.reload(); }
+        }
+
+        // جلب الكورسات الخاصة بي
+        async function fetchMyCourses(userId) {
+            const { data, error } = await _supabase.from('courses').select('*').eq('seller_id', userId);
+            const list = document.getElementById('myCoursesList');
+            
+            if (data.length === 0) list.innerHTML = '<p class="text-gray-500">لا توجد كورسات مرفوعة بعد.</p>';
+            
+            data.forEach(course => {
+                list.innerHTML += `
+                    <div class="bg-[#161b22] border border-gray-800 p-4 rounded-2xl relative group">
+                        <img src="${course.image_url}" class="w-full h-32 object-cover rounded-xl mb-3">
+                        <h3 class="font-bold">${course.title}</h3>
+                        <div class="flex justify-between items-center mt-3">
+                            <span class="text-xs ${course.status === 'approved' ? 'text-green-500' : 'text-yellow-500'} bg-black px-2 py-1 rounded-lg">${course.status}</span>
+                            <button onclick="deleteCourse('${course.id}')" class="text-red-500 hover:text-red-700 transition"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        // حذف كورس
+        async function deleteCourse(id) {
+            if(confirm("هل أنت متأكد من حذف هذا الكورس؟")) {
+                await _supabase.from('courses').delete().eq('id', id);
+                location.reload();
+            }
+        }
+
+        async function signOut() { await _supabase.auth.signOut(); window.location.href = 'auth.html'; }
+
+        init();
+    </script>
+</body>
+</html>
