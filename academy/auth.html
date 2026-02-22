@@ -1,109 +1,79 @@
 <!DOCTYPE html>
+
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>انضم إلى تاج نوفا | TajNova</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap');
-        body { font-family: 'Cairo', sans-serif; background: #0b0e14; color: white; }
-        .glass { background: rgba(22, 27, 34, 0.8); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.05); }
-        .input-field { background: #0b0e14; border: 1px solid #1f2937; padding: 12px; border-radius: 12px; width: 100%; outline: none; transition: 0.3s; color: white; }
-        .input-field:focus { border-color: #8b5cf6; }
-    </style>
+<meta charset="UTF-8">
+<title>أكاديمية تاج نوفا | TagNova</title>
+<script src=""></script>
+<script src=""></script>
+<style>
+@import url('');
+body { font-family: 'Cairo', sans-serif; background: #0b0e14; display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; color: white; }
+.glass { background: rgba(22, 27, 34, 0.7); backdrop-filter: blur(20px); border: 1px solid #1f2937; padding: 2rem; border-radius: 2rem; width: 100%; max-width: 400px; }
+.input-box { background: #0b0e14; border: 1px solid #1f2937; width: 100%; padding: 12px; border-radius: 12px; margin-bottom: 15px; color: white; }
+</style>
 </head>
-<body class="min-h-screen flex items-center justify-center p-4">
+<body class="p-4">
 
-    <div class="glass w-full max-w-md p-8 rounded-3xl shadow-2xl">
-        <div class="text-center mb-8">
-            <h2 id="formTitle" class="text-3xl font-black mb-2">تسجيل الدخول</h2>
-            <p id="formDesc" class="text-gray-400 text-sm">أهلاً بك مجدداً في تاج نوفا</p>
-        </div>
+<div class="glass text-center">
+<img src="logotagnova.png" class="w-32 h-32 mx-auto mb-4 object-contain">
+<h2 id="title" class="text-2xl font-black">تسجيل الدخول</h2>
 
-        <form id="mainForm" class="space-y-4">
-            <div id="nameField" class="hidden">
-                <label class="block text-xs text-gray-500 mb-1">الاسم الكامل</label>
-                <input type="text" id="fullName" class="input-field" placeholder="اكتب اسمك الثلاثي">
-            </div>
+<form id="authForm" class="mt-6">
+<div id="nameBox" style="display:none;">
+<input type="text" id="fullName" class="input-box" placeholder="الاسم الكامل">
+</div>
+<input type="email" id="email" class="input-box" placeholder="البريد الإلكتروني" required>
+<input type="password" id="password" class="input-box" placeholder="كلمة المرور" required>
+<div id="roleBox" style="display:none;">
+<select id="role" class="input-box">
+<option value="student">👨‍🎓 طالب</option>
+<option value="instructor">👨‍🏫 مدرب</option>
+</select>
+</div>
+<button type="submit" id="mainBtn" class="w-full bg-purple-600 p-3 rounded-xl font-bold">دخول</button>
+</form>
 
-            <div>
-                <label class="block text-xs text-gray-500 mb-1">البريد الإلكتروني</label>
-                <input type="email" id="email" class="input-field" placeholder="email@example.com" required>
-            </div>
+<button onclick="toggleMode()" id="toggleBtn" class="mt-4 text-sm text-gray-400">ليس لديك حساب؟ أنشئ حساباً جديداً</button>
 
-            <div>
-                <label class="block text-xs text-gray-500 mb-1">كلمة المرور</label>
-                <input type="password" id="password" class="input-field" placeholder="••••••••" required>
-            </div>
+</div>
 
-            <div id="roleField" class="hidden">
-                <label class="block text-xs text-gray-500 mb-1">نوع الحساب</label>
-                <select id="userRole" class="input-field">
-                    <option value="student">طالب (أريد التعلم)</option>
-                    <option value="instructor">مدرب (أريد رفع كورسات)</option>
-                </select>
-            </div>
+<script>
+const _supabase = supabase.createClient('', 'sb_publishable_DKj_3ziMpBx6GzAjHFkjKw_GJBXNlck');
+let isLogin = true;
 
-            <button type="submit" id="submitBtn" class="w-full bg-purple-600 hover:bg-purple-700 py-4 rounded-xl font-black transition shadow-lg shadow-purple-500/20">
-                دخول للمنصة
-            </button>
-        </form>
+function toggleMode() {
+isLogin = !isLogin;
+document.getElementById('title').innerText = isLogin ? "تسجيل الدخول" : "إنشاء حساب";
+document.getElementById('mainBtn').innerText = isLogin ? "دخول" : "إنشاء الحساب";
+document.getElementById('toggleBtn').innerText = isLogin ? "ليس لديك حساب؟ أنشئ حساباً جديداً" : "لديك حساب؟ سجل دخولك";
+document.getElementById('nameBox').style.display = isLogin ? "none" : "block";
+document.getElementById('roleBox').style.display = isLogin ? "none" : "block";
+}
 
-        <div class="mt-6 text-center">
-            <button onclick="toggleForm()" id="toggleBtn" class="text-purple-400 text-sm hover:underline">
-                ليس لديك حساب؟ أنشئ حساباً جديداً
-            </button>
-        </div>
-    </div>
+document.getElementById('authForm').addEventListener('submit', async (e) => {
+e.preventDefault();
+const email = document.getElementById('email').value;
+const password = document.getElementById('password').value;
+const btn = document.getElementById('mainBtn');
+btn.innerText = "جاري...";
 
-    <script>
-        const _supabase = supabase.createClient('https://gfqwpxxnqeaemfnlnpjs.supabase.co', 'sb_publishable_DKj_3ziMpBx6GzAjHFkjKw_GJBXNlck');
-        
-        let isLogin = true;
+if(isLogin) {
+const { data, error } = await _supabase.auth.signInWithPassword({ email, password });
+if(error) alert(error.message);
+else window.location.href = data.user.user_metadata.role === 'instructor' ? "dashboard.html" : "index.html";
+} else {
+const { error } = await _supabase.auth.signUp({
+email, password,
+options: { data: { full_name: document.getElementById('fullName').value, role: document.getElementById('role').value } }
+});
+if(error) alert(error.message);
+else alert("تم إنشاء الحساب!");
+btn.innerText = "دخول";
+}
+btn.innerText = isLogin ? "دخول" : "إنشاء الحساب";
+});
+</script>
 
-        function toggleForm() {
-            isLogin = !isLogin;
-            document.getElementById('formTitle').innerText = isLogin ? "تسجيل الدخول" : "إنشاء حساب جديد";
-            document.getElementById('formDesc').innerText = isLogin ? "أهلاً بك مجدداً في تاج نوفا" : "ابدأ رحلتك التعليمية معنا اليوم";
-            document.getElementById('submitBtn').innerText = isLogin ? "دخول للمنصة" : "إنشاء الحساب";
-            document.getElementById('toggleBtn').innerText = isLogin ? "ليس لديك حساب؟ أنشئ حساباً جديداً" : "لديك حساب بالفعل؟ سجل دخولك";
-            
-            document.getElementById('nameField').classList.toggle('hidden');
-            document.getElementById('roleField').classList.toggle('hidden');
-        }
-
-        document.getElementById('mainForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            const fullName = document.getElementById('fullName').value;
-            const role = document.getElementById('userRole').value;
-
-            if (isLogin) {
-                // عملية تسجيل الدخول
-                const { error } = await _supabase.auth.signInWithPassword({ email, password });
-                if (error) alert(error.message);
-                else window.location.href = "dashboard.html";
-            } else {
-                // عملية إنشاء الحساب (الاحترافية)
-                const { data, error } = await _supabase.auth.signUp({
-                    email, 
-                    password,
-                    options: { data: { full_name: fullName, role: role } }
-                });
-
-                if (error) {
-                    alert("خطأ: " + error.message);
-                } else {
-                    alert("تم إنشاء الحساب بنجاح!");
-                    // بعد تسجيل الحساب، Supabase بيعمل تسجيل دخول تلقائي غالباً
-                    window.location.href = "dashboard.html";
-                }
-            }
-        });
-    </script>
 </body>
 </html>
