@@ -2,103 +2,185 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>لوحة التحكم | TajNova</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة تحكم TajNova | إدارة الأكاديمية</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <style> @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap'); body { font-family: 'Cairo', sans-serif; background: #0b0e14; color: white; } </style>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;700;900&display=swap');
+        body { font-family: 'Cairo', sans-serif; background: #0b0e14; color: white; overflow-x: hidden; }
+        .glass { background: rgba(22, 27, 34, 0.7); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.05); }
+        .input-style { background: #0b0e14; border: 1px solid #1f2937; padding: 12px; border-radius: 12px; width: 100%; outline: none; transition: 0.3s; color: white; }
+        .input-style:focus { border-color: #8b5cf6; box-shadow: 0 0 10px rgba(139, 92, 246, 0.2); }
+    </style>
 </head>
-<body class="p-4 md:p-8">
+<body class="min-h-screen pb-10">
 
-    <div class="max-w-6xl mx-auto">
-        <div class="flex justify-between items-center mb-10 bg-[#161b22] p-6 rounded-2xl border border-gray-800">
-            <div>
-                <h1 class="text-2xl font-black">أهلاً بك في <span class="text-purple-500">تاج نوفا</span></h1>
-                <p id="userEmail" class="text-gray-400 text-sm"></p>
+    <nav class="glass sticky top-0 z-50 p-4 mb-8">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-purple-600 rounded-xl flex items-center justify-center font-bold italic shadow-lg">T</div>
+                <h1 class="text-xl font-black tracking-widest">TAGNOVA <span class="text-purple-500 font-light text-sm italic">DASHBOARD</span></h1>
             </div>
-            <button onclick="signOut()" class="bg-red-500/10 text-red-500 px-4 py-2 rounded-xl border border-red-500/20">خروج</button>
+            <div class="flex items-center gap-4">
+                <span id="userBadge" class="hidden md:block text-xs bg-gray-900 px-3 py-1 rounded-full text-gray-400">تحميل...</span>
+                <button onclick="logout()" class="text-red-500 hover:bg-red-500/10 p-2 rounded-lg transition" title="تسجيل الخروج">
+                    <i class="fas fa-sign-out-alt"></i>
+                </button>
+            </div>
         </div>
+    </nav>
 
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <div class="bg-[#161b22] p-6 rounded-3xl border border-gray-800 h-fit">
-                <h2 class="text-xl font-bold mb-6 italic"><i class="fas fa-plus-circle ml-2 text-purple-500"></i>إضافة كورس جديد</h2>
-                <div class="space-y-4">
-                    <input type="text" id="c_title" placeholder="اسم الكورس" class="w-full bg-[#0b0e14] border border-gray-700 p-3 rounded-xl focus:border-purple-500 outline-none">
-                    <textarea id="c_desc" placeholder="وصف قصير" class="w-full bg-[#0b0e14] border border-gray-700 p-3 rounded-xl focus:border-purple-500 outline-none"></textarea>
-                    <input type="number" id="c_price" placeholder="السعر ($)" class="w-full bg-[#0b0e14] border border-gray-700 p-3 rounded-xl focus:border-purple-500 outline-none">
-                    <input type="text" id="c_img" placeholder="رابط صورة الغلاف" class="w-full bg-[#0b0e14] border border-gray-700 p-3 rounded-xl focus:border-purple-500 outline-none">
-                    <button onclick="handleUpload()" class="w-full bg-purple-600 hover:bg-purple-700 py-3 rounded-xl font-bold transition-all shadow-lg shadow-purple-500/20">رفع للمراجعة</button>
+    <main class="container mx-auto px-4">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            
+            <div class="lg:col-span-4 space-y-6">
+                <div class="glass p-6 rounded-3xl animate__animated animate__fadeInRight">
+                    <h2 class="text-xl font-bold mb-6 flex items-center gap-2">
+                        <i class="fas fa-plus-circle text-purple-500"></i> أضف كورس جديد
+                    </h2>
+                    <div class="space-y-4">
+                        <input type="text" id="courseTitle" class="input-style" placeholder="اسم الكورس (مثال: أساسيات البرمجة)">
+                        <input type="number" id="coursePrice" class="input-style" placeholder="السعر بالدولار ($)">
+                        <input type="text" id="courseImg" class="input-style" placeholder="رابط صورة الكورس (URL)">
+                        <textarea id="courseDesc" rows="3" class="input-style" placeholder="وصف سريع للكورس..."></textarea>
+                        
+                        <button onclick="createNewCourse()" id="uploadBtn" class="w-full bg-purple-600 hover:bg-purple-700 py-4 rounded-xl font-black shadow-lg shadow-purple-500/20 transform active:scale-95 transition">
+                            نشر للمراجعة
+                        </button>
+                    </div>
+                </div>
+
+                <div class="glass p-6 rounded-3xl border-r-4 border-green-500 animate__animated animate__fadeInUp">
+                    <p class="text-gray-400 text-sm">أرباحك المتاحة</p>
+                    <h3 id="userBalance" class="text-3xl font-black text-green-500 mt-1">$0.00</h3>
                 </div>
             </div>
 
-            <div class="lg:col-span-2 space-y-4">
-                <h2 class="text-xl font-bold mb-6">كورساتك الحالية</h2>
-                <div id="myCoursesList" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    </div>
+            <div class="lg:col-span-8">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-black italic">إدارة كورساتك</h2>
+                    <span id="courseCount" class="bg-purple-600/20 text-purple-400 px-4 py-1 rounded-full text-xs font-bold">0 كورس</span>
+                </div>
+
+                <div id="coursesGrid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="col-span-full text-center py-10 text-gray-600 animate-pulse">جاري جلب بياناتك...</div>
+                </div>
             </div>
         </div>
-    </div>
+    </main>
 
     <script>
-        const { createClient } = supabase;
-        const _supabase = createClient('https://gfqwpxxnqeaemfnlnpjs.supabase.co', 'YOUR_ANON_KEY');
+        // الربط بالبيانات الخاصة بك
+        const SUPABASE_URL = 'https://gfqwpxxnqeaemfnlnpjs.supabase.co';
+        const SUPABASE_KEY = 'sb_publishable_DKj_3ziMpBx6GzAjHFkjKw_GJBXNlck'; // مفتاحك اللي بعته
+        const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-        // جلب بيانات المستخدم والكورسات أول ما يفتح الصفحة
-        async function init() {
+        // التأكد من تسجيل الدخول
+        async function checkAuth() {
             const { data: { user } } = await _supabase.auth.getUser();
-            if (!user) { window.location.href = 'auth.html'; return; }
-            document.getElementById('userEmail').innerText = user.email;
-            fetchMyCourses(user.id);
+            if (!user) {
+                window.location.href = 'auth.html';
+                return;
+            }
+            document.getElementById('userBadge').innerText = user.email;
+            loadDashboardData(user.id);
         }
 
-        // رفع كورس جديد
-        async function handleUpload() {
-            const { data: { user } } = await _supabase.auth.getUser();
-            const title = document.getElementById('c_title').value;
-            const price = document.getElementById('c_price').value;
-            const desc = document.getElementById('c_desc').value;
-            const img = document.getElementById('c_img').value;
+        // جلب البيانات من الجداول المحدثة
+        async function loadDashboardData(userId) {
+            // جلب الرصيد من جدول profiles
+            const { data: profile } = await _supabase.from('profiles').select('balance').eq('id', userId).single();
+            if(profile) document.getElementById('userBalance').innerText = `$${profile.balance.toFixed(2)}`;
 
-            const { error } = await _supabase.from('courses').insert([{
-                title, price, description: desc, image_url: img, seller_id: user.id, status: 'pending'
-            }]);
+            // جلب الكورسات الخاصة بك
+            const { data: courses, error } = await _supabase
+                .from('courses')
+                .select('*')
+                .eq('seller_id', userId)
+                .order('created_at', { ascending: false });
 
-            if (error) alert("حدث خطأ: " + error.message);
-            else { alert("تم الرفع بنجاح! كورس في انتظار مراجعة الأدمن."); location.reload(); }
-        }
-
-        // جلب الكورسات الخاصة بي
-        async function fetchMyCourses(userId) {
-            const { data, error } = await _supabase.from('courses').select('*').eq('seller_id', userId);
-            const list = document.getElementById('myCoursesList');
+            const grid = document.getElementById('coursesGrid');
+            document.getElementById('courseCount').innerText = `${courses?.length || 0} كورس`;
             
-            if (data.length === 0) list.innerHTML = '<p class="text-gray-500">لا توجد كورسات مرفوعة بعد.</p>';
-            
-            data.forEach(course => {
-                list.innerHTML += `
-                    <div class="bg-[#161b22] border border-gray-800 p-4 rounded-2xl relative group">
-                        <img src="${course.image_url}" class="w-full h-32 object-cover rounded-xl mb-3">
-                        <h3 class="font-bold">${course.title}</h3>
-                        <div class="flex justify-between items-center mt-3">
-                            <span class="text-xs ${course.status === 'approved' ? 'text-green-500' : 'text-yellow-500'} bg-black px-2 py-1 rounded-lg">${course.status}</span>
-                            <button onclick="deleteCourse('${course.id}')" class="text-red-500 hover:text-red-700 transition"><i class="fas fa-trash"></i></button>
+            if (courses && courses.length > 0) {
+                grid.innerHTML = courses.map(c => `
+                    <div class="glass p-4 rounded-3xl animate__animated animate__zoomIn overflow-hidden">
+                        <img src="${c.image_url || 'https://via.placeholder.com/300x150'}" class="w-full h-36 object-cover rounded-2xl mb-4 border border-gray-800">
+                        <h4 class="font-bold text-lg mb-2 truncate">${c.title}</h4>
+                        <div class="flex justify-between items-center">
+                            <span class="text-purple-500 font-black">$${c.price}</span>
+                            <span class="text-[10px] px-3 py-1 rounded-full font-bold uppercase ${c.status === 'approved' ? 'bg-green-500/20 text-green-500' : 'bg-yellow-500/20 text-yellow-500'}">
+                                ${c.status === 'approved' ? 'منشور' : 'قيد المراجعة'}
+                            </span>
+                        </div>
+                        <div class="mt-4 pt-4 border-t border-gray-800 flex justify-end">
+                            <button onclick="deleteCourse('${c.id}')" class="text-gray-500 hover:text-red-500 transition text-sm flex items-center gap-1">
+                                <i class="fas fa-trash-alt"></i> حذف الكورس
+                            </button>
                         </div>
                     </div>
-                `;
-            });
+                `).join('');
+            } else {
+                grid.innerHTML = `<div class="col-span-full text-center py-20 text-gray-500 border-2 border-dashed border-gray-800 rounded-3xl italic">لم تقم برفع أي كورسات بعد.</div>`;
+            }
         }
 
-        // حذف كورس
-        async function deleteCourse(id) {
-            if(confirm("هل أنت متأكد من حذف هذا الكورس؟")) {
-                await _supabase.from('courses').delete().eq('id', id);
+        // إنشاء كورس جديد
+        async function createNewCourse() {
+            const btn = document.getElementById('uploadBtn');
+            const title = document.getElementById('courseTitle').value;
+            const price = document.getElementById('coursePrice').value;
+            const img = document.getElementById('courseImg').value;
+            const desc = document.getElementById('courseDesc').value;
+
+            if(!title || !price) {
+                alert("برجاء إدخال اسم الكورس والسعر على الأقل");
+                return;
+            }
+
+            btn.innerText = "جاري الرفع...";
+            btn.disabled = true;
+
+            const { data: { user } } = await _supabase.auth.getUser();
+
+            const { error } = await _supabase.from('courses').insert([{
+                title, 
+                price: parseFloat(price), 
+                image_url: img, 
+                description: desc,
+                seller_id: user.id,
+                status: 'pending' // الكورس بينزل للمراجعة أولاً
+            }]);
+
+            if (error) {
+                alert("حدث خطأ أثناء الرفع: " + error.message);
+                btn.innerText = "نشر للمراجعة";
+                btn.disabled = false;
+            } else {
+                alert("تم رفع الكورس! سيظهر للطلاب فور موافقة الإدارة.");
                 location.reload();
             }
         }
 
-        async function signOut() { await _supabase.auth.signOut(); window.location.href = 'auth.html'; }
+        // حذف كورس
+        async function deleteCourse(id) {
+            if(confirm("هل أنت متأكد من حذف هذا الكورس نهائياً؟")) {
+                const { error } = await _supabase.from('courses').delete().eq('id', id);
+                if(error) alert("فشل الحذف: " + error.message);
+                else location.reload();
+            }
+        }
 
-        init();
+        // تسجيل الخروج
+        async function logout() {
+            await _supabase.auth.signOut();
+            window.location.href = 'auth.html';
+        }
+
+        checkAuth();
     </script>
 </body>
 </html>
