@@ -3,110 +3,105 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تسجيل الدخول | TajNova</title>
+    <title>انضم إلى تاج نوفا | TajNova</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap');
-        body { font-family: 'Cairo', sans-serif; background: #0b0e14; }
-        .auth-card { background: rgba(22, 27, 34, 0.8); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.05); }
-        .input-field { background: rgba(0, 0, 0, 0.2); border: 1px solid rgba(255, 255, 255, 0.1); transition: all 0.3s ease; color: white; }
-        .input-field:focus { border-color: #8b5cf6; box-shadow: 0 0 10px rgba(139, 92, 246, 0.2); outline: none; }
+        body { font-family: 'Cairo', sans-serif; background: #0b0e14; color: white; }
+        .glass { background: rgba(22, 27, 34, 0.8); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.05); }
+        .input-field { background: #0b0e14; border: 1px solid #1f2937; padding: 12px; border-radius: 12px; width: 100%; outline: none; transition: 0.3s; color: white; }
+        .input-field:focus { border-color: #8b5cf6; }
     </style>
 </head>
-<body class="flex items-center justify-center min-h-screen p-4 overflow-hidden relative">
+<body class="min-h-screen flex items-center justify-center p-4">
 
-    <div class="absolute w-96 h-96 bg-purple-600/20 rounded-full blur-[120px] -top-20 -right-20 animate-pulse"></div>
-
-    <div class="auth-card w-full max-w-md p-8 rounded-3xl shadow-2xl z-10 animate__animated animate__zoomIn">
+    <div class="glass w-full max-w-md p-8 rounded-3xl shadow-2xl">
         <div class="text-center mb-8">
-            <div class="inline-flex w-16 h-16 bg-purple-600 rounded-2xl items-center justify-center text-3xl font-black italic mb-4 shadow-lg shadow-purple-500/30">T</div>
-            <h2 class="text-2xl font-black text-white">مرحباً بك في <span class="text-purple-500">تاج نوفا</span></h2>
-            <p id="statusMsg" class="text-gray-400 text-sm mt-2">سجل دخولك أو أنشئ حساباً جديداً</p>
+            <h2 id="formTitle" class="text-3xl font-black mb-2">تسجيل الدخول</h2>
+            <p id="formDesc" class="text-gray-400 text-sm">أهلاً بك مجدداً في تاج نوفا</p>
         </div>
 
-        <form id="authForm" class="space-y-5">
-            <div>
-                <label class="block text-gray-400 text-sm mb-2 mr-1">البريد الإلكتروني</label>
-                <div class="relative">
-                    <span class="absolute right-4 top-3.5 text-gray-500"><i class="fas fa-envelope"></i></span>
-                    <input type="email" id="emailInput" class="input-field w-full py-3 pr-12 pl-4 rounded-xl" placeholder="name@example.com" required>
-                </div>
+        <form id="mainForm" class="space-y-4">
+            <div id="nameField" class="hidden">
+                <label class="block text-xs text-gray-500 mb-1">الاسم الكامل</label>
+                <input type="text" id="fullName" class="input-field" placeholder="اكتب اسمك الثلاثي">
             </div>
 
             <div>
-                <label class="block text-gray-400 text-sm mb-2 mr-1">كلمة المرور</label>
-                <div class="relative">
-                    <span class="absolute right-4 top-3.5 text-gray-500"><i class="fas fa-lock"></i></span>
-                    <input type="password" id="passwordInput" class="input-field w-full py-3 pr-12 pl-4 rounded-xl" placeholder="••••••••" required>
-                </div>
+                <label class="block text-xs text-gray-500 mb-1">البريد الإلكتروني</label>
+                <input type="email" id="email" class="input-field" placeholder="email@example.com" required>
             </div>
 
-            <button type="submit" id="submitBtn" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-black py-4 rounded-xl transition-all shadow-lg shadow-purple-500/20 transform active:scale-95">
-                دخول / تسجيل
+            <div>
+                <label class="block text-xs text-gray-500 mb-1">كلمة المرور</label>
+                <input type="password" id="password" class="input-field" placeholder="••••••••" required>
+            </div>
+
+            <div id="roleField" class="hidden">
+                <label class="block text-xs text-gray-500 mb-1">نوع الحساب</label>
+                <select id="userRole" class="input-field">
+                    <option value="student">طالب (أريد التعلم)</option>
+                    <option value="instructor">مدرب (أريد رفع كورسات)</option>
+                </select>
+            </div>
+
+            <button type="submit" id="submitBtn" class="w-full bg-purple-600 hover:bg-purple-700 py-4 rounded-xl font-black transition shadow-lg shadow-purple-500/20">
+                دخول للمنصة
             </button>
         </form>
 
-        <div class="mt-8 pt-6 border-t border-gray-800 text-center text-gray-400 text-sm">
-             سيتم إنشاء حساب تلقائياً إذا كنت جديداً
-            <div class="mt-4">
-                <a href="index.html" class="text-gray-500 text-xs hover:text-white"><i class="fas fa-arrow-right ml-1"></i> العودة للرئيسية</a>
-            </div>
+        <div class="mt-6 text-center">
+            <button onclick="toggleForm()" id="toggleBtn" class="text-purple-400 text-sm hover:underline">
+                ليس لديك حساب؟ أنشئ حساباً جديداً
+            </button>
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
     <script>
-        const SUPABASE_URL = 'https://gfqwpxxnqeaemfnlnpjs.supabase.co';
-        const SUPABASE_KEY = 'sb_publishable_DKj_3ziMpBx6GzAjHFkjKw_GJBXNlck'; 
+        const _supabase = supabase.createClient('https://gfqwpxxnqeaemfnlnpjs.supabase.co', 'sb_publishable_DKj_3ziMpBx6GzAjHFkjKw_GJBXNlck');
         
-        // الحل: نغير اسم الثابت لـ _supabase عشان ميتعارضش مع المكتبة
-        const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        let isLogin = true;
 
-        const authForm = document.getElementById('authForm');
-        const statusMsg = document.getElementById('statusMsg');
-        const submitBtn = document.getElementById('submitBtn');
-
-        authForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const email = document.getElementById('emailInput').value;
-            const password = document.getElementById('passwordInput').value;
+        function toggleForm() {
+            isLogin = !isLogin;
+            document.getElementById('formTitle').innerText = isLogin ? "تسجيل الدخول" : "إنشاء حساب جديد";
+            document.getElementById('formDesc').innerText = isLogin ? "أهلاً بك مجدداً في تاج نوفا" : "ابدأ رحلتك التعليمية معنا اليوم";
+            document.getElementById('submitBtn').innerText = isLogin ? "دخول للمنصة" : "إنشاء الحساب";
+            document.getElementById('toggleBtn').innerText = isLogin ? "ليس لديك حساب؟ أنشئ حساباً جديداً" : "لديك حساب بالفعل؟ سجل دخولك";
             
-            submitBtn.innerText = "جاري التحقق...";
-            submitBtn.disabled = true;
+            document.getElementById('nameField').classList.toggle('hidden');
+            document.getElementById('roleField').classList.toggle('hidden');
+        }
 
-            // 1. محاولة تسجيل الدخول
-            const { data, error } = await _supabase.auth.signInWithPassword({
-                email: email,
-                password: password,
-            });
+        document.getElementById('mainForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const fullName = document.getElementById('fullName').value;
+            const role = document.getElementById('userRole').value;
 
-            if (error) {
-                // 2. لو الحساب مش موجود (أو الباسورد غلط)، نجرب نعمل حساب جديد
-                const { data: signUpData, error: signUpError } = await _supabase.auth.signUp({
-                    email: email,
-                    password: password,
+            if (isLogin) {
+                // عملية تسجيل الدخول
+                const { error } = await _supabase.auth.signInWithPassword({ email, password });
+                if (error) alert(error.message);
+                else window.location.href = "dashboard.html";
+            } else {
+                // عملية إنشاء الحساب (الاحترافية)
+                const { data, error } = await _supabase.auth.signUp({
+                    email, 
+                    password,
+                    options: { data: { full_name: fullName, role: role } }
                 });
 
-                if (signUpError) {
-                    statusMsg.innerText = "خطأ: " + signUpError.message;
-                    statusMsg.className = "text-red-500 text-sm mt-2 animate__animated animate__shakeX";
-                    submitBtn.innerText = "حاول مرة أخرى";
-                    submitBtn.disabled = false;
+                if (error) {
+                    alert("خطأ: " + error.message);
                 } else {
-                    statusMsg.innerText = "تم إنشاء الحساب! سجل دخولك الآن";
-                    statusMsg.className = "text-green-500 text-sm mt-2";
-                    submitBtn.innerText = "دخول";
-                    submitBtn.disabled = false;
+                    alert("تم إنشاء الحساب بنجاح!");
+                    // بعد تسجيل الحساب، Supabase بيعمل تسجيل دخول تلقائي غالباً
+                    window.location.href = "dashboard.html";
                 }
-            } else {
-                // 3. نجاح الدخول
-                statusMsg.innerText = "أهلاً بك.. جاري التوجيه";
-                statusMsg.className = "text-green-500 text-sm mt-2";
-                setTimeout(() => {
-                    window.location.href = "dashboard.html"; 
-                }, 1000);
             }
         });
     </script>
