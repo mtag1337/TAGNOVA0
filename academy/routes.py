@@ -43,4 +43,6 @@ def login():
 
 @main.route('/dashboard')
 def dashboard():
-    return render_template('dashboard.html')
+    # هنا بنفترض إننا هنجيب بيانات أول مستخدم في القاعدة للتجربة
+    user = User.query.first() 
+    return render_template('dashboard.html', user=user)
