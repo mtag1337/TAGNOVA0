@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الانضمام إلى TajNova</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0b0e14;
+            --card: #11141b;
+            --primary: #8b5cf6;
+            --text: #ffffff;
+            --border: rgba(255,255,255,0.1);
+        }
+        .light-theme {
+            --bg: #f3f4f6;
+            --card: #ffffff;
+            --text: #111827;
+            --border: rgba(0,0,0,0.1);
+        }
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .auth-card {
+            background: var(--card);
+            padding: 40px;
+            border-radius: 30px;
+            width: 100%;
+            max-width: 450px;
+            border: 1px solid var(--border);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+            text-align: center;
+        }
+        .input-group { margin-bottom: 20px; text-align: right; }
+        input, select {
+            width: 100%;
+            padding: 15px;
+            border-radius: 15px;
+            border: 1px solid var(--border);
+            background: var(--bg);
+            color: var(--text);
+            margin-top: 8px;
+            outline: none;
+        }
+        .btn-main {
+            width: 100%;
+            padding: 15px;
+            border-radius: 15px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            font-weight: 900;
+            cursor: pointer;
+            font-size: 1.1rem;
+        }
+        .toggle-link {
+            margin-top: 20px;
+            display: block;
+            color: var(--primary);
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body id="authBody">
+
+    <div class="auth-card">
+        <img src="logotagnova.png" width="100" alt="TajNova">
+        <h2 id="formTitle" style="margin: 20px 0;">تسجيل الدخول</h2>
+
+        <form id="mainForm">
+            <div id="nameField" class="input-group" style="display: none;">
+                <label>الاسم الكامل</label>
+                <input type="text" placeholder="أدخل اسمك الثلاثي">
+            </div>
+
+            <div class="input-group">
+                <label>البريد الإلكتروني</label>
+                <input type="email" placeholder="example@mail.com" required>
+            </div>
+
+            <div class="input-group">
+                <label>كلمة المرور</label>
+                <input type="password" placeholder="••••••••" required>
+            </div>
+
+            <div id="roleField" class="input-group" style="display: none;">
+                <label>أنا أريد أن أكون:</label>
+                <select>
+                    <option value="student">طالب (أريد التعلم)</option>
+                    <option value="instructor">مدرب (أريد رفع كورسات)</option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn-main" id="submitBtn">دخول للمنصة</button>
+        </form>
+
+        <span class="toggle-link" onclick="toggleAuthMode()" id="toggleText">ليس لديك حساب؟ إنشاء حساب جديد</span>
+    </div>
+
+    <script>
+        let isLogin = true;
+
+        function toggleAuthMode() {
+            isLogin = !isLogin;
+            const title = document.getElementById('formTitle');
+            const btn = document.getElementById('submitBtn');
+            const toggle = document.getElementById('toggleText');
+            const nameField = document.getElementById('nameField');
+            const roleField = document.getElementById('roleField');
+
+            if (!isLogin) {
+                title.innerText = "إنشاء حساب جديد";
+                btn.innerText = "ابدأ رحلتك الآن";
+                toggle.innerText = "لديك حساب بالفعل؟ سجل دخولك";
+                nameField.style.display = "block";
+                roleField.style.display = "block";
+            } else {
+                title.innerText = "تسجيل الدخول";
+                btn.innerText = "دخول للمنصة";
+                toggle.innerText = "ليس لديك حساب؟ إنشاء حساب جديد";
+                nameField.style.display = "none";
+                roleField.style.display = "none";
+            }
+        }
+    </script>
+</body>
+</html>
