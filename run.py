@@ -1,14 +1,11 @@
 from academy import create_app
 
-# إحنا بننادي على الوظيفة اللي بتبني المنصة من جوه الأساس (academy)
+# Vercel بيدور على متغير اسمه app أو application بره أي Condition
 app = create_app()
 
+# السطر ده اختياري بس بيساعد في حل المشاكل لو حصلت
+application = app 
+
 if __name__ == '__main__':
-    print("---")
-    print("🚀 TajNova is starting...")
-    print("🌍 Open your browser at: http://127.0.0.1:5000")
-    print("---")
-    
-    # تشغيل السيرفر في وضع التطوير (Debug Mode) 
-    # ده بيخلي أي تعديل تعمله في الكود يتحدث فوراً من غير ما تقفل السيرفر
-    app.run(debug=True, port=5000)
+    # ده هيفضل شغال لو جربت تشغل الملف من جهازك
+    app.run(debug=True)
