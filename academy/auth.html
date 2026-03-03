@@ -76,25 +76,25 @@
         <img src="logotagnova.png" width="100" alt="TajNova">
         <h2 id="formTitle" style="margin: 20px 0;">تسجيل الدخول</h2>
 
-        <form id="mainForm">
+        <form id="mainForm" action="/signup" method="POST">
             <div id="nameField" class="input-group" style="display: none;">
                 <label>الاسم الكامل</label>
-                <input type="text" placeholder="أدخل اسمك الثلاثي">
+                <input type="text" name="name" placeholder="أدخل اسمك الثلاثي">
             </div>
 
             <div class="input-group">
                 <label>البريد الإلكتروني</label>
-                <input type="email" placeholder="example@mail.com" required>
+                <input type="email" name="email" placeholder="example@mail.com" required>
             </div>
 
             <div class="input-group">
                 <label>كلمة المرور</label>
-                <input type="password" placeholder="••••••••" required>
+                <input type="password" name="password" placeholder="••••••••" required>
             </div>
 
             <div id="roleField" class="input-group" style="display: none;">
                 <label>أنا أريد أن أكون:</label>
-                <select>
+                <select name="role">
                     <option value="student">طالب (أريد التعلم)</option>
                     <option value="instructor">مدرب (أريد رفع كورسات)</option>
                 </select>
@@ -108,6 +108,7 @@
 
     <script>
         let isLogin = true;
+        const mainForm = document.getElementById('mainForm');
 
         function toggleAuthMode() {
             isLogin = !isLogin;
@@ -123,12 +124,16 @@
                 toggle.innerText = "لديك حساب بالفعل؟ سجل دخولك";
                 nameField.style.display = "block";
                 roleField.style.display = "block";
+                // لو إنشاء حساب بنبعت لـ /signup
+                mainForm.action = "/signup";
             } else {
                 title.innerText = "تسجيل الدخول";
                 btn.innerText = "دخول للمنصة";
                 toggle.innerText = "ليس لديك حساب؟ إنشاء حساب جديد";
                 nameField.style.display = "none";
                 roleField.style.display = "none";
+                // لو تسجيل دخول بنبعت لـ /login (هنبرمجها الخطوة الجاية)
+                mainForm.action = "/login";
             }
         }
     </script>
