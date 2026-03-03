@@ -1,50 +1,195 @@
-<main class="main-wrapper">
-    <header class="top-bar">
-        <div>
-            <h1 style="font-size: 1.8rem; font-weight: 900;">استوديو الإدارة 🎙️</h1>
-            <p style="color: var(--text-dim);">مرحباً م. أحمد، إليك ملخص أداء كورساتك اليوم</p>
-        </div>
-        <button style="background: var(--primary); color: white; border: none; padding: 12px 25px; border-radius: 15px; font-weight: 700; cursor: pointer;">
-            + رفع كورس جديد
-        </button>
-    </header>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>استوديو المدرب | TajNova</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        :root {
+            --bg: #0b0e14;
+            --side-bg: #11141b;
+            --card-bg: rgba(22, 27, 34, 0.6);
+            --primary: #8b5cf6;
+            --accent: #a78bfa;
+            --success: #10b981;
+            --text-main: #ffffff;
+            --text-dim: #9ca3af;
+            --border: rgba(255, 255, 255, 0.08);
+        }
 
-    <section class="stats-grid">
-        <div class="stat-card" style="border-right: 4px solid #10b981;">
-            <h3>إجمالي الأرباح</h3>
-            <p>$1,250.00</p>
-        </div>
-        <div class="stat-card">
-            <h3>الطلاب المشتركين</h3>
-            <p>450</p>
-        </div>
-        <div class="stat-card">
-            <h3>متوسط التقييم</h3>
-            <p>4.8 ⭐</p>
-        </div>
-    </section>
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: var(--bg);
+            color: var(--text-main);
+            display: flex;
+            min-height: 100vh;
+        }
 
-    <section>
-        <h2 class="section-title">إدارة المحتوى</h2>
-        <div style="background: var(--card-bg); border-radius: 28px; padding: 20px; border: 1px solid var(--border);">
-            <table style="width: 100%; border-collapse: collapse; text-align: right;">
+        /* Sidebar */
+        .sidebar {
+            width: 280px;
+            background: var(--side-bg);
+            border-left: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            padding: 30px 20px;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            color: var(--text-dim);
+            text-decoration: none;
+            border-radius: 15px;
+            margin-bottom: 8px;
+            transition: 0.3s;
+            font-weight: 600;
+        }
+
+        .nav-link.active {
+            background: rgba(139, 92, 246, 0.1);
+            color: var(--primary);
+        }
+
+        /* Main Content */
+        .main-wrapper {
+            flex-grow: 1;
+            padding: 40px;
+            max-width: calc(100% - 280px);
+        }
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+        }
+
+        .btn-upload {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn-upload:hover { transform: scale(1.05); box-shadow: 0 0 20px rgba(139, 92, 246, 0.4); }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            padding: 25px;
+            border-radius: 24px;
+            backdrop-filter: blur(10px);
+        }
+
+        .stat-card p { font-size: 1.8rem; font-weight: 900; color: var(--success); }
+
+        /* Table Area */
+        .content-box {
+            background: var(--card-bg);
+            border-radius: 28px;
+            padding: 25px;
+            border: 1px solid var(--border);
+            overflow-x: auto;
+        }
+
+        table { width: 100%; border-collapse: collapse; text-align: right; }
+        th { color: var(--text-dim); padding: 15px; border-bottom: 1px solid var(--border); }
+        td { padding: 20px 15px; border-bottom: 1px solid var(--border); }
+
+        .status-badge {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+            padding: 5px 12px;
+            border-radius: 10px;
+            font-size: 0.85rem;
+        }
+
+        @media (max-width: 900px) {
+            .sidebar { width: 80px; }
+            .sidebar span, .logo-text { display: none; }
+            .main-wrapper { max-width: calc(100% - 80px); padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <aside class="sidebar">
+        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 50px;">
+            <div style="width: 40px; height: 40px; background: var(--primary); border-radius: 10px;"></div>
+            <h2 class="logo-text" style="font-weight: 900; font-size: 1.2rem;">TAJNOVA</h2>
+        </div>
+        <nav>
+            <a href="#" class="nav-link">🏠 <span>الرئيسية</span></a>
+            <a href="#" class="nav-link active">🎙️ <span>الاستوديو</span></a>
+            <a href="#" class="nav-link">💰 <span>الأرباح</span></a>
+            <a href="#" class="nav-link">👥 <span>الطلاب</span></a>
+        </nav>
+    </aside>
+
+    <main class="main-wrapper">
+        <header class="top-bar">
+            <div>
+                <h1 style="font-size: 1.8rem; font-weight: 900;">استوديو الإدارة 🎙️</h1>
+                <p style="color: var(--text-dim);">مرحباً بك.. إليك ملخص أداء كورساتك اليوم</p>
+            </div>
+            <button class="btn-upload">+ رفع كورس جديد</button>
+        </header>
+
+        <section class="stats-grid">
+            <div class="stat-card" style="border-right: 4px solid var(--success);">
+                <h3>إجمالي الأرباح</h3>
+                <p>$1,250.00</p>
+            </div>
+            <div class="stat-card">
+                <h3>الطلاب المشتركين</h3>
+                <p style="color: var(--primary);">450</p>
+            </div>
+            <div class="stat-card">
+                <h3>متوسط التقييم</h3>
+                <p style="color: #fbbf24;">4.8 ⭐</p>
+            </div>
+        </section>
+
+        <h2 style="margin-bottom: 20px;">إدارة الكورسات المنشورة</h2>
+        <div class="content-box">
+            <table>
                 <thead>
-                    <tr style="color: var(--text-dim); border-bottom: 1px solid var(--border);">
-                        <th style="padding: 15px;">اسم الكورس</th>
+                    <tr>
+                        <th>اسم الكورس</th>
                         <th>المبيعات</th>
                         <th>الحالة</th>
                         <th>الإجراءات</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr style="border-bottom: 1px solid var(--border);">
-                        <td style="padding: 15px;">دبلومة الذكاء الاصطناعي</td>
+                    <tr>
+                        <td style="font-weight: 600;">دبلومة الذكاء الاصطناعي ببايثون</td>
                         <td>120 طالب</td>
-                        <td><span style="color: #10b981; background: rgba(16, 185, 129, 0.1); padding: 5px 10px; border-radius: 8px; font-size: 0.8rem;">منشور</span></td>
-                        <td><button style="background: none; border: 1px solid var(--primary); color: var(--primary); padding: 5px 15px; border-radius: 8px; cursor: pointer;">تعديل</button></td>
+                        <td><span class="status-badge">منشور</span></td>
+                        <td><button style="background: none; border: 1px solid var(--primary); color: var(--primary); padding: 6px 15px; border-radius: 10px; cursor: pointer;">تعديل</button></td>
                     </tr>
-                    </tbody>
+                </tbody>
             </table>
         </div>
-    </section>
-</main>
+    </main>
+
+</body>
+</html>
