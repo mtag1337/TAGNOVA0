@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة التحكم | TajNova</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0b0e14;
+            --glass-bg: rgba(22, 27, 34, 0.85);
+            --primary-purple: #8b5cf6;
+            --accent-purple: #a78bfa;
+            --text-gray: #9ca3af;
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: var(--bg-color);
+            color: white;
+            margin: 0;
+            display: flex;
+        }
+
+        /* Sidebar - القائمة الجانبية */
+        .sidebar {
+            width: 260px;
+            height: 100vh;
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border-left: 1px solid rgba(255,255,255,0.05);
+            padding: 20px;
+            position: fixed;
+        }
+
+        /* Main Content - المحتوى الرئيسي */
+        .main-content {
+            margin-right: 260px; /* مسافة عشان السايد بار */
+            padding: 30px;
+            width: 100%;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+        }
+
+        /* كروت الكورسات */
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .course-card {
+            background: var(--glass-bg);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 15px;
+            transition: 0.3s;
+        }
+
+        .course-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary-purple);
+        }
+
+        .progress-bar {
+            background: #1a1c2e;
+            height: 8px;
+            border-radius: 4px;
+            margin-top: 15px;
+        }
+
+        .progress-fill {
+            background: var(--primary-purple);
+            height: 100%;
+            border-radius: 4px;
+            width: 45%; /* نسبة افتراضية */
+        }
+    </style>
+</head>
+<body>
+
+    <div class="sidebar">
+        <img src="logotagnova.png" style="width: 80px; margin-bottom: 30px;">
+        <nav>
+            <p style="color: var(--accent-purple); font-weight: bold;">الرئيسية</p>
+            <p>📖 كورساتي</p>
+            <p>🛠️ الأدوات الاحترافية</p>
+            <p>🏆 إنجازاتي</p>
+            <hr style="border: 0.1px solid rgba(255,255,255,0.05);">
+            <p>⚙️ الإعدادات</p>
+            <p style="color: #ef4444;">🚪 تسجيل الخروج</p>
+        </nav>
+    </div>
+
+    <div class="main-content">
+        <div class="header">
+            <h1>أهلاً بك يا بطل 👋</h1>
+            <div class="user-info">طالب | مبرمج</div>
+        </div>
+
+        <h3>أكمل التعلم:</h3>
+        <div class="courses-grid">
+            <div class="course-card">
+                <div style="width: 100%; height: 150px; background: #1a1c2e; border-radius: 15px; margin-bottom: 10px;"></div>
+                <h4>كورس تطوير الويب الكامل</h4>
+                <p style="color: var(--text-gray); font-size: 0.8rem;">بواسطة: م. أحمد علي</p>
+                <div class="progress-bar"><div class="progress-fill"></div></div>
+                <p style="font-size: 0.7rem; margin-top: 5px;">تم إنجاز 45%</p>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
