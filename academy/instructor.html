@@ -40,6 +40,20 @@
             height: 100vh;
         }
 
+        .logo-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 50px;
+            padding: 10px;
+        }
+
+        .logo-img {
+            max-width: 150px; /* تحكم في حجم اللوجو من هنا */
+            height: auto;
+            object-fit: contain;
+        }
+
         .nav-link {
             display: flex;
             align-items: center;
@@ -123,19 +137,20 @@
         }
 
         @media (max-width: 900px) {
-            .sidebar { width: 80px; }
-            .sidebar span, .logo-text { display: none; }
-            .main-wrapper { max-width: calc(100% - 80px); padding: 20px; }
+            .sidebar { width: 100px; padding: 20px 10px; }
+            .sidebar span { display: none; }
+            .logo-img { max-width: 60px; }
+            .main-wrapper { max-width: calc(100% - 100px); padding: 20px; }
         }
     </style>
 </head>
 <body>
 
     <aside class="sidebar">
-        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 50px;">
-            <div style="width: 40px; height: 40px; background: var(--primary); border-radius: 10px;"></div>
-            <h2 class="logo-text" style="font-weight: 900; font-size: 1.2rem;">TAJNOVA</h2>
+        <div class="logo-container">
+            <img src="logotagnova.png" alt="TajNova Logo" class="logo-img">
         </div>
+
         <nav>
             <a href="#" class="nav-link">🏠 <span>الرئيسية</span></a>
             <a href="#" class="nav-link active">🎙️ <span>الاستوديو</span></a>
