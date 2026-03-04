@@ -3,51 +3,187 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>دخول | تاجنوفا أكاديمي</title>
+    <title>تسجيل الدخول | TajNova Academy</title>
+    
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
     <style>
-        :root { --primary: #4f46e5; --success: #10b981; --bg: #f3f4f6; }
-        body { font-family: 'Cairo', sans-serif; background-color: var(--bg); margin: 0; display: flex; align-items: center; justify-content: center; height: 100vh; }
-        .container { background: white; padding: 40px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); width: 100%; max-width: 400px; transition: 0.3s; }
-        .logo { font-size: 2rem; font-weight: bold; color: var(--primary); margin-bottom: 10px; }
-        h2 { margin: 0 0 20px; color: #1f2937; }
-        .input-group { margin-bottom: 15px; text-align: right; }
-        label { display: block; margin-bottom: 5px; color: #4b5563; font-size: 0.9rem; }
-        input { width: 100%; padding: 12px; border: 2px solid #e5e7eb; border-radius: 10px; outline: none; transition: 0.2s; font-family: inherit; }
-        input:focus { border-color: var(--primary); }
-        button { width: 100%; padding: 12px; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; transition: 0.3s; margin-top: 10px; font-family: inherit; }
-        .btn-main { background: var(--primary); color: white; }
-        .btn-main:hover { background: #4338ca; }
-        .btn-alt { background: white; color: var(--success); border: 2px solid var(--success); }
-        .btn-alt:hover { background: var(--success); color: white; }
-        .footer-text { margin-top: 20px; font-size: 0.85rem; color: #6b7280; }
+        :root {
+            --primary-color: #6366f1;
+            --secondary-color: #4f46e5;
+            --text-main: #1f2937;
+            --glass-bg: rgba(255, 255, 255, 0.9);
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Cairo', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        /* خلفية بصرية "عالمية" */
+        body::before {
+            content: "";
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1471&q=80');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.2;
+            z-index: -1;
+        }
+
+        .auth-container {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            padding: 40px;
+            border-radius: 24px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            width: 90%;
+            max-width: 420px;
+            text-align: center;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .logo-area {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--secondary-color);
+            margin-bottom: 5px;
+            letter-spacing: -1px;
+        }
+
+        .subtitle {
+            color: #6b7280;
+            font-size: 0.95rem;
+            margin-bottom: 30px;
+        }
+
+        .btn-google {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            background: white;
+            color: #374151;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Cairo';
+        }
+
+        .btn-google:hover {
+            background: #f9fafb;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        .divider {
+            margin: 25px 0;
+            display: flex;
+            align-items: center;
+            color: #9ca3af;
+            font-size: 0.85rem;
+        }
+
+        .divider::before, .divider::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background: #e5e7eb;
+            margin: 0 10px;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 14px;
+            margin-bottom: 15px;
+            border: 1.5px solid #e5e7eb;
+            border-radius: 12px;
+            box-sizing: border-box;
+            font-family: 'Cairo';
+            outline: none;
+            transition: 0.3s;
+        }
+
+        .input-field:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+        }
+
+        .btn-primary {
+            width: 100%;
+            padding: 14px;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+            font-family: 'Cairo';
+        }
+
+        .btn-primary:hover {
+            background: var(--secondary-color);
+            transform: translateY(-1px);
+        }
+
+        .btn-link {
+            background: none;
+            border: none;
+            color: var(--secondary-color);
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 15px;
+            font-family: 'Cairo';
+        }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <div class="logo">TajNova</div>
-        <h2>مرحباً بك مجدداً</h2>
+    <div class="auth-container">
+        <div class="logo-area">TajNova</div>
+        <div class="subtitle">بوابتك لتعلم مهارات المستقبل</div>
+
+        <button class="btn-google" onclick="googleLogin()">
+            <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="20">
+            الدخول بواسطة جوجل
+        </button>
+
+        <div class="divider">أو عبر البريد</div>
+
+        <input type="email" id="email" class="input-field" placeholder="البريد الإلكتروني">
+        <input type="password" id="password" class="input-field" placeholder="كلمة السر">
         
-        <div class="input-group">
-            <label>البريد الإلكتروني</label>
-            <input type="email" id="email" placeholder="example@mail.com">
+        <button class="btn-primary" onclick="login()">تسجيل الدخول</button>
+        
+        <div style="margin-top: 10px;">
+            <span style="color: #6b7280; font-size: 0.85rem;">ليس لديك حساب؟</span>
+            <button class="btn-link" onclick="signup()">إنشاء حساب جديد</button>
         </div>
-
-        <div class="input-group">
-            <label>كلمة السر</label>
-            <input type="password" id="password" placeholder="••••••••">
-        </div>
-
-        <button class="btn-main" onclick="login()">تسجيل الدخول</button>
-        <button class="btn-alt" onclick="signup()">إنشاء حساب جديد</button>
-
-        <p class="footer-text">منصة تاجنوفا لتعليم المستقبل</p>
     </div>
 
     <script>
+        // Config الرموز الخاصة بمشروعك (جاهزة)
         const firebaseConfig = {
           apiKey: "AIzaSyB3HKkZM7R2smYZWMPWFv-qlB1EsDLLtZ8",
           authDomain: "tagnova-c731d.firebaseapp.com",
@@ -59,21 +195,27 @@
 
         firebase.initializeApp(firebaseConfig);
 
-        function signup() {
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            if(!email || !password) { alert("يرجى ملء البيانات"); return; }
-            firebase.auth().createUserWithEmailAndPassword(email, password)
-                .then(() => { window.location.href = "/dashboard"; })
-                .catch((error) => alert("خطأ: " + error.message));
+        function googleLogin() {
+            const provider = new firebase.auth.GoogleAuthProvider();
+            firebase.auth().signInWithPopup(provider)
+                .then(() => window.location.href = "/dashboard")
+                .catch(err => alert("خطأ جوجل: " + err.message));
         }
 
         function login() {
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
             firebase.auth().signInWithEmailAndPassword(email, password)
-                .then(() => { window.location.href = "/dashboard"; })
-                .catch((error) => alert("خطأ: " + error.message));
+                .then(() => window.location.href = "/dashboard")
+                .catch(err => alert("بيانات الدخول غير صحيحة"));
+        }
+
+        function signup() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            firebase.auth().createUserWithEmailAndPassword(email, password)
+                .then(() => alert("تم إنشاء الحساب! يمكنك الآن الدخول"))
+                .catch(err => alert("خطأ في التسجيل: " + err.message));
         }
     </script>
 </body>
