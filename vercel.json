@@ -12,21 +12,16 @@
   ],
   "routes": [
     {
-      "src": "/api/(.*)",
-      "headers": {
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "GET,OPTIONS,POST",
-        "Access-Control-Allow-Headers": "Content-Type"
-      },
-      "continue": true
+      "src": "/(login|dashboard|register|logout|api/.*)",
+      "dest": "run.py"
     },
     {
-      "src": "/(index.html|js-framework-comparison.html|tools/.*)",
+      "src": "/(.*\\.html)",
       "dest": "/$1"
     },
     {
-      "src": "/(.*)",
-      "dest": "run.py"
+      "src": "/",
+      "dest": "index.html"
     }
   ]
 }
