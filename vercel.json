@@ -4,6 +4,10 @@
     {
       "src": "run.py",
       "use": "@vercel/python"
+    },
+    {
+      "src": "*.html",
+      "use": "@vercel/static"
     }
   ],
   "routes": [
@@ -15,6 +19,10 @@
         "Access-Control-Allow-Headers": "Content-Type"
       },
       "continue": true
+    },
+    {
+      "src": "/(index.html|js-framework-comparison.html|tools/.*)",
+      "dest": "/$1"
     },
     {
       "src": "/(.*)",
