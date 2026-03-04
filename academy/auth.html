@@ -3,31 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>دخول منصة تاجنوفا</title>
+    <title>دخول | تاجنوفا أكاديمي</title>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; background: #f4f7f6; }
-        .auth-card { background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); width: 350px; text-align: center; }
-        input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; }
-        button { width: 100%; padding: 12px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; margin-bottom: 10px; }
-        .btn-login { background: #007bff; color: white; }
-        .btn-signup { background: #28a745; color: white; }
+        :root { --primary: #4f46e5; --success: #10b981; --bg: #f3f4f6; }
+        body { font-family: 'Cairo', sans-serif; background-color: var(--bg); margin: 0; display: flex; align-items: center; justify-content: center; height: 100vh; }
+        .container { background: white; padding: 40px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); width: 100%; max-width: 400px; transition: 0.3s; }
+        .logo { font-size: 2rem; font-weight: bold; color: var(--primary); margin-bottom: 10px; }
+        h2 { margin: 0 0 20px; color: #1f2937; }
+        .input-group { margin-bottom: 15px; text-align: right; }
+        label { display: block; margin-bottom: 5px; color: #4b5563; font-size: 0.9rem; }
+        input { width: 100%; padding: 12px; border: 2px solid #e5e7eb; border-radius: 10px; outline: none; transition: 0.2s; font-family: inherit; }
+        input:focus { border-color: var(--primary); }
+        button { width: 100%; padding: 12px; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; transition: 0.3s; margin-top: 10px; font-family: inherit; }
+        .btn-main { background: var(--primary); color: white; }
+        .btn-main:hover { background: #4338ca; }
+        .btn-alt { background: white; color: var(--success); border: 2px solid var(--success); }
+        .btn-alt:hover { background: var(--success); color: white; }
+        .footer-text { margin-top: 20px; font-size: 0.85rem; color: #6b7280; }
     </style>
 </head>
 <body>
 
-    <div class="auth-card">
-        <h2>تاجنوفا أكاديمي</h2>
-        <p>سجل دخولك لتبدأ التعلم</p>
-        <input type="email" id="email" placeholder="البريد الإلكتروني">
-        <input type="password" id="password" placeholder="كلمة السر">
-        <button class="btn-login" onclick="login()">دخول</button>
-        <button class="btn-signup" onclick="signup()">إنشاء حساب جديد</button>
+    <div class="container">
+        <div class="logo">TajNova</div>
+        <h2>مرحباً بك مجدداً</h2>
+        
+        <div class="input-group">
+            <label>البريد الإلكتروني</label>
+            <input type="email" id="email" placeholder="example@mail.com">
+        </div>
+
+        <div class="input-group">
+            <label>كلمة السر</label>
+            <input type="password" id="password" placeholder="••••••••">
+        </div>
+
+        <button class="btn-main" onclick="login()">تسجيل الدخول</button>
+        <button class="btn-alt" onclick="signup()">إنشاء حساب جديد</button>
+
+        <p class="footer-text">منصة تاجنوفا لتعليم المستقبل</p>
     </div>
 
     <script>
-        // Config الرموز الخاصة بمشروعك
         const firebaseConfig = {
           apiKey: "AIzaSyB3HKkZM7R2smYZWMPWFv-qlB1EsDLLtZ8",
           authDomain: "tagnova-c731d.firebaseapp.com",
@@ -42,8 +62,9 @@
         function signup() {
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
+            if(!email || !password) { alert("يرجى ملء البيانات"); return; }
             firebase.auth().createUserWithEmailAndPassword(email, password)
-                .then(() => { alert("تم إنشاء الحساب بنجاح!"); window.location.href = "/dashboard"; })
+                .then(() => { window.location.href = "/dashboard"; })
                 .catch((error) => alert("خطأ: " + error.message));
         }
 
@@ -52,7 +73,7 @@
             const password = document.getElementById('password').value;
             firebase.auth().signInWithEmailAndPassword(email, password)
                 .then(() => { window.location.href = "/dashboard"; })
-                .catch((error) => alert("خطأ في البيانات: " + error.message));
+                .catch((error) => alert("خطأ: " + error.message));
         }
     </script>
 </body>
