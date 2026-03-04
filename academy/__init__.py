@@ -6,10 +6,10 @@ import os
 db = SQLAlchemy()
 
 def create_app():
-    # خلي الفلاسك بسيط عشان ميتوهش في المسارات
+    # 1. تعريف التطبيق ببساطة (Vercel بيعرف المسارات لوحده)
     app = Flask(__name__)
 
-    # إعدادات قاعدة البيانات - المسار الوحيد المسموح في Vercel هو /tmp/
+    # 2. إعدادات قاعدة البيانات - المسار الوحيد المسموح في Vercel هو /tmp/
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/tajnova.db'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config['SECRET_KEY'] = 'tajnova_beast_mode_99'
@@ -29,7 +29,7 @@ def create_app():
         from . import models 
         from . import routes
         
-        # إنشاء الجداول لو مش موجودة في الـ /tmp/
+        # 3. بناء الجداول "فقط" لو مش موجودة عشان نمنع الكراش
         if not os.path.exists('/tmp/tajnova.db'):
             db.create_all()
             
