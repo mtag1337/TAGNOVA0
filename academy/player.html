@@ -2,193 +2,75 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مشغل الكورسات | TajNova</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <title>مشاهدة الكورس | TajNova</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; transition: background 0.3s, color 0.3s; }
+        body { background: #0b0e14; color: white; font-family: 'Cairo'; margin: 0; display: flex; flex-direction: column; align-items: center; }
+        .video-container { width: 90%; max-width: 1000px; margin-top: 50px; border-radius: 20px; overflow: hidden; border: 1px solid #8b5cf6; box-shadow: 0 0 30px rgba(139, 92, 246, 0.2); position: relative; aspect-ratio: 16/9; }
         
-        :root {
-            /* الألوان الأساسية (الوضع الليلي) */
-            --bg: #0b0e14;
-            --side-bg: #11141b;
-            --primary: #8b5cf6;
-            --text-main: #ffffff;
-            --text-dim: #9ca3af;
-            --border: rgba(255, 255, 255, 0.08);
-            --item-hover: rgba(139, 92, 246, 0.1);
+        /* شاشة القفل لو الطالب مدفعش */
+        .lock-screen {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(11, 14, 20, 0.95); display: none; flex-direction: column;
+            justify-content: center; align-items: center; z-index: 10;
         }
-
-        /* متغيرات الوضع النهاري */
-        .light-theme {
-            --bg: #f9fafb;
-            --side-bg: #ffffff;
-            --text-main: #111827;
-            --text-dim: #4b5563;
-            --border: rgba(0, 0, 0, 0.08);
-            --item-hover: rgba(139, 92, 246, 0.05);
-        }
-
-        body {
-            font-family: 'Cairo', sans-serif;
-            background: var(--bg);
-            color: var(--text-main);
-            display: flex;
-            height: 100vh;
-            overflow: hidden;
-        }
-
-        /* السايد بار */
-        .lesson-sidebar {
-            width: 350px;
-            background: var(--side-bg);
-            border-left: 1px solid var(--border);
-            display: flex;
-            flex-direction: column;
-            z-index: 10;
-        }
-
-        .sidebar-header {
-            padding: 20px;
-            border-bottom: 1px solid var(--border);
-            text-align: center;
-        }
-
-        .lesson-list {
-            flex-grow: 1;
-            overflow-y: auto;
-            padding: 15px;
-        }
-
-        .lesson-item {
-            display: flex;
-            align-items: center;
-            padding: 12px;
-            background: var(--item-hover);
-            border-radius: 12px;
-            margin-bottom: 10px;
-            cursor: pointer;
-            border: 1px solid transparent;
-        }
-
-        .lesson-item.active { border-color: var(--primary); background: rgba(139, 92, 246, 0.2); }
-
-        /* منطقة المحتوى والفيديو */
-        .video-content {
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-            overflow-y: auto;
-        }
-
-        .top-nav {
-            padding: 15px 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: var(--side-bg);
-            border-bottom: 1px solid var(--border);
-        }
-
-        .video-container {
-            width: 100%;
-            aspect-ratio: 16 / 9;
-            background: #000;
-        }
-
-        .video-placeholder {
-            width: 100%; height: 100%;
-            display: flex; align-items: center; justify-content: center;
-            background: radial-gradient(circle, #1a1c2e 0%, #000 100%);
-        }
-
-        .theme-toggle {
-            background: var(--primary);
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 10px;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 0.85rem;
-        }
-
-        .video-details { padding: 30px; }
-        
-        @media (max-width: 1024px) {
-            body { flex-direction: column; overflow: auto; }
-            .lesson-sidebar { width: 100%; height: auto; order: 2; border-left: none; border-top: 1px solid var(--border); }
-            .video-content { order: 1; }
-        }
+        .btn-buy { background: #8b5cf6; color: white; border: none; padding: 15px 30px; border-radius: 12px; font-weight: bold; cursor: pointer; font-size: 1.1rem; }
     </style>
 </head>
-<body id="mainBody">
+<body>
 
-    <aside class="lesson-sidebar">
-        <div class="sidebar-header">
-            <img src="logotagnova.png" width="80" alt="Logo">
-            <h3 style="margin-top: 10px; font-size: 1.1rem;">محتوى الكورس</h3>
-        </div>
-        <div class="lesson-list">
-            <div class="lesson-item active">
-                <div style="margin-left: 10px; color: var(--primary); font-weight: bold;">01</div>
-                <div>
-                    <p style="font-size: 0.9rem; font-weight: 600;">المقدمة والأهداف</p>
-                    <span style="font-size: 0.75rem; color: var(--text-dim);">12:00 دقيقة</span>
-                </div>
-            </div>
-            <div class="lesson-item">
-                <div style="margin-left: 10px; font-weight: bold;">02</div>
-                <div>
-                    <p style="font-size: 0.9rem; font-weight: 600;">تجهيز البيئة البرمجية</p>
-                    <span style="font-size: 0.75rem; color: var(--text-dim);">25:30 دقيقة</span>
-                </div>
-            </div>
-        </div>
-    </aside>
-
-    <main class="video-content">
-        <nav class="top-nav">
-            <span style="font-weight: 700; color: var(--primary);">كورس بايثون الشامل</span>
-            <button class="theme-toggle" onclick="toggleTheme()">🌓 تبديل الوضع</button>
-        </nav>
-
-        <div class="video-container">
-            <div class="video-placeholder">
-                <div style="text-align: center;">
-                    <button style="background: var(--primary); border: none; width: 70px; height: 70px; border-radius: 50%; color: white; cursor: pointer; font-size: 1.5rem; margin-bottom: 10px;">▶</button>
-                    <p style="color: white; font-size: 0.9rem;">انقر للتشغيل</p>
-                </div>
-            </div>
+    <div class="video-container">
+        <div id="lockScreen" class="lock-screen">
+            <h2 style="margin-bottom: 20px;">🔒 هذا المحتوى مدفوع</h2>
+            <p style="margin-bottom: 30px; color: #9ca3af;">يجب الاشتراك في الكورس لتتمكن من المشاهدة</p>
+            <button class="btn-buy" onclick="alert('سيتم توجيهك لبوابة الدفع')">اشترك الآن</button>
         </div>
 
-        <div class="video-details">
-            <h1 style="margin-bottom: 10px;">1. المقدمة والأهداف</h1>
-            <p style="color: var(--text-dim); line-height: 1.6;">في هذا الدرس، سنستعرض خارطة الطريق الكاملة للكورس وما الذي ستتعلمه لتصبح مبرمجاً محترفاً في بايثون.</p>
-            
-            <div style="margin-top: 30px; padding: 20px; background: var(--side-bg); border-radius: 15px; border: 1px solid var(--border);">
-                <h4 style="margin-bottom: 10px;">الملفات المرفقة:</h4>
-                <a href="#" style="color: var(--primary); text-decoration: none; font-size: 0.9rem;">⬇️ تحميل ملخص الدرس (PDF)</a>
-            </div>
-        </div>
-    </main>
+        <iframe id="videoPlayer" src="" style="border: none; position: absolute; top: 0; height: 100%; width: 100%;" allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;" allowfullscreen="true"></iframe>
+    </div>
 
-    <script>
-        function toggleTheme() {
-            const body = document.getElementById('mainBody');
-            body.classList.toggle('light-theme');
-            
-            // حفظ الحالة في المتصفح
-            const isLight = body.classList.contains('light-theme');
-            localStorage.setItem('tajnova_theme', isLight ? 'light' : 'dark');
+    <div style="width: 90%; max-width: 1000px; margin-top: 30px;">
+        <h1 id="courseTitle">تحميل...</h1>
+        <p id="courseDesc" style="color: #9ca3af;">وصف الكورس يظهر هنا...</p>
+    </div>
+
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+
+<script>
+    // Config بتاعك
+    const firebaseConfig = { /* حط الكونفيج بتاعك هنا */ };
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+
+    // 1. الحصول على ID الكورس من الرابط (URL)
+    const urlParams = new URLSearchParams(window.location.search);
+    const courseId = urlParams.get('v');
+
+    firebase.auth().onAuthStateChanged(user => {
+        if (!user) {
+            window.location.href = "auth.html"; // لو مش مسجل دخول يطرده
+            return;
         }
 
-        // استرجاع الوضع المفضل عند فتح الصفحة
-        window.onload = () => {
-            if (localStorage.getItem('tajnova_theme') === 'light') {
-                document.getElementById('mainBody').classList.add('light-theme');
-            }
-        };
-    </script>
+        // 2. فحص الكورس في الداتا بيز
+        db.ref('courses/' + courseId).once('value', snapshot => {
+            const course = snapshot.val();
+            document.getElementById('courseTitle').innerText = course.title;
+
+            // 3. فحص هل الطالب دفع (Permissions)
+            db.ref('users/' + user.uid + '/my_courses/' + courseId).once('value', paySnapshot => {
+                if (paySnapshot.exists() || course.is_free) {
+                    // الطالب معاه حق المشاهدة -> افتح الفيديو المشفر
+                    document.getElementById('videoPlayer').src = `https://iframe.mediadelivery.net/embed/${course.libraryId}/${course.videoId}?autoplay=true`;
+                } else {
+                    // الطالب مدفعش -> اظهر قفل
+                    document.getElementById('lockScreen').style.display = 'flex';
+                }
+            });
+        });
+    });
+</script>
 </body>
 </html>
