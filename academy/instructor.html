@@ -206,5 +206,36 @@
         </div>
     </main>
 
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+
+<script>
+    // Config بتاعك (نفس اللي في auth)
+    const firebaseConfig = {
+      apiKey: "AIzaSyB3HKkZM7R2smYZWMPWFv-qlB1EsDLLtZ8",
+      authDomain: "tagnova-c731d.firebaseapp.com",
+      databaseURL: "https://tagnova-c731d-default-rtdb.europe-west1.firebasedatabase.app",
+      projectId: "tagnova-c731d",
+    };
+    firebase.initializeApp(firebaseConfig);
+
+    function uploadCourse() {
+        const title = document.getElementById('courseTitle').value; // اتأكد إن الـ ID ده موجود في الـ Input
+        const url = document.getElementById('videoUrl').value;
+        
+        if(!title || !url) return alert("اكمل البيانات");
+
+        const db = firebase.database();
+        db.ref('courses/').push({
+            title: title,
+            url: url,
+            timestamp: firebase.database.ServerValue.TIMESTAMP
+        }).then(() => {
+            alert("تم رفع الكورس بنجاح!");
+            location.reload();
+        });
+    }
+</script>
+
 </body>
 </html>
