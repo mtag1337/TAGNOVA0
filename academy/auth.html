@@ -3,138 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>الانضمام إلى TajNova</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;900&display=swap" rel="stylesheet">
+    <title>دخول منصة تاجنوفا</title>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
     <style>
-        :root {
-            --bg: #0b0e14;
-            --card: #11141b;
-            --primary: #8b5cf6;
-            --text: #ffffff;
-            --border: rgba(255,255,255,0.1);
-        }
-        .light-theme {
-            --bg: #f3f4f6;
-            --card: #ffffff;
-            --text: #111827;
-            --border: rgba(0,0,0,0.1);
-        }
-        body {
-            font-family: 'Cairo', sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            margin: 0;
-        }
-        .auth-card {
-            background: var(--card);
-            padding: 40px;
-            border-radius: 30px;
-            width: 100%;
-            max-width: 450px;
-            border: 1px solid var(--border);
-            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
-            text-align: center;
-        }
-        .input-group { margin-bottom: 20px; text-align: right; }
-        input, select {
-            width: 100%;
-            padding: 15px;
-            border-radius: 15px;
-            border: 1px solid var(--border);
-            background: var(--bg);
-            color: var(--text);
-            margin-top: 8px;
-            outline: none;
-        }
-        .btn-main {
-            width: 100%;
-            padding: 15px;
-            border-radius: 15px;
-            background: var(--primary);
-            color: white;
-            border: none;
-            font-weight: 900;
-            cursor: pointer;
-            font-size: 1.1rem;
-        }
-        .toggle-link {
-            margin-top: 20px;
-            display: block;
-            color: var(--primary);
-            cursor: pointer;
-            font-size: 0.9rem;
-        }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; background: #f4f7f6; }
+        .auth-card { background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); width: 350px; text-align: center; }
+        input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; }
+        button { width: 100%; padding: 12px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; margin-bottom: 10px; }
+        .btn-login { background: #007bff; color: white; }
+        .btn-signup { background: #28a745; color: white; }
     </style>
 </head>
-<body id="authBody">
+<body>
 
     <div class="auth-card">
-        <img src="logotagnova.png" width="100" alt="TajNova">
-        <h2 id="formTitle" style="margin: 20px 0;">تسجيل الدخول</h2>
-
-        <form id="mainForm" action="/signup" method="POST">
-            <div id="nameField" class="input-group" style="display: none;">
-                <label>الاسم الكامل</label>
-                <input type="text" name="name" placeholder="أدخل اسمك الثلاثي">
-            </div>
-
-            <div class="input-group">
-                <label>البريد الإلكتروني</label>
-                <input type="email" name="email" placeholder="example@mail.com" required>
-            </div>
-
-            <div class="input-group">
-                <label>كلمة المرور</label>
-                <input type="password" name="password" placeholder="••••••••" required>
-            </div>
-
-            <div id="roleField" class="input-group" style="display: none;">
-                <label>أنا أريد أن أكون:</label>
-                <select name="role">
-                    <option value="student">طالب (أريد التعلم)</option>
-                    <option value="instructor">مدرب (أريد رفع كورسات)</option>
-                </select>
-            </div>
-
-            <button type="submit" class="btn-main" id="submitBtn">دخول للمنصة</button>
-        </form>
-
-        <span class="toggle-link" onclick="toggleAuthMode()" id="toggleText">ليس لديك حساب؟ إنشاء حساب جديد</span>
+        <h2>تاجنوفا أكاديمي</h2>
+        <p>سجل دخولك لتبدأ التعلم</p>
+        <input type="email" id="email" placeholder="البريد الإلكتروني">
+        <input type="password" id="password" placeholder="كلمة السر">
+        <button class="btn-login" onclick="login()">دخول</button>
+        <button class="btn-signup" onclick="signup()">إنشاء حساب جديد</button>
     </div>
 
     <script>
-        let isLogin = true;
-        const mainForm = document.getElementById('mainForm');
+        // Config الرموز الخاصة بمشروعك
+        const firebaseConfig = {
+          apiKey: "AIzaSyB3HKkZM7R2smYZWMPWFv-qlB1EsDLLtZ8",
+          authDomain: "tagnova-c731d.firebaseapp.com",
+          projectId: "tagnova-c731d",
+          storageBucket: "tagnova-c731d.firebasestorage.app",
+          messagingSenderId: "766445735869",
+          appId: "1:766445735869:web:6be60478a80ba4882c8cd4"
+        };
 
-        function toggleAuthMode() {
-            isLogin = !isLogin;
-            const title = document.getElementById('formTitle');
-            const btn = document.getElementById('submitBtn');
-            const toggle = document.getElementById('toggleText');
-            const nameField = document.getElementById('nameField');
-            const roleField = document.getElementById('roleField');
+        firebase.initializeApp(firebaseConfig);
 
-            if (!isLogin) {
-                title.innerText = "إنشاء حساب جديد";
-                btn.innerText = "ابدأ رحلتك الآن";
-                toggle.innerText = "لديك حساب بالفعل؟ سجل دخولك";
-                nameField.style.display = "block";
-                roleField.style.display = "block";
-                // لو إنشاء حساب بنبعت لـ /signup
-                mainForm.action = "/signup";
-            } else {
-                title.innerText = "تسجيل الدخول";
-                btn.innerText = "دخول للمنصة";
-                toggle.innerText = "ليس لديك حساب؟ إنشاء حساب جديد";
-                nameField.style.display = "none";
-                roleField.style.display = "none";
-                // لو تسجيل دخول بنبعت لـ /login (هنبرمجها الخطوة الجاية)
-                mainForm.action = "/login";
-            }
+        function signup() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            firebase.auth().createUserWithEmailAndPassword(email, password)
+                .then(() => { alert("تم إنشاء الحساب بنجاح!"); window.location.href = "/dashboard"; })
+                .catch((error) => alert("خطأ: " + error.message));
+        }
+
+        function login() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            firebase.auth().signInWithEmailAndPassword(email, password)
+                .then(() => { window.location.href = "/dashboard"; })
+                .catch((error) => alert("خطأ في البيانات: " + error.message));
         }
     </script>
 </body>
