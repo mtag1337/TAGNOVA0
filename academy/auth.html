@@ -29,7 +29,6 @@
             overflow: hidden;
         }
 
-        /* خلفية بصرية "عالمية" */
         body::before {
             content: "";
             position: absolute;
@@ -121,6 +120,7 @@
             font-family: 'Cairo';
             outline: none;
             transition: 0.3s;
+            text-align: right;
         }
 
         .input-field:focus {
@@ -155,6 +155,7 @@
             cursor: pointer;
             margin-top: 15px;
             font-family: 'Cairo';
+            text-decoration: underline;
         }
     </style>
 </head>
@@ -183,7 +184,6 @@
     </div>
 
     <script>
-        // Config الرموز الخاصة بمشروعك (جاهزة)
         const firebaseConfig = {
           apiKey: "AIzaSyB3HKkZM7R2smYZWMPWFv-qlB1EsDLLtZ8",
           authDomain: "tagnova-c731d.firebaseapp.com",
@@ -199,23 +199,43 @@
             const provider = new firebase.auth.GoogleAuthProvider();
             firebase.auth().signInWithPopup(provider)
                 .then(() => window.location.href = "/dashboard")
-                .catch(err => alert("خطأ جوجل: " + err.message));
+                .catch(err => {
+                    if(err.code === 'auth/unauthorized-domain') {
+                        alert("يجب إضافة رابط الموقع في Authorized Domains داخل Firebase");
+                    } else {
+                        alert("خطأ جوجل: " + err.message);
+                    }
+                });
         }
 
         function login() {
-            const email = document.getElementById('email').value;
+            const email = document.getElementById('email').value.trim();
             const password = document.getElementById('password').value;
+
+            if(!email || !password) { alert("أدخل البيانات كاملة"); return; }
+
             firebase.auth().signInWithEmailAndPassword(email, password)
                 .then(() => window.location.href = "/dashboard")
-                .catch(err => alert("بيانات الدخول غير صحيحة"));
+                .catch(err => alert("خطأ: تأكد من الإيميل أو كلمة السر"));
         }
 
         function signup() {
-            const email = document.getElementById('email').value;
+            const email = document.getElementById('email').value.trim();
             const password = document.getElementById('password').value;
+
+            if(!email || !password) { alert("أدخل البيانات كاملة"); return; }
+            if(password.length < 6) { alert("كلمة السر يجب أن تكون 6 رموز على الأقل"); return; }
+
             firebase.auth().createUserWithEmailAndPassword(email, password)
-                .then(() => alert("تم إنشاء الحساب! يمكنك الآن الدخول"))
-                .catch(err => alert("خطأ في التسجيل: " + err.message));
+                .then(() => {
+                    alert("تم إنشاء الحساب بنجاح!");
+                    window.location.href = "/dashboard";
+                })
+                .catch(err => {
+                    if(err.code === 'auth/invalid-email') alert("صيغة الإيميل غير صحيحة");
+                    else if(err.code === 'auth/email-already-in-use') alert("هذا الإيميل مسجل مسبقاً");
+                    else alert("خطأ في التسجيل: " + err.message);
+                });
         }
     </script>
 </body>
