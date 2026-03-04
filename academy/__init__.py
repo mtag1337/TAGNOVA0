@@ -29,9 +29,10 @@ def create_app():
         from . import models 
         from . import routes
         
-        # 3. بناء الجداول "فقط" لو مش موجودة عشان نمنع الكراش
-        if not os.path.exists('/tmp/tajnova.db'):
+     try:
             db.create_all()
+        except:
+            pass # لو موجودة أو فيها مشكلة، كمل متبوظش الموقع
             
         app.register_blueprint(routes.main)
 
