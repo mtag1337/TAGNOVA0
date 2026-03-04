@@ -12,16 +12,20 @@
   ],
   "routes": [
     {
-      "src": "/api/(.*)",
+      "src": "/(login|signup|dashboard|logout|auth)",
       "dest": "run.py"
     },
     {
-      "src": "/(login|dashboard|register|logout|courses|admin)(.*)",
-      "dest": "run.py"
+      "src": "/static/(.*)",
+      "dest": "/static/$1"
     },
     {
       "src": "/(.*\\.html)",
       "dest": "/$1"
+    },
+    {
+      "src": "/",
+      "dest": "index.html"
     },
     {
       "src": "/(.*)",
