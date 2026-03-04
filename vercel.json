@@ -6,13 +6,17 @@
       "use": "@vercel/python"
     },
     {
-      "src": "*.html",
+      "src": "**/*.html",
       "use": "@vercel/static"
     }
   ],
   "routes": [
     {
-      "src": "/(login|dashboard|register|logout|api/.*)",
+      "src": "/api/(.*)",
+      "dest": "run.py"
+    },
+    {
+      "src": "/(login|dashboard|register|logout|courses|admin)(.*)",
       "dest": "run.py"
     },
     {
@@ -20,8 +24,8 @@
       "dest": "/$1"
     },
     {
-      "src": "/",
-      "dest": "index.html"
+      "src": "/(.*)",
+      "dest": "run.py"
     }
   ]
 }
